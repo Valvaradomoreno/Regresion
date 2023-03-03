@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Web-Tests-Suite" parallel="tests" thread-count="3">
+
+    <test name="wt1">
+        <classes>
+            <class name="com.base.web.base.runner.pruebaRunner" />
+        </classes>        
+    </test>
+    
+</suite>

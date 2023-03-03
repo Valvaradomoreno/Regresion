@@ -1,0 +1,163 @@
+[
+  {
+    "line": 1,
+    "elements": [
+      {
+        "line": 4,
+        "name": "Login",
+        "description": "",
+        "type": "background",
+        "keyword": "Background",
+        "steps": [
+          {
+            "result": {
+              "duration": 998200,
+              "status": "skipped"
+            },
+            "line": 5,
+            "name": "user is on portal somos belcorp",
+            "match": {
+              "location": "stepDefinition2.CaminoBrillanteStep.userIsOnHomepage()"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 997400,
+              "status": "skipped"
+            },
+            "line": 6,
+            "name": "user enters \"BO\" and \"0000398\" and \"1\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "\"BO\"",
+                  "offset": 12
+                },
+                {
+                  "val": "\"0000398\"",
+                  "offset": 21
+                },
+                {
+                  "val": "\"1\"",
+                  "offset": 35
+                }
+              ],
+              "location": "stepDefinition2.CaminoBrillanteStep.userEntersUsernameAndPassword(java.lang.String,java.lang.String,java.lang.String)"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 1993200,
+              "status": "skipped"
+            },
+            "line": 7,
+            "name": "click en ingresar",
+            "match": {
+              "location": "stepDefinition2.CaminoBrillanteStep.clickIngresar()"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "status": "skipped"
+            },
+            "line": 8,
+            "name": "redirecciona a home page",
+            "match": {
+              "location": "stepDefinition2.CaminoBrillanteStep.successMessageIsDisplayed()"
+            },
+            "keyword": "Then "
+          }
+        ]
+      },
+      {
+        "start_timestamp": "2022-07-21T14:59:09.570Z",
+        "before": [
+          {
+            "result": {
+              "error_message": "java.lang.NullPointerException\r\n\tat stepDefinition2.CaminoBrillanteStep.setup(CaminoBrillanteStep.java:62)\r\n",
+              "duration": 32912300,
+              "status": "failed"
+            },
+            "match": {
+              "location": "stepDefinition2.CaminoBrillanteStep.setup()"
+            }
+          }
+        ],
+        "line": 10,
+        "name": "Ver camino brillante",
+        "description": "",
+        "id": "camino-brillante;ver-camino-brillante",
+        "after": [
+          {
+            "result": {
+              "duration": 771211100,
+              "status": "passed"
+            },
+            "match": {
+              "location": "stepDefinition2.CaminoBrillanteStep.tearDown()"
+            }
+          }
+        ],
+        "type": "scenario",
+        "keyword": "Scenario",
+        "steps": [
+          {
+            "result": {
+              "status": "skipped"
+            },
+            "line": 11,
+            "name": "click a Camino Brillante",
+            "match": {
+              "location": "stepDefinition2.CaminoBrillanteStep.clickIngresarPedido()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "status": "skipped"
+            },
+            "line": 12,
+            "name": "aparece el nivel",
+            "match": {
+              "location": "stepDefinition2.CaminoBrillanteStep.apareceNivel()"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 2987800,
+              "status": "skipped"
+            },
+            "line": 13,
+            "name": "aparece los beneficios",
+            "match": {
+              "location": "stepDefinition2.CaminoBrillanteStep.apareceBeneficio()"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 1043500,
+              "status": "skipped"
+            },
+            "line": 14,
+            "name": "existe camino brillante",
+            "match": {
+              "location": "stepDefinition2.CaminoBrillanteStep.succesCuvAgregado()"
+            },
+            "keyword": "Then "
+          }
+        ]
+      }
+    ],
+    "name": "Camino Brillante",
+    "description": "Verificar que la consultora tenga camino Brillante",
+    "id": "camino-brillante",
+    "keyword": "Feature",
+    "uri": "file:src/test/java/com/belcorp/mobileweb/basetemplate/features/login-web/CaminoBrillante.feature",
+    "tags": []
+  }
+]
