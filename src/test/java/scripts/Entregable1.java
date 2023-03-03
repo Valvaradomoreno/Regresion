@@ -31,7 +31,7 @@ public class Entregable1 {
         
 	@BeforeMethod
     public void openApplication() {
-    	System.setProperty("webdriver.chrome.driver", "D:\\Proyectos\\Regresion\\src\\main\\resources\\drivers\\chromedriver");
+		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/main/resources/drivers/chromedriver");
     }
 
 
@@ -65,8 +65,9 @@ public class Entregable1 {
 		
 
 	public static ArrayList<String> readExcelData(int colNo) throws IOException {
-		
-		FileInputStream fis=new FileInputStream("D:\\Proyectos\\Regresion\\src\\Excel\\Inputs.xlsx");
+		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/Inputs.xlsx");
+
+		//FileInputStream fis=new FileInputStream("D:\\Proyectos\\Regresion\\src\\Excel\\Inputs.xlsx");
 		XSSFWorkbook wb=new XSSFWorkbook(fis);
 		XSSFSheet s=wb.getSheet("Entregable1");
 		Iterator<Row> rowIterator=s.iterator();

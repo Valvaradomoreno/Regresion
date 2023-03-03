@@ -59,7 +59,7 @@ public class AltaCuentaAhorro {
         
 	@BeforeMethod
     public void openApplication() {
-    	System.setProperty("webdriver.chrome.driver", "D:\\Proyectos\\Regresion\\src\\main\\resources\\drivers\\chromedriver");
+    	System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/main/resources/drivers/chromedriver");
 
 	}
 
@@ -236,7 +236,7 @@ public class AltaCuentaAhorro {
 }
 
 	public void write(int i, int celda, String dato) throws IOException {
-		String path = "D:\\Proyectos\\Regresion\\src\\Excel\\AltaCuentaAhorro.xlsx";
+		String path = System.getProperty("user.dir") + "/src/Excel/AltaCuentaAhorro.xlsx";
 		FileInputStream fs = new FileInputStream(path);
 		Workbook wb = new XSSFWorkbook(fs);
 		Sheet sheet1 = wb.getSheetAt(0);
@@ -267,7 +267,7 @@ public class AltaCuentaAhorro {
 
 	public static ArrayList<String> readExcelData(int colNo) throws IOException {
 		
-		FileInputStream fis=new FileInputStream("D:\\Proyectos\\Regresion\\src\\Excel\\AltaCuentaAhorro.xlsx");
+		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/AltaCuentaAhorro.xlsx");
 		XSSFWorkbook wb=new XSSFWorkbook(fis);
 		XSSFSheet s=wb.getSheet("AltaCuentaAhorro");
 		Iterator<Row> rowIterator=s.iterator();
