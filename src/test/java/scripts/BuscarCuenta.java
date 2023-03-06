@@ -86,6 +86,8 @@ public class BuscarCuenta {
 				int caso = i+1;
 				logger = extent.createTest("Nuevo Test " + caso);
 
+				// ** EMPIEZA TEST
+
 				driver = new ChromeDriver();
 				driver.manage().window().maximize();
 				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
@@ -186,6 +188,7 @@ public class BuscarCuenta {
 			logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Test Case FAIL: "+e, ExtentColor.RED));
 			//objExcelFile.writeToExcel("FAIL", rowCount,4);
 			write(i+1, 3, "FAILED");
+			extent.flush();
 
 			System.out.println("rowCount: " + i);
 			DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");

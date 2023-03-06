@@ -96,6 +96,8 @@ public class AltaCuentaAhorro {
 					int caso = i+1;
 					logger = extent.createTest("Nuevo Test " + caso);
 
+					// ** DESDE AQUI EMPIEZA EL TEST
+
 					driver = new ChromeDriver();
 					driver.manage().window().maximize();
 					driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
@@ -178,6 +180,7 @@ public class AltaCuentaAhorro {
 					System.out.println("CUENTA : " + cod);
 					String arreglo = driver.findElement(By.id("disabled_ARRANGEMENT")).getText();
 					System.out.println("ARREGLO : " + arreglo);
+					writeArreglo(i+1, 2, arreglo);
 
 					String screenshotPath = getScreenShot(driver, "Datos agregados");
 
@@ -244,15 +247,31 @@ public class AltaCuentaAhorro {
 		//for(int i=0; i<=lastRow; i++){
 		Row row = sheet1.getRow(i);
 		Cell cell = row.createCell(celda);
-
 		cell.setCellValue(dato);
-
 		//}
 
 		FileOutputStream fos = new FileOutputStream(path);
 		wb.write(fos);
 		fos.close();
 	}
+
+	public void writeArreglo(int i, int celda, String dato) throws IOException {
+		String path = System.getProperty("user.dir") + "/src/Excel/BuscarCuenta.xlsx";
+		FileInputStream fs = new FileInputStream(path);
+		Workbook wb = new XSSFWorkbook(fs);
+		Sheet sheet1 = wb.getSheetAt(0);
+		int lastRow = sheet1.getLastRowNum();
+		//for(int i=0; i<=lastRow; i++){
+		Row row = sheet1.getRow(i);
+		Cell cell = row.createCell(celda);
+		cell.setCellValue(dato);
+		//}
+
+		FileOutputStream fos = new FileOutputStream(path);
+		wb.write(fos);
+		fos.close();
+	}
+
 	//This method is to capture the screenshot and return the path of the screenshot.
 	public static String getScreenShot(WebDriver driver, String screenshotName) throws IOException {
 		String dateName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
