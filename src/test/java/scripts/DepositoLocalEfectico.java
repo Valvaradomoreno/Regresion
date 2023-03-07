@@ -160,7 +160,7 @@ public class DepositoLocalEfectico {
 				Set<String> s2=driver.getWindowHandles();
 				Iterator<String> i2=s2.iterator();
 
-				while(i1.hasNext())
+				while(i2.hasNext())
 				{
 					String ChildWindow=i2.next();
 
@@ -202,8 +202,9 @@ public class DepositoLocalEfectico {
 				driver.findElement(By.id("imgError")).click();
 
 				driver.findElement(By.xpath("//img[@alt='Operaciones Minoristas']")).click();
+				//Thread.sleep(1000);
 
-				driver.findElement(By.xpath("//span[contains(text(),'Transacciones de Cuenta')]")).click();
+				//driver.findElement(By.xpath("//span[contains(text(),'Transacciones de Cuenta')]")).click();
 
 
 				driver.findElement(By.xpath("//span[contains(text(),'Transacciones de Cuenta')]")).click();
@@ -220,7 +221,7 @@ public class DepositoLocalEfectico {
 				Set<String> s3=driver.getWindowHandles();
 				Iterator<String> i3=s3.iterator();
 
-				while(i1.hasNext())
+				while(i3.hasNext())
 				{
 					String ChildWindow=i3.next();
 
@@ -236,9 +237,9 @@ public class DepositoLocalEfectico {
 				Set<String> s4=driver.getWindowHandles();
 				Iterator<String> i4=s4.iterator();
 
-				while(i2.hasNext())
+				while(i4.hasNext())
 				{
-					String ChildWindow2=i2.next();
+					String ChildWindow2=i4.next();
 
 					if(!MainWindow4.equalsIgnoreCase(ChildWindow2))
 					{
@@ -250,8 +251,8 @@ public class DepositoLocalEfectico {
 				driver.findElement(By.id(attr)).sendKeys(cuenta.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
 				Thread.sleep(2000);
-				driver.findElement(By.xpath("//b[contains(text(),'"+cuenta+"')]")).click();
-				driver.switchTo().window(MainWindow2);
+				driver.findElement(By.xpath("//b[contains(text(),'"+cuenta.get(i)+"')]")).click();
+				driver.switchTo().window(MainWindow4);
 
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:AMOUNT.LOCAL.1:1")));
@@ -280,8 +281,6 @@ public class DepositoLocalEfectico {
 				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
 				Thread.sleep(1000);
-
-
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
 
@@ -317,7 +316,7 @@ public class DepositoLocalEfectico {
 				Set<String> s5=driver.getWindowHandles();
 				Iterator<String> i5=s5.iterator();
 
-				while(i1.hasNext())
+				while(i5.hasNext())
 				{
 					String ChildWindow=i5.next();
 
@@ -344,7 +343,7 @@ public class DepositoLocalEfectico {
 				Set<String> s6=driver.getWindowHandles();
 				Iterator<String> i6=s6.iterator();
 
-				while(i1.hasNext())
+				while(i6.hasNext())
 				{
 					String ChildWindow=i6.next();
 
@@ -389,6 +388,7 @@ public class DepositoLocalEfectico {
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
 				  write(i+1, 6, fecha);
+				  System.out.println("Error: " + e);
 				driver.quit();
 
 			}

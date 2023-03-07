@@ -161,7 +161,7 @@ public class CancelacionCTS {
 				Set<String> s2=driver.getWindowHandles();
 				Iterator<String> i2=s2.iterator();
 
-				while(i1.hasNext())
+				while(i2.hasNext())
 				{
 					String ChildWindow=i2.next();
 
@@ -171,15 +171,16 @@ public class CancelacionCTS {
 					}
 				}
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='r51']//img[@alt='Do Activity Today']")));
-				driver.findElement(By.xpath("//tr[@id='r51']//img[@alt='Do Activity Today']")).click();
+				driver.manage().window().maximize();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[6]/td/table/tbody/tr/td[1]/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[2]/a/img")));
+				driver.findElement(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[6]/td/table/tbody/tr/td[1]/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[2]/a/img")).click();
 
 
 				String MainWindow3=driver.getWindowHandle();
 				Set<String> s3=driver.getWindowHandles();
 				Iterator<String> i3=s3.iterator();
 
-				while(i1.hasNext())
+				while(i3.hasNext())
 				{
 					String ChildWindow=i3.next();
 
@@ -243,6 +244,7 @@ public class CancelacionCTS {
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
 				  write(i+1, 6, fecha);
+				  System.out.println("Error: " + e);
 				driver.quit();
 
 			}

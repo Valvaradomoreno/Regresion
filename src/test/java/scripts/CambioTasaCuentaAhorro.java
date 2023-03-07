@@ -131,6 +131,23 @@ public class CambioTasaCuentaAhorro {
 				driver.findElement(By.xpath("//a[contains(text(),'Buscar Préstamo ')]")).click();
 				driver.switchTo().parentFrame();
 
+				String MainWindow0=driver.getWindowHandle();
+				Set<String> s0=driver.getWindowHandles();
+				Iterator<String> i0=s0.iterator();
+
+				while(i0.hasNext())
+				{
+					String ChildWindow=i0.next();
+
+					if(!MainWindow0.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+
+				Thread.sleep(2500);
+
+
 				String attr = driver.findElement(By.xpath("//label[contains(text(),'ID de Arreglo')]")).getAttribute("for");
 				driver.findElement(By.id(attr)).clear();
 				driver.findElement(By.id(attr)).sendKeys(cuenta.get(i));
@@ -155,6 +172,20 @@ public class CambioTasaCuentaAhorro {
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr[8]/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[1]/td[8]/a/img"))).click();
 
+				String MainWindow2=driver.getWindowHandle();
+				Set<String> s2=driver.getWindowHandles();
+				Iterator<String> i2=s2.iterator();
+
+				while(i2.hasNext())
+				{
+					String ChildWindow=i2.next();
+
+					if(!MainWindow2.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
 
@@ -170,8 +201,6 @@ public class CambioTasaCuentaAhorro {
 				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String cod2 = "ALTA CUENTA";
 				System.out.println("este es : " +cod);
-				String[] datoWrite = {cod,cod2};
-				//Escriba los datos a llenar
 
 
 				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -209,9 +238,25 @@ public class CambioTasaCuentaAhorro {
 				driver.findElement(By.xpath("//a[contains(text(),'Buscar Préstamo ')]")).click();
 				driver.switchTo().parentFrame();
 
+				String MainWindow3=driver.getWindowHandle();
+				Set<String> s3=driver.getWindowHandles();
+				Iterator<String> i3=s3.iterator();
+
+				while(i3.hasNext())
+				{
+					String ChildWindow=i3.next();
+
+					if(!MainWindow3.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+
+				Thread.sleep(2500);
+
 				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'ID de Arreglo')]")).getAttribute("for");
-				driver.findElement(By.id(attr)).clear();
-				driver.findElement(By.id(attr)).sendKeys(cuenta.get(i));
+				driver.findElement(By.id(attr1)).clear();
+				driver.findElement(By.id(attr1)).sendKeys(cuenta.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
 				Thread.sleep(1000);
 
@@ -255,7 +300,7 @@ public class CambioTasaCuentaAhorro {
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
 				  write(i+1, 6, fecha);
-
+				  System.out.println("Error: " + e);
 				driver.quit();
 
 			}

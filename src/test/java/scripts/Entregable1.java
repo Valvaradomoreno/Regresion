@@ -21,6 +21,12 @@ import java.util.Iterator;
 public class Entregable1 {
 
 	AltaCuentaAhorro alta = new AltaCuentaAhorro();
+	AltaCuentaCTS altaCTS = new AltaCuentaCTS();
+	ActualizacionIntangibleCTS actualizacionIntangibleCTS= new ActualizacionIntangibleCTS();
+	CambioSimpleAPlus cambioSimpleAPlus = new CambioSimpleAPlus();
+	InactividadManualCuentaAhorros inactividadManualCuentaAhorros = new InactividadManualCuentaAhorros();
+
+
 	BuscarCuenta buscar = new BuscarCuenta();
     WebDriver driver;
 
@@ -47,12 +53,24 @@ public class Entregable1 {
 			System.out.println("caso get: "+caso.size());
   			if(i<(filas)){
 				System.out.println("caso get2: "+caso.get(i));
-				if((caso.get(i).equals("Buscar Cuenta")) && (ejecutar.get(i).equals("Si"))) {
-					System.out.println("Buscar Cuenta");
-					buscar.buscarCuenta();
-				}else if ((caso.get(i).equals("Alta Cuenta Ahorro")) && (ejecutar.get(i).equals("Si"))){
+				if((caso.get(i).equals("Alta Cuenta Ahorro")) && (ejecutar.get(i).equals("Si"))) {
 					System.out.println("Alta Cuenta Ahorro");
 					alta.altaCuentaAhorro();
+				}else if ((caso.get(i).equals("Buscar Cuenta")) && (ejecutar.get(i).equals("Si"))){
+					System.out.println("Buscar Cuenta");
+					buscar.buscarCuenta();
+				}else if ((caso.get(i).equals("Alta Cuenta CTS")) && (ejecutar.get(i).equals("Si"))){
+					System.out.println("Alta Cuenta CTS");
+					altaCTS.altaCuentaCTS();
+				}else if ((caso.get(i).equals("Actualizacion Intangible CTS")) && (ejecutar.get(i).equals("Si"))){
+					System.out.println("Actualizacion Intangible CTS");
+					actualizacionIntangibleCTS.ActualizacionIntangibleCTS();
+				}else if ((caso.get(i).equals("Cambio Simple A Plus")) && (ejecutar.get(i).equals("Si"))){
+					System.out.println("Cambio Simple A Plus");
+					cambioSimpleAPlus.CambioSimpleAPlus();
+				}else if ((caso.get(i).equals("Inactividad Manual Cuenta Ahorros")) && (ejecutar.get(i).equals("Si"))){
+					System.out.println("Inactividad Manual Cuenta Ahorros");
+					inactividadManualCuentaAhorros.InactividadManualCuentaAhorros();
 				}else{
 					System.out.println("NO SE EJECUTA");
 					continue;

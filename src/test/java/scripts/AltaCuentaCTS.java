@@ -145,13 +145,13 @@ public class AltaCuentaCTS {
 				}
 				driver.manage().window().maximize();
 				WebElement iframe2 = driver.findElement(By.xpath("/html/frameset/frameset[2]/frameset[1]/frame[2]"));
-				driver.switchTo().frame(iframe);
+				driver.switchTo().frame(iframe2);
 				driver.findElement(By.id("treestop1")).click();
 				driver.findElement(By.xpath("//*[@id='r3']/td[4]/a/img")).click();
 				driver.switchTo().parentFrame();
 
 				WebElement iframe3 = driver.findElement(By.xpath("/html/frameset/frameset[2]/frameset[2]/frame[2]"));
-				driver.switchTo().frame(iframe);
+				driver.switchTo().frame(iframe3);
 				driver.findElement(By.xpath("//*[@id='r1']/td[3]/a/img")).click();
 				driver.switchTo().parentFrame();
 
@@ -159,7 +159,7 @@ public class AltaCuentaCTS {
 				Set<String> s2=driver.getWindowHandles();
 				Iterator<String> i2=s2.iterator();
 
-				while(i1.hasNext())
+				while(i2.hasNext())
 				{
 					String ChildWindow=i2.next();
 
@@ -183,8 +183,9 @@ public class AltaCuentaCTS {
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:PRIMARY.OFFICER")));
 				driver.findElement(By.id("fieldName:CTS.EMP.NAME")).sendKeys(empleador.get(i));
 				driver.findElement(By.id("fieldName:CTS.EMP.RUC")).sendKeys(ruc.get(i));
-				if(razon.equals("CTS Campaign"))
+				if(razon.get(i).equals("CTS Campaign"))
 					driver.findElement(By.xpath("/html/body/div[5]/fieldset[4]/div/div/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr[5]/td[3]/table/tbody/tr/td[3]/input")).click();
+				//
 
 				String cod = driver.findElement(By.id("disabled_ACCOUNT.REFERENCE")).getText();
 				System.out.println("CUENTA : " +cod);
@@ -239,6 +240,7 @@ public class AltaCuentaCTS {
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
 				  write(i+1, 9, fecha);
+				  System.out.println("Error: " + e);
 
 				driver.quit();
 

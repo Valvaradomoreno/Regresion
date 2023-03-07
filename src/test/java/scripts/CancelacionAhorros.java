@@ -161,7 +161,7 @@ public class CancelacionAhorros {
 				Set<String> s2=driver.getWindowHandles();
 				Iterator<String> i2=s2.iterator();
 
-				while(i1.hasNext())
+				while(i2.hasNext())
 				{
 					String ChildWindow=i2.next();
 
@@ -170,6 +170,7 @@ public class CancelacionAhorros {
 						driver.switchTo().window(ChildWindow);
 					}
 				}
+				Thread.sleep(2500);
 
 				driver.findElement(By.xpath("//a[contains(text(),'Nueva Actividad')]")).click();
 
@@ -177,7 +178,7 @@ public class CancelacionAhorros {
 				Set<String> s3=driver.getWindowHandles();
 				Iterator<String> i3=s3.iterator();
 
-				while(i1.hasNext())
+				while(i3.hasNext())
 				{
 					String ChildWindow=i3.next();
 
@@ -190,21 +191,22 @@ public class CancelacionAhorros {
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='r51']//img[@alt='Do Activity Today']")));
 				driver.findElement(By.xpath("//tr[@id='r51']//img[@alt='Do Activity Today']")).click();
 
-				String MainWindow4=driver.getWindowHandle();
-				Set<String> s4=driver.getWindowHandles();
-				Iterator<String> i4=s4.iterator();
+//				String MainWindow4=driver.getWindowHandle();
+//				Set<String> s4=driver.getWindowHandles();
+//				Iterator<String> i4=s4.iterator();
+//
+//				while(i4.hasNext())
+//				{
+//					String ChildWindow=i4.next();
+//
+//					if(!MainWindow4.equalsIgnoreCase(ChildWindow))
+//					{
+//						driver.switchTo().window(ChildWindow);
+//					}
+//				}
 
-				while(i1.hasNext())
-				{
-					String ChildWindow=i4.next();
+				driver.manage().window().maximize();
 
-					if(!MainWindow4.equalsIgnoreCase(ChildWindow))
-					{
-						driver.switchTo().window(ChildWindow);
-					}
-				}
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:CLOSURE.REASON")));
 				Select selectProducto2 = new Select(driver.findElement(By.id("fieldName:CLOSURE.REASON")));
 				selectProducto2.selectByVisibleText(razon.get(i));
 
@@ -257,6 +259,7 @@ public class CancelacionAhorros {
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
 				  write(i+1, 6, fecha);
+				  System.out.println("Error: " + e);
 				driver.quit();
 
 			}

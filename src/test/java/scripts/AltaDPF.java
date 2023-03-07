@@ -161,9 +161,9 @@ public class AltaDPF {
 				Set<String> s2=driver.getWindowHandles();
 				Iterator<String> i2=s2.iterator();
 
-				while(i1.hasNext())
+				while(i2.hasNext())
 				{
-					String ChildWindow=i1.next();
+					String ChildWindow=i2.next();
 
 					if(!MainWindow2.equalsIgnoreCase(ChildWindow))
 					{
@@ -201,8 +201,8 @@ public class AltaDPF {
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
 				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 
-				//WebDriverWait wait = new WebDriverWait(driver, 60);
-				//wait.until(ExpectedConditions.elementToBeClickable(By.id("warningChooser:Ha recibido Account Opening Agreement/AAA*212 de "+documento+"")));
+				WebDriverWait wait1 = new WebDriverWait(driver, 60);
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("warningChooser:Ha recibido Account Opening Agreement/AAA*212 de "+documento+"")));
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/div[2]/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr/td[3]/select")));
 
 				Select selectProducto1 = new Select(driver.findElement(By.xpath("/html/body/div[3]/div/div[2]/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr/td[3]/select")));
@@ -242,6 +242,7 @@ public class AltaDPF {
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
 				  write(i+1, 8, fecha);
+				  System.out.println("Error: " + e);
 				driver.quit();
 
 			}

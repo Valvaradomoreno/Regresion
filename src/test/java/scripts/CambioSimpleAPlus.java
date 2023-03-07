@@ -152,6 +152,7 @@ public class CambioSimpleAPlus {
 				String attr = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
 				driver.findElement(By.id(attr)).sendKeys(cuenta.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
+				Thread.sleep(500);
 
 				driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[2]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[7]/a/img")).click();
 
@@ -159,25 +160,26 @@ public class CambioSimpleAPlus {
 				Set<String> s2=driver.getWindowHandles();
 				Iterator<String> i2=s2.iterator();
 
-				while(i1.hasNext())
+				while(i2.hasNext())
 				{
-					String ChildWindow=i1.next();
+					String ChildWindow=i2.next();
 
 					if(!MainWindow2.equalsIgnoreCase(ChildWindow))
 					{
 						driver.switchTo().window(ChildWindow);
 					}
 				}
-
+				driver.manage().window().maximize();
+				Thread.sleep(3000);
 				driver.findElement(By.xpath("//a[contains(text(),'Nueva Actividad')]")).click();
 
 				String MainWindow3=driver.getWindowHandle();
 				Set<String> s3=driver.getWindowHandles();
 				Iterator<String> i3=s3.iterator();
 
-				while(i1.hasNext())
+				while(i3.hasNext())
 				{
-					String ChildWindow=i1.next();
+					String ChildWindow=i3.next();
 
 					if(!MainWindow3.equalsIgnoreCase(ChildWindow))
 					{
@@ -234,7 +236,7 @@ public class CambioSimpleAPlus {
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
 				  write(i+1, 6, fecha);
-
+				  System.out.println("Error: " + e);
 				driver.quit();
 
 			}

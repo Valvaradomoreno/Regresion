@@ -220,6 +220,7 @@ public class RetiroEfectivoSinTarjeta {
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
 				  write(i+1, 6, fecha);
+				  System.out.println("Error: " + e);
 				driver.quit();
 
 			}

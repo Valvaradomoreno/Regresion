@@ -158,18 +158,18 @@ public class ActualizacionIntangibleCTS {
 				driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[2]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[7]/a/img")).click();
 
 				// poner numuero en el MainWindow, s2, i2 y reemplazar
-				String MainWindow2=driver.getWindowHandle();
-				Set<String> s2=driver.getWindowHandles();
-				Iterator<String> i2=s2.iterator();
-				while(i2.hasNext())
-				{
-					String ChildWindow=i2.next();
+				String MainWindow2 = driver.getWindowHandle();
+				Set<String> s2 = driver.getWindowHandles();
+				Iterator<String> i2 = s2.iterator();
 
-					if(!MainWindow2.equalsIgnoreCase(ChildWindow))
-					{
+				while (i2.hasNext()) {
+					String ChildWindow = i2.next();
+
+					if (!MainWindow2.equalsIgnoreCase(ChildWindow)) {
 						driver.switchTo().window(ChildWindow);
 					}
 				}
+				Thread.sleep(3000);
 
 				driver.findElement(By.xpath("//a[contains(text(),'Nueva Actividad')]")).click();
 
@@ -237,7 +237,9 @@ public class ActualizacionIntangibleCTS {
 				  System.out.println(date);
 				  write(i+1, 7, fecha);
 
-				driver.quit();
+				  System.out.println("Error: " + e);
+
+				  driver.quit();
 
 			}
   		}

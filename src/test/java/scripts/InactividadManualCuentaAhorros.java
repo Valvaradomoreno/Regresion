@@ -155,15 +155,16 @@ public class InactividadManualCuentaAhorros {
 				Set<String> s2=driver.getWindowHandles();
 				Iterator<String> i2=s2.iterator();
 
-				while(i1.hasNext())
+				while(i2.hasNext())
 				{
-					String ChildWindow=i1.next();
+					String ChildWindow=i2.next();
 
-					if(!MainWindow.equalsIgnoreCase(ChildWindow))
+					if(!MainWindow2.equalsIgnoreCase(ChildWindow))
 					{
 						driver.switchTo().window(ChildWindow);
 					}
 				}
+				Thread.sleep(5000);
 
 				driver.findElement(By.xpath("//a[contains(text(),'Nueva Actividad')]")).click();
 
@@ -171,11 +172,11 @@ public class InactividadManualCuentaAhorros {
 				Set<String> s3=driver.getWindowHandles();
 				Iterator<String> i3=s3.iterator();
 
-				while(i1.hasNext())
+				while(i3.hasNext())
 				{
-					String ChildWindow=i1.next();
+					String ChildWindow=i3.next();
 
-					if(!MainWindow.equalsIgnoreCase(ChildWindow))
+					if(!MainWindow3.equalsIgnoreCase(ChildWindow))
 					{
 						driver.switchTo().window(ChildWindow);
 					}
@@ -186,6 +187,7 @@ public class InactividadManualCuentaAhorros {
 
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='tab1']/tbody/tr[2]/td[3]/a[1]/img"))).click();
+				Thread.sleep(1000);
 				driver.findElement(By.xpath("//b[contains(text(),'ACCOUNTS-MANUAL.SET-DORMANCY*INACTIVE')]")).click();
 
 
@@ -238,6 +240,20 @@ public class InactividadManualCuentaAhorros {
 				driver.findElement(By.xpath("//a[contains(text(),'Buscar Préstamo ')]")).click();
 				driver.switchTo().parentFrame();
 
+				String MainWindow4=driver.getWindowHandle();
+				Set<String> s4=driver.getWindowHandles();
+				Iterator<String> i4=s4.iterator();
+
+				while(i4.hasNext())
+				{
+					String ChildWindow=i4.next();
+
+					if(!MainWindow4.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+
 				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'ID de Arreglo')]")).getAttribute("for");
 				driver.findElement(By.id(attr)).clear();
 				driver.findElement(By.id(attr)).sendKeys(cuenta.get(i));
@@ -257,8 +273,6 @@ public class InactividadManualCuentaAhorros {
 				String sSubCadena = cod1.substring(22,39);
 				System.out.println(sSubCadena);
 				write(i+1, 4, sSubCadena);
-
-
 
 
 				String screenshotPath = getScreenShot(driver, "Fin del Caso");
@@ -286,6 +300,7 @@ public class InactividadManualCuentaAhorros {
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
 				  write(i+1, 5, fecha);
+				  System.out.println("Error: " + e);
 				driver.quit();
 
 			}
