@@ -1,3 +1,4 @@
+com\base\web\base\base\Excel.class
 com\base\web\base\base\WebAppFactory.class
 com\base\web\base\base\MobileAppFactory.class
 com\base\web\base\base\ConfigService.class
