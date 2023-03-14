@@ -18,14 +18,22 @@ import java.util.Iterator;
 
 public class Entregable1 {
 
+	ActualizacionIntangibleCTS actualizacionIntangibleCTS= new ActualizacionIntangibleCTS();
 	AltaCuentaAhorro alta = new AltaCuentaAhorro();
 	AltaCuentaCTS altaCTS = new AltaCuentaCTS();
-	ActualizacionIntangibleCTS actualizacionIntangibleCTS= new ActualizacionIntangibleCTS();
-	CambioSimpleAPlus cambioSimpleAPlus = new CambioSimpleAPlus();
-	InactividadManualCuentaAhorros inactividadManualCuentaAhorros = new InactividadManualCuentaAhorros();
-
-
+	AltaDPF altaDPF = new AltaDPF();
 	BuscarCuenta buscar = new BuscarCuenta();
+	CambioSimpleAPlus cambioSimpleAPlus = new CambioSimpleAPlus();
+	CambioTasaCTS cambioTasaCTS = new CambioTasaCTS();
+	CambioTasaCuentaAhorro cambioTasaCuentaAhorro = new CambioTasaCuentaAhorro();
+	CancelacionAhorros cancelacionAhorros = new CancelacionAhorros();
+	CancelacionCTS cancelacionCTS = new CancelacionCTS();
+	DepositoEfectivoLocalExtranjero depositoEfectivoLocalExtranjero = new DepositoEfectivoLocalExtranjero();
+	DepositoLocalEfectico depositoLocalEfectico = new DepositoLocalEfectico();
+	InactividadManualCuentaAhorros inactividadManualCuentaAhorros = new InactividadManualCuentaAhorros();
+	RetiroEfectivoExtranjero retiroEfectivoExtranjero = new RetiroEfectivoExtranjero();
+	RetiroEfectivoSinTarjeta retiroEfectivoSinTarjeta = new RetiroEfectivoSinTarjeta();
+
     WebDriver driver;
 
 	@BeforeTest
@@ -69,7 +77,37 @@ public class Entregable1 {
 				}else if ((caso.get(i).equals("Inactividad Manual Cuenta Ahorros")) && (ejecutar.get(i).equals("Si"))){
 					System.out.println("Inactividad Manual Cuenta Ahorros");
 					inactividadManualCuentaAhorros.InactividadManualCuentaAhorros();
-				}else{
+				}else if ((caso.get(i).equals("Alta DPF")) && (ejecutar.get(i).equals("Si"))){
+					System.out.println("Alta DPF");
+					altaDPF.AltaDPF();
+				}else if ((caso.get(i).equals("Cambio Tasa CTS")) && (ejecutar.get(i).equals("Si"))){
+					System.out.println("Cambio Tasa CTS");
+					cambioTasaCTS.CambioTasaCTS();
+				}else if ((caso.get(i).equals("Cambio Tasa Cuenta Ahorro")) && (ejecutar.get(i).equals("Si"))){
+					System.out.println("Cambio Tasa Cuenta Ahorro");
+					cambioTasaCuentaAhorro.CambioTasaCuentaAhorro();
+				}else if ((caso.get(i).equals("Cancelacion Ahorros")) && (ejecutar.get(i).equals("Si"))){
+					System.out.println("Cancelacion Ahorros");
+					cancelacionAhorros.CancelacionAhorros();
+				}else if ((caso.get(i).equals("Cancelacion CTS")) && (ejecutar.get(i).equals("Si"))){
+					System.out.println("Cancelacion CTS");
+					cancelacionCTS.CancelacionCTS();
+				}else if ((caso.get(i).equals("Deposito Efectivo Local Extranjero")) && (ejecutar.get(i).equals("Si"))){
+					System.out.println("Deposito Efectivo Local Extranjero");
+					depositoEfectivoLocalExtranjero.DepositoEfectivoLocalExtranjero();
+				}else if ((caso.get(i).equals("Deposito Local Efectico")) && (ejecutar.get(i).equals("Si"))){
+					System.out.println("Deposito Local Efectico");
+					depositoLocalEfectico.DepositoLocalEfectico();
+				}else if ((caso.get(i).equals("Retiro Efectivo Extranjero")) && (ejecutar.get(i).equals("Si"))){
+					System.out.println("Retiro Efectivo Extranjero");
+					retiroEfectivoExtranjero.RetiroEfectivoExtranjero();
+				}else if ((caso.get(i).equals("Retiro Efectivo Sin Tarjeta")) && (ejecutar.get(i).equals("Si"))){
+					System.out.println("Retiro Efectivo Sin Tarjeta");
+					retiroEfectivoSinTarjeta.RetiroEfectivoSinTarjeta();
+				}
+
+
+				else{
 					System.out.println("NO SE EJECUTA");
 					continue;
 				}
