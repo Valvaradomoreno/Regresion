@@ -239,7 +239,7 @@ public class AltaCuentaAhorro {
 }
 
 	public void write(int i, int celda, String dato) throws IOException {
-		String path = System.getProperty("user.dir") + "/src/Excel/AltaCuentaAhorro.xlsx";
+		String path = System.getProperty("user.dir") + "/src/Excel/entregable1/AltaCuentaAhorro.xlsx";
 		FileInputStream fs = new FileInputStream(path);
 		Workbook wb = new XSSFWorkbook(fs);
 		Sheet sheet1 = wb.getSheetAt(0);
@@ -256,7 +256,7 @@ public class AltaCuentaAhorro {
 	}
 
 	public void writeArreglo(int i, int celda, String dato) throws IOException {
-		String path = System.getProperty("user.dir") + "/src/Excel/BuscarCuenta.xlsx";
+		String path = System.getProperty("user.dir") + "/src/Excel/entregable1/BuscarCuenta.xlsx";
 		FileInputStream fs = new FileInputStream(path);
 		Workbook wb = new XSSFWorkbook(fs);
 		Sheet sheet1 = wb.getSheetAt(0);
@@ -286,7 +286,7 @@ public class AltaCuentaAhorro {
 
 	public static ArrayList<String> readExcelData(int colNo) throws IOException {
 		
-		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/AltaCuentaAhorro.xlsx");
+		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable1/AltaCuentaAhorro.xlsx");
 		XSSFWorkbook wb=new XSSFWorkbook(fis);
 		XSSFSheet s=wb.getSheet("AltaCuentaAhorro");
 		Iterator<Row> rowIterator=s.iterator();

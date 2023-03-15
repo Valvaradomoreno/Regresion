@@ -234,7 +234,7 @@ public class RetiroEfectivoSinTarjeta {
 
 	public static ArrayList<String> readExcelData(int colNo) throws IOException {
 
-		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/RetiroEfectivoSinTarjeta.xlsx");
+		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable1/RetiroEfectivoSinTarjeta.xlsx");
 		XSSFWorkbook wb=new XSSFWorkbook(fis);
 		XSSFSheet s=wb.getSheet("RetiroEfectivoSinTarjeta");
 		Iterator<Row> rowIterator=s.iterator();
@@ -249,7 +249,7 @@ public class RetiroEfectivoSinTarjeta {
 	}
 
 	public void write(int i, int celda, String dato) throws IOException {
-		String path = System.getProperty("user.dir") + "/src/Excel/RetiroEfectivoSinTarjeta.xlsx";
+		String path = System.getProperty("user.dir") + "/src/Excel/entregable1/RetiroEfectivoSinTarjeta.xlsx";
 		FileInputStream fs = new FileInputStream(path);
 		Workbook wb = new XSSFWorkbook(fs);
 		Sheet sheet1 = wb.getSheetAt(0);

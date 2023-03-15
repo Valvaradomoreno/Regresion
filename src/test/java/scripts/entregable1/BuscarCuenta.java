@@ -201,7 +201,7 @@ public class BuscarCuenta {
 
 }
 	public void write(int i, int celda, String dato) throws IOException {
-		String path = System.getProperty("user.dir") + "/src/Excel/BuscarCuenta.xlsx";
+		String path = System.getProperty("user.dir") + "/src/Excel/entregable1/BuscarCuenta.xlsx";
 		FileInputStream fs = new FileInputStream(path);
 		Workbook wb = new XSSFWorkbook(fs);
 		Sheet sheet1 = wb.getSheetAt(0);
@@ -230,7 +230,7 @@ public class BuscarCuenta {
 		return destination;
 	}
 	public static ArrayList<String> readExcelData(int colNo) throws IOException {
-		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/BuscarCuenta.xlsx");
+		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable1/BuscarCuenta.xlsx");
 		XSSFWorkbook wb=new XSSFWorkbook(fis);
 		XSSFSheet s=wb.getSheet("Buscar Cuenta");
 		Iterator<Row> rowIterator=s.iterator();

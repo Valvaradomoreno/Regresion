@@ -286,7 +286,7 @@ public class CambioTasaCTS {
 
 	public static ArrayList<String> readExcelData(int colNo) throws IOException {
 
-		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/CambioTasaCTS.xlsx");
+		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable1/CambioTasaCTS.xlsx");
 		XSSFWorkbook wb=new XSSFWorkbook(fis);
 		XSSFSheet s=wb.getSheet("CambioTasaCTS");
 		Iterator<Row> rowIterator=s.iterator();
@@ -301,7 +301,7 @@ public class CambioTasaCTS {
 	}
 
 	public void write(int i, int celda, String dato) throws IOException {
-		String path = System.getProperty("user.dir") + "/src/Excel/CambioTasaCTS.xlsx";
+		String path = System.getProperty("user.dir") + "/src/Excel/entregable1/CambioTasaCTS.xlsx";
 		FileInputStream fs = new FileInputStream(path);
 		Workbook wb = new XSSFWorkbook(fs);
 		Sheet sheet1 = wb.getSheetAt(0);

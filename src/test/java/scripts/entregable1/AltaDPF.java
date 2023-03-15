@@ -252,7 +252,7 @@ public class AltaDPF {
 
 	public static ArrayList<String> readExcelData(int colNo) throws IOException {
 
-		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/AltaDPF.xlsx");
+		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable1/AltaDPF.xlsx");
 		XSSFWorkbook wb=new XSSFWorkbook(fis);
 		XSSFSheet s=wb.getSheet("AltaDPF");
 		Iterator<Row> rowIterator=s.iterator();
@@ -267,7 +267,7 @@ public class AltaDPF {
 	}
 
 	public void write(int i, int celda, String dato) throws IOException {
-		String path = System.getProperty("user.dir") + "/src/Excel/AltaDPF.xlsx";
+		String path = System.getProperty("user.dir") + "/src/Excel/entregable1/AltaDPF.xlsx";
 		FileInputStream fs = new FileInputStream(path);
 		Workbook wb = new XSSFWorkbook(fs);
 		Sheet sheet1 = wb.getSheetAt(0);

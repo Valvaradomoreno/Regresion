@@ -246,7 +246,7 @@ public class RetiroEfectivoExtranjero {
 
 	public static ArrayList<String> readExcelData(int colNo) throws IOException {
 
-		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/RetiroEfectivoExtranjero.xlsx");
+		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable1/RetiroEfectivoExtranjero.xlsx");
 		XSSFWorkbook wb=new XSSFWorkbook(fis);
 		XSSFSheet s=wb.getSheet("RetiroEfectivoExtranjero");
 		Iterator<Row> rowIterator=s.iterator();
@@ -261,7 +261,7 @@ public class RetiroEfectivoExtranjero {
 	}
 
 	public void write(int i, int celda, String dato) throws IOException {
-		String path = System.getProperty("user.dir") + "/src/Excel/RetiroEfectivoExtranjero.xlsx";
+		String path = System.getProperty("user.dir") + "/src/Excel/entregable1/RetiroEfectivoExtranjero.xlsx";
 		FileInputStream fs = new FileInputStream(path);
 		Workbook wb = new XSSFWorkbook(fs);
 		Sheet sheet1 = wb.getSheetAt(0);

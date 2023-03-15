@@ -251,7 +251,7 @@ public class AltaCuentaCTS {
 
 	public static ArrayList<String> readExcelData(int colNo) throws IOException {
 
-		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/AltaCuentaCTS.xlsx");
+		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable1/AltaCuentaCTS.xlsx");
 		XSSFWorkbook wb=new XSSFWorkbook(fis);
 		XSSFSheet s=wb.getSheet("AltaCuentaCTS");
 		Iterator<Row> rowIterator=s.iterator();
@@ -266,7 +266,7 @@ public class AltaCuentaCTS {
 	}
 
 	public void write(int i, int celda, String dato) throws IOException {
-		String path = System.getProperty("user.dir") + "/src/Excel/AltaCuentaCTS.xlsx";
+		String path = System.getProperty("user.dir") + "/src/Excel/entregable1/AltaCuentaCTS.xlsx";
 		FileInputStream fs = new FileInputStream(path);
 		Workbook wb = new XSSFWorkbook(fs);
 		Sheet sheet1 = wb.getSheetAt(0);

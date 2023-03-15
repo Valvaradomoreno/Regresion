@@ -310,7 +310,7 @@ public class InactividadManualCuentaAhorros {
 
 	public static ArrayList<String> readExcelData(int colNo) throws IOException {
 
-		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/InactividadManualCuentaAhorros.xlsx");
+		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable1/InactividadManualCuentaAhorros.xlsx");
 		XSSFWorkbook wb=new XSSFWorkbook(fis);
 		XSSFSheet s=wb.getSheet("InactividadManualCuentaAhorros");
 		Iterator<Row> rowIterator=s.iterator();
@@ -325,7 +325,7 @@ public class InactividadManualCuentaAhorros {
 	}
 
 	public void write(int i, int celda, String dato) throws IOException {
-		String path = System.getProperty("user.dir") + "/src/Excel/InactividadManualCuentaAhorros.xlsx";
+		String path = System.getProperty("user.dir") + "/src/Excel/entregable1/InactividadManualCuentaAhorros.xlsx";
 		FileInputStream fs = new FileInputStream(path);
 		Workbook wb = new XSSFWorkbook(fs);
 		Sheet sheet1 = wb.getSheetAt(0);

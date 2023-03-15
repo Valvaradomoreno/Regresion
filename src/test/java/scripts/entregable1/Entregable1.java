@@ -119,7 +119,7 @@ public class Entregable1 {
 		
 
 	public static ArrayList<String> readExcelData(int colNo) throws IOException {
-		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/Inputs.xlsx");
+		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable1/Inputs.xlsx");
 
 		//FileInputStream fis=new FileInputStream("D:\\Proyectos\\Regresion\\src\\Excel\\Inputs.xlsx");
 		XSSFWorkbook wb=new XSSFWorkbook(fis);
