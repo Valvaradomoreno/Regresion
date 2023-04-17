@@ -245,7 +245,7 @@ public class ModificarCliente {
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File source = ts.getScreenshotAs(OutputType.FILE);
 // after execution, you could see a folder "FailedTestsScreenshots" under src folder
-		String destination = System.getProperty("user.dir") + "/reports2/ModificarCliente/Images/" + screenshotName + dateName + ".png";
+		String destination = System.getProperty("user.dir") + "/test-output/reports2/ModificarCliente/Images/" + screenshotName + dateName + ".png";
 		File finalDestination = new File(destination);
 		FileUtils.copyFile(source, finalDestination);
 		return destination;

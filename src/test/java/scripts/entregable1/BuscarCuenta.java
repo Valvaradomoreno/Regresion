@@ -137,7 +137,7 @@ public class BuscarCuenta {
 				System.out.println("es: " + arreglo);
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("value:1:1:1")));
-				String attr = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
+				String attr = driver.findElement(By.xpath("//label[contains(text(),'Código de cliente')]")).getAttribute("for");
 				driver.findElement(By.id("value:1:1:1")).clear();
 				Thread.sleep(200);
 				driver.findElement(By.id("value:2:1:1")).clear();
@@ -165,10 +165,13 @@ public class BuscarCuenta {
 
 				driver.manage().window().maximize();
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//td[contains(text(),'Authorised')]")));
-				Thread.sleep(6000);
+				Thread.sleep(1000);
 				String screenshotPath1 = getScreenShot(driver, "Cuenta encontrada");
-				System.out.println("Agregar Excel");
+			String cuenta = driver.findElement(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr[1]/td/table/tbody/tr[1]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[1]/td[4]")).getText();
+
+			System.out.println("Agregar Excel");
 				write(i+1, 3, "PASSED");
+				write(i+1, 5, cuenta);
 
 				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Cuenta a buscar", ExtentColor.GREEN));
 				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath1) + " Cuenta encontrada", ExtentColor.GREEN));
@@ -224,7 +227,7 @@ public class BuscarCuenta {
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File source = ts.getScreenshotAs(OutputType.FILE);
 // after execution, you could see a folder "FailedTestsScreenshots" under src folder
-		String destination = System.getProperty("user.dir") + "/reports/BuscarCuenta/Images/" + screenshotName + dateName + ".png";
+		String destination = System.getProperty("user.dir") + "/test-output/reports/BuscarCuenta/Images/" + screenshotName + dateName + ".png";
 		File finalDestination = new File(destination);
 		FileUtils.copyFile(source, finalDestination);
 		return destination;

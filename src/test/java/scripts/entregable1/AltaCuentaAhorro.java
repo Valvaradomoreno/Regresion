@@ -89,8 +89,6 @@ public class AltaCuentaAhorro {
   		for(int i=0;i<usuario.size();i++) {
 			try {
   			if(i<(filas)) {
-
-
 					System.out.println("-----------------------------------");
 					System.out.println("Nuevo Test " + i);
 					int caso = i+1;
@@ -100,13 +98,15 @@ public class AltaCuentaAhorro {
 
 					driver = new ChromeDriver();
 					driver.manage().window().maximize();
-					driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
+					// qa driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
+					driver.get("https://10.167.11.10:7480/BrowserWebSAD/servlet/BrowserServlet?");
+
 
 					Thread.sleep(1000);
 					driver.findElement(By.id("details-button")).click();
 					driver.findElement(By.id("proceed-link")).click();
 
-					WebDriverWait wait = new WebDriverWait(driver, 40);
+					WebDriverWait wait = new WebDriverWait(driver, 60);
 					wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
 					driver.findElement(By.id("signOnName")).sendKeys(usuario.get(i));
 					driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
@@ -167,31 +167,44 @@ public class AltaCuentaAhorro {
 
 					driver.manage().window().maximize();
 					driver.findElement(By.id("fieldName:CUSTOMER:1")).sendKeys(documento.get(i));
+					System.out.println("doc : " + documento.get(i));
 					driver.findElement(By.id("fieldName:CURRENCY")).sendKeys("PEN");
+
+
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Validate a deal']")));
 
 					driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
 					wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:PRIMARY.OFFICER")));
 					driver.findElement(By.id("fieldName:PRIMARY.OFFICER")).sendKeys(ejecutivo.get(i));
+					System.out.println("ejec : " + ejecutivo.get(i));
+
 					driver.findElement(By.xpath("/html/body/div[5]/fieldset[4]/div/div/form[1]/div[3]/table/tbody/tr[3]/td/table[1]/tbody/tr[11]/td[3]/table/tbody/tr/td[2]/input")).click();
 					driver.findElement(By.xpath("/html/body/div[5]/fieldset[4]/div/div/form[1]/div[3]/table/tbody/tr[3]/td/table[1]/tbody/tr[12]/td[3]/table/tbody/tr/td[2]/input")).click();
 
+					System.out.println("pase : " );
+					//Thread.sleep(8000);
+
 					String cod = driver.findElement(By.id("disabled_ACCOUNT.REFERENCE")).getText();
 					System.out.println("CUENTA : " + cod);
-					String arreglo = driver.findElement(By.id("disabled_ARRANGEMENT")).getText();
-					System.out.println("ARREGLO : " + arreglo);
-					writeArreglo(i+1, 2, arreglo);
+					System.out.println("pase2 : " );
+					//Thread.sleep(5000);
+
+					//String arreglo = driver.findElement(By.id("disabled_ARRANGEMENT")).getText();
+					//System.out.println("ARREGLO : " + arreglo);
+					//writeArreglo(i+1, 2, arreglo);
+					System.out.println("aqui : " );
 
 					String screenshotPath = getScreenShot(driver, "Datos agregados");
 
-
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Validate a deal']")));
 					driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
+					Thread.sleep(50000);
 
 					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
 					driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 
 					String screenshotPath1 = getScreenShot(driver, "Commit");
-
 
 					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/div[2]/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr/td[3]/select")));
 
@@ -201,7 +214,7 @@ public class AltaCuentaAhorro {
 
 
 					String cod2 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
-					String sSubCadena = cod2.substring(22,39);
+					String sSubCadena = cod2.substring(22,41);
 					System.out.println(sSubCadena);
 
 					write(i+1, 5, sSubCadena);
@@ -223,6 +236,8 @@ public class AltaCuentaAhorro {
 				}
 
 			}catch (Exception e){
+				System.out.println("error: " + e);
+
 				String screenshotPath = getScreenShot(driver, "ERROR");
 				logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Test Case FAIL: " +e, ExtentColor.RED));
 				extent.flush();
@@ -278,7 +293,7 @@ public class AltaCuentaAhorro {
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File source = ts.getScreenshotAs(OutputType.FILE);
 // after execution, you could see a folder "FailedTestsScreenshots" under src folder
-		String destination = System.getProperty("user.dir") + "/reports/AltaCuentaAhorro/Images/" + screenshotName + dateName + ".png";
+		String destination = System.getProperty("user.dir") + "/test-output/reports/AltaCuentaAhorro/Images/" + screenshotName + dateName + ".png";
 		File finalDestination = new File(destination);
 		FileUtils.copyFile(source, finalDestination);
 		return destination;

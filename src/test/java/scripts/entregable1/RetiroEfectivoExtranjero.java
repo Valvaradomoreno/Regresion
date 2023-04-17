@@ -281,7 +281,7 @@ public class RetiroEfectivoExtranjero {
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File source = ts.getScreenshotAs(OutputType.FILE);
 		// after execution, you could see a folder "FailedTestsScreenshots" under src folder
-		String destination = System.getProperty("user.dir") + "/reports/RetiroEfectivoExtranjero/Images/" + screenshotName + dateName + ".png";
+		String destination = System.getProperty("user.dir") + "/test-output/reports/RetiroEfectivoExtranjero/Images/" + screenshotName + dateName + ".png";
 		File finalDestination = new File(destination);
 		FileUtils.copyFile(source, finalDestination);
 		return destination;
