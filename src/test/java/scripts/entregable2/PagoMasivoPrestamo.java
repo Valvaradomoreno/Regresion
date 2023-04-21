@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
+import java.time.Duration;
 
 public class PagoMasivoPrestamo {
 
@@ -59,7 +60,7 @@ public class PagoMasivoPrestamo {
     public void PagoMasivoPrestamo()throws IOException, InterruptedException, AWTException {
 
         extent = new ExtentReports();
-        spark = new ExtentSparkReporter(System.getProperty("user.dir") + "/test-output/reports2/AltaClienteNaturalSinBiometria/Report.html");
+        spark = new ExtentSparkReporter(System.getProperty("user.dir") + "/test-output/reports2/PagoMasivoPrestamo/Report.html");
         extent.attachReporter(spark);
         extent.setSystemInfo("Host Name", "SoftwareTestingMaterial");
         extent.setSystemInfo("Environment", "Production");

@@ -9,7 +9,6 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import scripts.entregable1.*;
 
 import java.awt.*;
 import java.io.FileInputStream;
@@ -19,7 +18,7 @@ import java.util.Iterator;
 
 public class Entregable2 {
 
-	AltaCliente altaCliente= new AltaCliente();
+	AltaClienteSinBiometria altaCliente= new AltaClienteSinBiometria();
 	ModificarCliente modificarCliente= new ModificarCliente();
 	ModificarClienteCorporativo modificarClienteCorporativo = new ModificarClienteCorporativo();
 	PagoMasivoPrestamo pagoMasivoPrestamo = new PagoMasivoPrestamo();
@@ -51,7 +50,7 @@ public class Entregable2 {
 				System.out.println("caso get2: "+caso.get(i));
 				if((caso.get(i).equals("Alta Cliente")) && (ejecutar.get(i).equals("Si"))) {
 					System.out.println("Alta Cliente");
-					altaCliente.AltaCliente();
+					altaCliente.AltaClienteSinBiometria();
 				}else if((caso.get(i).equals("ModificarCliente")) && (ejecutar.get(i).equals("Si"))) {
 					System.out.println("ModificarCliente");
 					modificarCliente.ModificarCliente();
@@ -78,10 +77,8 @@ public class Entregable2 {
 
 	public static ArrayList<String> readExcelData(int colNo) throws IOException {
 		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable2/Inputs.xlsx");
-
-		//FileInputStream fis=new FileInputStream("D:\\Proyectos\\Regresion\\src\\Excel\\Inputs.xlsx");
 		XSSFWorkbook wb=new XSSFWorkbook(fis);
-		XSSFSheet s=wb.getSheet("Entregable1");
+		XSSFSheet s=wb.getSheet("Entregable2");
 		Iterator<Row> rowIterator=s.iterator();
 		rowIterator.next();
 		//rowIterator.next();

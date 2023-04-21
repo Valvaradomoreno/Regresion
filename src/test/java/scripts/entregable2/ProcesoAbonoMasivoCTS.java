@@ -18,6 +18,10 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -32,6 +36,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -41,7 +46,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ProcesoAbonoMasivoCTS {
 
-    WebDriver driver;
+    public static WebDriver driver;
 	public ExtentSparkReporter spark;
 	public ExtentReports extent;
 	public ExtentTest logger;
@@ -52,7 +57,8 @@ public class ProcesoAbonoMasivoCTS {
         
 	@BeforeMethod
     public void openApplication() {
-    	System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/main/resources/drivers/chromedriver");
+    	//System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/main/resources/drivers/chromedriver");
+		System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/src/main/resources/drivers/firefox");
 
 	}
 
@@ -93,7 +99,10 @@ public class ProcesoAbonoMasivoCTS {
 					// ** DESDE AQUI EMPIEZA EL TEST
 
 				//  Given El usuario ingresa al Login Page
-					driver = new ChromeDriver();
+					//driver = new ChromeDriver();
+
+					driver = new FirefoxDriver();
+
 					driver.manage().window().maximize();
 					driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
 
@@ -229,7 +238,7 @@ public class ProcesoAbonoMasivoCTS {
 }
 
 	public void write(int i, int celda, String dato) throws IOException {
-		String path = System.getProperty("user.dir") + "/src/Excel/entregable2/ModificarCliente.xlsx";
+		String path = System.getProperty("user.dir") + "/src/Excel/entregable2/ProcesoAbonoMasivoCTS.xlsx";
 		FileInputStream fs = new FileInputStream(path);
 		Workbook wb = new XSSFWorkbook(fs);
 		Sheet sheet1 = wb.getSheetAt(0);
@@ -251,7 +260,7 @@ public class ProcesoAbonoMasivoCTS {
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File source = ts.getScreenshotAs(OutputType.FILE);
 // after execution, you could see a folder "FailedTestsScreenshots" under src folder
-		String destination = System.getProperty("user.dir") + "/test-output/reports2/ModificarCliente/Images/" + screenshotName + dateName + ".png";
+		String destination = System.getProperty("user.dir") + "/test-output/reports2/ProcesoAbonoMasivoCTS/Images/" + screenshotName + dateName + ".png";
 		File finalDestination = new File(destination);
 		FileUtils.copyFile(source, finalDestination);
 		return destination;
@@ -259,9 +268,9 @@ public class ProcesoAbonoMasivoCTS {
 
 	public static ArrayList<String> readExcelData(int colNo) throws IOException {
 		
-		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable2/ModificarCliente.xlsx");
+		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable2/ProcesoAbonoMasivoCTS.xlsx");
 		XSSFWorkbook wb=new XSSFWorkbook(fis);
-		XSSFSheet s=wb.getSheet("ModificarCliente");
+		XSSFSheet s=wb.getSheet("ProcesoAbonoMasivoCTS");
 		Iterator<Row> rowIterator=s.iterator();
 		rowIterator.next();
 		//rowIterator.next();

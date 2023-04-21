@@ -38,6 +38,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 
 public class CambioTasaCuentaAhorro {
@@ -252,8 +253,7 @@ public class CambioTasaCuentaAhorro {
 					}
 				}
 
-				Thread.sleep(2500);
-
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//label[contains(text(),'ID de Arreglo')]")));
 				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'ID de Arreglo')]")).getAttribute("for");
 				driver.findElement(By.id(attr1)).clear();
 				driver.findElement(By.id(attr1)).sendKeys(cuenta.get(i));
@@ -262,9 +262,37 @@ public class CambioTasaCuentaAhorro {
 
 				driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[2]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[7]/a/img")).click();
 
+				String MainWindow4=driver.getWindowHandle();
+				Set<String> s4=driver.getWindowHandles();
+				Iterator<String> i4=s4.iterator();
 
+				while(i4.hasNext())
+				{
+					String ChildWindow=i4.next();
+
+					if(!MainWindow4.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+
+				Thread.sleep(5000);
+				driver.manage().window().maximize();
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Select Drilldown']"))).click();
 
+				String MainWindow5=driver.getWindowHandle();
+				Set<String> s5=driver.getWindowHandles();
+				Iterator<String> i5=s5.iterator();
+
+				while(i5.hasNext())
+				{
+					String ChildWindow=i5.next();
+
+					if(!MainWindow5.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Authorises a deal']"))).click();
 

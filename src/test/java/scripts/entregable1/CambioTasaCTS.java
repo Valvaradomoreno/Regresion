@@ -38,6 +38,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 
 public class CambioTasaCTS {
@@ -172,10 +173,33 @@ public class CambioTasaCTS {
 						driver.switchTo().window(ChildWindow);
 					}
 				}
+				Thread.sleep(2000);
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr[8]/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[1]/td[8]/a/img"))).click();
+				//wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr[8]/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[1]/td[8]/a/img"))).click();
+
+				driver.findElement(By.xpath("//a[contains(text(),'Nueva Actividad')]")).click();
+
+				String MainWindow3=driver.getWindowHandle();
+				Set<String> s3=driver.getWindowHandles();
+				Iterator<String> i3=s3.iterator();
+
+				while(i3.hasNext())
+				{
+					String ChildWindow=i3.next();
+
+					if(!MainWindow3.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+
+				driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[20]/td[3]/a/img")).click();
+				Thread.sleep(5000);
+
+				//Thread.sleep(80000);
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
+				Thread.sleep(5000);
 
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:FIXED.RATE:1"))).sendKeys(fijo.get(i));

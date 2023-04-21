@@ -1,0 +1,16 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# JPEG
+*.jpg
+*.jpeg
+*.jpe
+*.jif
+*.jfif
+*.jfi
+*.png
+
+
+# Portable Document Format
+*.pdf
+*.html

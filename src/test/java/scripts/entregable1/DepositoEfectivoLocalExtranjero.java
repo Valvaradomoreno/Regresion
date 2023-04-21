@@ -38,6 +38,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.time.Duration;
+import java.time.Duration;
 
 
 public class DepositoEfectivoLocalExtranjero {
@@ -382,7 +384,7 @@ public class DepositoEfectivoLocalExtranjero {
 				String fecha = dateFormat.format(new Date());
 				System.out.println(fecha);
 				write(i+1, 6, fecha);
-					driver.quit();
+				driver.quit();
 
 				}
 

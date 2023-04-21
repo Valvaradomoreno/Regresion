@@ -38,6 +38,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 
 public class CancelacionCTS {
@@ -207,10 +208,9 @@ public class CancelacionCTS {
 				Thread.sleep(3000);
 
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
-
-				driver.findElement(By.id("errorImg")).click();
-				Thread.sleep(3000);
+				//wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
+				//driver.findElement(By.id("errorImg")).click();
+				Thread.sleep(60000);
 
 				//String cod = driver.findElement(By.id("transactionId")).getCssValue("value");
 				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
