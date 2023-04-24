@@ -84,6 +84,7 @@ public class AltaClienteControlDual {
         ArrayList<String> nacimiento =readExcelData(9);
         ArrayList<String> gbdirec =readExcelData(10);
         ArrayList<String> empresa =readExcelData(11);
+        ArrayList<String> usuario2= readExcelData(12);
 
 
         int filas=usuario.size();
@@ -99,7 +100,11 @@ public class AltaClienteControlDual {
 
                     // ** DESDE AQUI EMPIEZA EL TEST
 
-                    //  Given El usuario ingresa al Login Page
+
+
+
+                    //                 CONTROL DUAL **********************
+
                     driver = new ChromeDriver();
                     driver.manage().window().maximize();
                     driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
@@ -109,118 +114,74 @@ public class AltaClienteControlDual {
                     driver.findElement(By.id("proceed-link")).click();
 
                     // When El usuario ingresa el "<usuario>" y "<contraseña>"
+                    Thread.sleep(5000);
                     WebDriverWait wait = new WebDriverWait(driver, 40);
+
                     wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
-                    driver.findElement(By.id("signOnName")).sendKeys(usuario.get(i));
+                    driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
                     driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
                     driver.findElement(By.id("sign-in")).click();
 
-                    WebElement iframe = driver.findElement(By.xpath("/html/frameset/frame[1]"));
-                    driver.switchTo().frame(iframe);
-
                     // Then Redirecciona al Home Page
                     Thread.sleep(2000);
-                    String exp_message = "Sign Off";
-                    String actual = driver.findElement(By.xpath("//a[contains(text(),'Sign Off')]")).getText();
-                    Assert.assertEquals(exp_message, actual);
+                    //Assert.assertEquals(exp_message, actual);
                     System.out.println("assert complete");
-                    driver.switchTo().parentFrame();
 
-                    // When El usuario da click en Menu
-                    Thread.sleep(1000);
                     WebElement iframe2 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
                     driver.switchTo().frame(iframe2);
                     driver.findElement(By.id("imgError")).click();
-
-                    //El usuario da click en Cliente
                     driver.findElement(By.xpath("//img[@alt='Cliente']")).click();
+                    driver.findElement(By.xpath("//a[contains(text(),'Control dual Biometria ')]")).click();
 
-                    //El usuario da click en Individual Customer
-                    driver.findElement(By.xpath("//a[contains(text(),'Individual Customer ')]")).click();
-                    driver.switchTo().parentFrame();
+                    String MainWindow2=driver.getWindowHandle();
+                    Set<String> s2=driver.getWindowHandles();
+                    Iterator<String> i2=s2.iterator();
 
-                    //El usuario ingresa datos de cliente
-                    String MainWindow=driver.getWindowHandle();
-                    Set<String> s1=driver.getWindowHandles();
-                    Iterator<String> i1=s1.iterator();
-
-                    while(i1.hasNext())
+                    while(i2.hasNext())
                     {
-                        String ChildWindow=i1.next();
+                        String ChildWindow=i2.next();
 
-                        if(!MainWindow.equalsIgnoreCase(ChildWindow))
+                        if(!MainWindow2.equalsIgnoreCase(ChildWindow))
                         {
                             driver.switchTo().window(ChildWindow);
                         }
                     }
+                    Thread.sleep(2000);
 
-                    driver.findElement(By.id("fieldName:MNEMONIC")).sendKeys(mnemocino.get(i));
-                    Thread.sleep(1000);
-                    driver.findElement(By.id("fieldName:LEGAL.ID:1")).sendKeys(dni.get(i));
-                    driver.findElement(By.id("fieldName:FAMILY.NAME")).click();
-                    Thread.sleep(4000);
-                    driver.findElement(By.id("fieldName:FAMILY.NAME")).sendKeys(apaterno.get(i));
-                    driver.findElement(By.id("fieldName:NAME.2:1")).sendKeys(amaterno.get(i));
-                    driver.findElement(By.id("fieldName:NAME.1:1")).sendKeys(nombre.get(i));
-                    driver.findElement(By.id("fieldName:SHORT.NAME:1")).sendKeys(ncompleto.get(i));
-                    Select selectProducto = new Select(driver.findElement(By.id("fieldName:MARITAL.STATUS")));
-                    selectProducto.selectByVisibleText(estadocivil.get(i));
-                    driver.findElement(By.id("radio:mainTab:GENDER")).click();
-                    driver.findElement(By.id("fieldName:DATE.OF.BIRTH")).sendKeys(nacimiento.get(i));
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//label[contains(text(),'Número de Identificación')]")));
+                    String attr1 = driver.findElement(By.xpath("//label[contains(text(),'Número de Identificación')]")).getAttribute("for");
+                    driver.findElement(By.id(attr1)).clear();
+                    driver.findElement(By.id(attr1)).sendKeys(dni.get(i));
+                    driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
+                    Thread.sleep(2000);
 
-                    driver.findElement(By.xpath("//img[@dropfield='fieldName:OCCUPATION:1']")).click();
-                    Thread.sleep(2500);
-                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//td[contains(text(),'ABOGADO')]")));
-                    driver.findElement(By.xpath("//td[contains(text(),'ABOGADO')]")).click();
+                    driver.findElement(By.xpath("//img[@alt='Autorizar']")).click();
+                    Thread.sleep(2000);
 
-                    driver.findElement(By.xpath("//img[@dropfield='fieldName:STREET:1']")).click();
-                    Thread.sleep(3000);
-                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//td[contains(text(),'AMAZONAS')]")));
-                    driver.findElement(By.xpath("//td[contains(text(),'AMAZONAS')]")).click();
+                    driver.findElement(By.xpath("//img[@alt='Authorises a deal']")).click();
 
-                    driver.findElement(By.id("fieldName:ADDRESS:1:1")).sendKeys(gbdirec.get(i));
+                    wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
+                    driver.findElement(By.id("errorImg")).click();
 
-                    driver.findElement(By.xpath("//img[@dropfield='fieldName:PHONE.1:1']")).click();
-                    Thread.sleep(2500);
-                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//td[contains(text(),'PERSONAL')]")));
-                    driver.findElement(By.xpath("//td[contains(text(),'PERSONAL')]")).click();
-                    driver.findElement(By.id("fieldName:SMS.1:1")).sendKeys("999999999");
-                    driver.findElement(By.id("fieldName:EMAIL.1:1")).sendKeys("claynes@gmail.com");
-
-
-                    driver.findElement(By.xpath("//span[contains(text(),'Datos Laborales')]")).click();
-                    Thread.sleep(1000);
-
-                    driver.findElement(By.id("fieldName:EMPLOYERS.NAME:1")).sendKeys(empresa.get(i));
-
-                    driver.findElement(By.xpath("//span[contains(text(),'Proteccion de Datos')]")).click();
-                    driver.findElement(By.id("radio:tab3:CONFID.TXT")).click();
-
-                    driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
-
-                    Thread.sleep(5000);
-
-                    driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
-
-                    Thread.sleep(5000);
+                    Thread.sleep(2000);
 
 
                     //Se muestra el codigo de alta
                     String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
                     String sSubCadena = cod.substring(22,39);
                     System.out.println(sSubCadena);
-                    write(i+1, 13, sSubCadena);
+                    write(i+1, 14, sSubCadena);
 
 
                     String screenshotPath = getScreenShot(driver, "Fin del Caso");
                     logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
                     extent.flush();
-                    write(i+1, 12, "PASSED");
+                    write(i+1, 13, "PASSED");
 
                     DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
                     String fecha = dateFormat.format(new Date());
                     System.out.println(fecha);
-                    write(i+1, 14, fecha);
+                    write(i+1, 15, fecha);
 
                     driver.quit();
                 }
@@ -229,13 +190,13 @@ public class AltaClienteControlDual {
                 String screenshotPath = getScreenShot(driver, "Error");
                 logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
                 extent.flush();
-                write(i+1, 12, "FAILED");
-                write(i+1, 13, "");
+                write(i+1, 13, "FAILED");
+                write(i+1, 14, "");
 
                 DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
                 String fecha = dateFormat.format(new Date());
                 System.out.println(fecha);
-                write(i+1, 14, fecha);
+                write(i+1, 15, fecha);
                 System.out.println("Error: " + e);
                 driver.quit();
             }

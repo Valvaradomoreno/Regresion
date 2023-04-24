@@ -177,6 +177,7 @@ public class CambioTasaCTS {
 
 				//wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr[8]/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[1]/td[8]/a/img"))).click();
 
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Nueva Actividad')]"))).click();
 				driver.findElement(By.xpath("//a[contains(text(),'Nueva Actividad')]")).click();
 
 				String MainWindow3=driver.getWindowHandle();
