@@ -199,11 +199,10 @@ public class AltaDPF {
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
+
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
 				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 
-				WebDriverWait wait1 = new WebDriverWait(driver, 60);
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("warningChooser:Ha recibido Account Opening Agreement/AAA*212 de "+documento+"")));
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/div[2]/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr/td[3]/select")));
 
 				Select selectProducto1 = new Select(driver.findElement(By.xpath("/html/body/div[3]/div/div[2]/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr/td[3]/select")));
