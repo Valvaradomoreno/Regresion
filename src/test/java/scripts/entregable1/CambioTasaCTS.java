@@ -194,17 +194,17 @@ public class CambioTasaCTS {
 					}
 				}
 
-				driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[20]/td[3]/a/img")).click();
+				driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[19]/td[3]/a/img")).click();
 				Thread.sleep(5000);
 
 				//Thread.sleep(80000);
 
-				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
-				Thread.sleep(5000);
+				//driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
+				//Thread.sleep(5000);
 
 
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:FIXED.RATE:1"))).clear();
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:FIXED.RATE:1"))).sendKeys(fijo.get(i));
-
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
 
@@ -212,61 +212,6 @@ public class CambioTasaCTS {
 				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 				System.out.println("Commit");
 
-				//String cod = driver.findElement(By.id("transactionId")).getCssValue("value");
-				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
-				String cod2 = "ALTA CUENTA";
-				System.out.println("este es : " +cod);
-				String[] datoWrite = {cod,cod2};
-				//Escriba los datos a llenar
-
-
-				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
-				Thread.sleep(1000);
-
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
-
-				driver.findElement(By.id("signOnName")).sendKeys(usuario.get(i));
-				driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
-				driver.findElement(By.id("sign-in")).click();
-
-				//WebDriverWait wait = new WebDriverWait(driver, 30);
-				//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Sign Off')]")));
-
-				WebElement iframe2 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
-				driver.switchTo().frame(iframe2);
-
-				Thread.sleep(2000);
-				String exp_message1 = "Sign Off";
-				String actual1 = driver.findElement(By.xpath("//a[contains(text(),'Sign Off')]")).getText();
-				Assert.assertEquals(exp_message, actual1);
-				System.out.println("assert complete");
-				driver.switchTo().parentFrame();
-
-				Thread.sleep(1000);
-				WebElement iframe3 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
-				driver.switchTo().frame(iframe3);
-
-				driver.findElement(By.id("imgError")).click();
-
-				driver.findElement(By.xpath("//img[@alt='Operaciones Minoristas']")).click();
-
-				driver.findElement(By.xpath("//a[contains(text(),'Buscar Préstamo ')]")).click();
-				driver.switchTo().parentFrame();
-
-				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'ID de Arreglo')]")).getAttribute("for");
-				driver.findElement(By.id(attr1)).clear();
-				driver.findElement(By.id(attr1)).sendKeys(cuenta.get(i));
-				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
-				Thread.sleep(1000);
-
-				driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[2]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[7]/a/img")).click();
-
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Select Drilldown']"))).click();
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Authorises a deal']"))).click();
 
 				//String cod = driver.findElement(By.id("transactionId")).getCssValue("value");
 				String cod1 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();

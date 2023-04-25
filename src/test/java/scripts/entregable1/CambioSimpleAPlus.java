@@ -77,6 +77,7 @@ public class CambioSimpleAPlus {
 		ArrayList<String> contraseña =readExcelData(1);
 		ArrayList<String> cuenta =readExcelData(2);
 		ArrayList<String> producto =readExcelData(3);
+		ArrayList<String> usuario2=readExcelData(4);
 
 		int filas=usuario.size();
   		for(int i=0;i<usuario.size();i++) {
@@ -136,11 +137,11 @@ public class CambioSimpleAPlus {
 
 				while(i1.hasNext())
 				{
-					String ChildWindow=i1.next();
+					String ChildWindow2=i1.next();
 
-					if(!MainWindow.equalsIgnoreCase(ChildWindow))
+					if(!MainWindow.equalsIgnoreCase(ChildWindow2))
 					{
-						driver.switchTo().window(ChildWindow);
+						driver.switchTo().window(ChildWindow2);
 					}
 				}
 
@@ -205,22 +206,23 @@ public class CambioSimpleAPlus {
 				driver.findElement(By.id("errorImg")).click();
 				Thread.sleep(3000);
 
-				//String cod = driver.findElement(By.id("transactionId")).getCssValue("value");
+
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")));
 				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String sSubCadena = cod.substring(22,39);
 				System.out.println(sSubCadena);
-				write(i+1, 5, sSubCadena);
+				write(i+1, 6, sSubCadena);
 
 
 				String screenshotPath = getScreenShot(driver, "Fin del Caso");
 				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
 				extent.flush();
-				write(i+1, 4, "PASSED");
+				write(i+1, 5, "PASSED");
 
 				DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				String fecha = dateFormat.format(new Date());
 				System.out.println(fecha);
-				write(i+1, 6, fecha);
+				write(i+1, 7, fecha);
 					driver.quit();
 
 				}
@@ -230,13 +232,13 @@ public class CambioSimpleAPlus {
 				  String screenshotPath = getScreenShot(driver, "Error");
 				  logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
 				  extent.flush();
-				  write(i+1, 4, "FAILED");
-				  write(i+1, 5, "");
+				  write(i+1, 5, "FAILED");
+				  write(i+1, 6, "");
 
 				  DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
-				  write(i+1, 6, fecha);
+				  write(i+1, 7, fecha);
 				  System.out.println("Error: " + e);
 				driver.quit();
 
