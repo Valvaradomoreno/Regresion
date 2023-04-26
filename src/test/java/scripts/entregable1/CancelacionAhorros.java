@@ -189,8 +189,8 @@ public class CancelacionAhorros {
 					}
 				}
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='r51']//img[@alt='Do Activity Today']")));
-				driver.findElement(By.xpath("//tr[@id='r51']//img[@alt='Do Activity Today']")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[53]/td[3]/a/img")));
+				driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[53]/td[3]/a/img")).click();
 
 //				String MainWindow4=driver.getWindowHandle();
 //				Set<String> s4=driver.getWindowHandles();
@@ -224,12 +224,6 @@ public class CancelacionAhorros {
 				Thread.sleep(3000);
 
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
-
-				driver.findElement(By.id("errorImg")).click();
-				Thread.sleep(3000);
-
-				//String cod = driver.findElement(By.id("transactionId")).getCssValue("value");
 				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String sSubCadena = cod.substring(22,39);
 				System.out.println(sSubCadena);

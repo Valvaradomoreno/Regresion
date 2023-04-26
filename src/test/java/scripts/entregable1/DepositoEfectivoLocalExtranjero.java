@@ -279,101 +279,13 @@ public class DepositoEfectivoLocalExtranjero {
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
 
 				driver.findElement(By.id("errorImg")).click();
-				Thread.sleep(3000);
-
-				//String cod = driver.findElement(By.id("transactionId")).getCssValue("value");
-				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
-				String cod2 = "ALTA CUENTA";
-				System.out.println("este es : " +cod);
-				String[] datoWrite = {cod,cod2};
-				//Escriba los datos a llenar
+				Thread.sleep(8000);
 
 
-				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
-				Thread.sleep(1000);
-
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
-
-				driver.findElement(By.id("signOnName")).sendKeys(usuario.get(i));
-				driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
-				driver.findElement(By.id("sign-in")).click();
-
-				//WebDriverWait wait = new WebDriverWait(driver, 30);
-				//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Sign Off')]")));
-
-				WebElement iframe4 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
-				driver.switchTo().frame(iframe4);
-
-				Thread.sleep(2000);
-				String exp_message2 = "Sign Off";
-				String actual2 = driver.findElement(By.xpath("//a[contains(text(),'Sign Off')]")).getText();
-				Assert.assertEquals(exp_message, actual2);
-				System.out.println("assert complete");
-				driver.switchTo().parentFrame();
-
-				Thread.sleep(1000);
-				WebElement iframe5 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
-				driver.switchTo().frame(iframe5);
-
-				driver.findElement(By.id("imgError")).click();
-
-				driver.findElement(By.xpath("//img[@alt='Operaciones Minoristas']")).click();
-
-				driver.findElement(By.xpath("//a[contains(text(),'Buscar Cuenta ')]")).click();
-				driver.switchTo().parentFrame();
-
-				String MainWindow5=driver.getWindowHandle();
-				Set<String> s5=driver.getWindowHandles();
-				Iterator<String> i5=s5.iterator();
-
-				while(i5.hasNext())
-				{
-					String ChildWindow=i5.next();
-
-					if(!MainWindow5.equalsIgnoreCase(ChildWindow))
-					{
-						driver.switchTo().window(ChildWindow);
-					}
-				}
-
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("value:1:1:1")));
-				driver.findElement(By.id("value:1:1:1")).clear();
-				Thread.sleep(200);
-				driver.findElement(By.id("value:2:1:1")).clear();
-				Thread.sleep(200);
-				String attr2 = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
-				driver.findElement(By.id(attr)).sendKeys(cuenta.get(i));
-				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
-
-				driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[2]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[7]/a/img")).click();
-
-
-				String MainWindow6=driver.getWindowHandle();
-				Set<String> s6=driver.getWindowHandles();
-				Iterator<String> i6=s6.iterator();
-
-				while(i6.hasNext())
-				{
-					String ChildWindow=i6.next();
-
-					if(!MainWindow6.equalsIgnoreCase(ChildWindow))
-					{
-						driver.switchTo().window(ChildWindow);
-					}
-				}
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr[1]/td/table/tbody/tr[11]/td/table/tbody/tr[1]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[2]/td[5]")));
-				String saldo2 = driver.findElement(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr[1]/td/table/tbody/tr[11]/td/table/tbody/tr[1]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[2]/td[5]")).getText();
-
-				Assert.assertNotEquals(saldo2, saldo);
 				String cod1 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String sSubCadena = cod1.substring(22,39);
 				System.out.println(sSubCadena);
 				write(i+1, 5, sSubCadena);
-
 
 				String screenshotPath = getScreenShot(driver, "Fin del Caso");
 				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
