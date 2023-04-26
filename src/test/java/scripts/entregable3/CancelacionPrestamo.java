@@ -193,19 +193,6 @@ public class CancelacionPrestamo {
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='"+attr2+"']//img[@alt='Do Activity Today']")));
 				driver.findElement(By.xpath("//tr[@id='"+attr2+"']//img[@alt='Do Activity Today']")).click();
 
-//				String MainWindow4=driver.getWindowHandle();
-//				Set<String> s4=driver.getWindowHandles();
-//				Iterator<String> i4=s4.iterator();
-//
-//				while(i4.hasNext())
-//				{
-//					String ChildWindow=i4.next();
-//
-//					if(!MainWindow4.equalsIgnoreCase(ChildWindow))
-//					{
-//						driver.switchTo().window(ChildWindow);
-//					}
-//				}
 
 				driver.manage().window().maximize();
 
