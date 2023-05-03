@@ -99,9 +99,9 @@ public class ProcesoAbonoMasivoCTS {
 					// ** DESDE AQUI EMPIEZA EL TEST
 
 				//  Given El usuario ingresa al Login Page
-					//driver = new ChromeDriver();
+					driver = new ChromeDriver();
 
-					driver = new FirefoxDriver();
+					//driver = new FirefoxDriver();
 
 					driver.manage().window().maximize();
 					driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
@@ -136,7 +136,7 @@ public class ProcesoAbonoMasivoCTS {
 
 					//El usuario da click en Buscar Cuenta CTS
 					driver.findElement(By.xpath("//img[@alt='Transacciones CTS']")).click();
-					driver.findElement(By.xpath("//a[contains(text(),'Buscar Cuenta CTS ')]")).click();
+					driver.findElement(By.xpath("//a[contains(text(),'Consulta de proceso de pago masivo ')]")).click();
 					driver.switchTo().parentFrame();
 
 
@@ -160,51 +160,11 @@ public class ProcesoAbonoMasivoCTS {
 					Thread.sleep(200);
 					driver.findElement(By.id("value:2:1:1")).clear();
 					Thread.sleep(200);
-					String attr = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
-					driver.findElement(By.id(attr)).sendKeys(cuentaCTS.get(i));
+					String attr = driver.findElement(By.xpath("//label[contains(text(),'Nombre de Archivo')]")).getAttribute("for");
+					driver.findElement(By.id(attr)).sendKeys(txt.get(i));
 					driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
+					Thread.sleep(5000);
 
-					//El usuario ingresa al detalle de la cuenta
-					driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[2]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[7]/a/img")).click();
-
-					//El usuario prepara un archivo
-					//El usuario da click en Menu
-					driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-					driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
-					Thread.sleep(1000);
-
-					//El usuario da click en Transacciones CTS
-					WebElement iframe3 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
-					driver.switchTo().frame(iframe3);
-					driver.findElement(By.id("imgError")).click();
-
-					//El usuario da click en consulta de procesos de pago masivo
-					driver.findElement(By.xpath("//img[@alt='Transacciones CTS']")).click();
-					driver.findElement(By.xpath("//a[contains(text(),'Consulta Proceso pago masivo ')]")).click();
-					driver.switchTo().parentFrame();
-
-					//El usuario ingresa el nombre del archivo txt
-					String MainWindow2=driver.getWindowHandle();
-					Set<String> s2=driver.getWindowHandles();
-					Iterator<String> i2=s2.iterator();
-
-					while(i2.hasNext())
-					{
-						String ChildWindow=i2.next();
-
-						if(!MainWindow2.equalsIgnoreCase(ChildWindow))
-						{
-							driver.switchTo().window(ChildWindow);
-						}
-					}
-
-						driver.findElement(By.id("value:1:1:1")).sendKeys(txt.get(i));
-
-					//El usuario da click en Find
-					driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
-
-					//El usuario Ingresa su numero de cuenta CTS
-					driver.findElement(By.xpath("//a[contains(text(),'Consulta Proceso pago masivo ')]")).click();
 					driver.findElement(By.xpath("//td[contains(text(),'1001615738')]")).isDisplayed();
 
 					String screenshotPath = getScreenShot(driver, "Fin del Caso");

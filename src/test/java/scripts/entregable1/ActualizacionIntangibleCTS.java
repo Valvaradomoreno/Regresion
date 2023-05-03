@@ -78,6 +78,7 @@ public class ActualizacionIntangibleCTS {
 		ArrayList<String> cuenta =readExcelData(2);
 		ArrayList<String> amount =readExcelData(3);
 		ArrayList<String> date =readExcelData(4);
+		ArrayList<String> usuario2=readExcelData(5);
 
 
 		int filas=usuario.size();
@@ -209,18 +210,112 @@ public class ActualizacionIntangibleCTS {
 				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String sSubCadena = cod.substring(22,39);
 				System.out.println(sSubCadena);
-				write(i+1, 6, sSubCadena);
+				write(i+1, 7, sSubCadena);
+
+
+				////// APROBACION ******************
+
+
+				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
+
+				Thread.sleep(1000);
+				driver.findElement(By.id("details-button")).click();
+				driver.findElement(By.id("proceed-link")).click();
+				Thread.sleep(3000);
+
+				driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
+				driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
+				driver.findElement(By.id("sign-in")).click();
+
+				WebElement iframe0 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
+				driver.switchTo().frame(iframe0);
+				Assert.assertEquals(exp_message, actual);
+				System.out.println("assert complete");
+				driver.switchTo().parentFrame();
+
+				Thread.sleep(1000);
+				WebElement iframe10 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
+				driver.switchTo().frame(iframe10);
+
+				driver.findElement(By.id("imgError")).click();
+
+				driver.findElement(By.xpath("//img[@alt='Transacciones CTS']")).click();
+
+				driver.findElement(By.xpath("//a[contains(text(),'Buscar Cuenta CTS ')]")).click();
+				driver.switchTo().parentFrame();
+
+				String MainWindow4=driver.getWindowHandle();
+				Set<String> s4=driver.getWindowHandles();
+				Iterator<String> i4=s4.iterator();
+
+				while(i4.hasNext())
+				{
+					String ChildWindow=i4.next();
+
+					if(!MainWindow4.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+
+				Thread.sleep(3000);
+				driver.findElement(By.id("value:1:1:1")).clear();
+				Thread.sleep(200);
+				driver.findElement(By.id("value:2:1:1")).clear();
+				Thread.sleep(200);
+				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
+				driver.findElement(By.id(attr1)).sendKeys(cuenta.get(i));
+				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
+				Thread.sleep(500);
+
+				driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[2]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[7]/a/img")).click();
+
+				String MainWindow5=driver.getWindowHandle();
+				Set<String> s5=driver.getWindowHandles();
+				Iterator<String> i5=s5.iterator();
+
+				while(i5.hasNext())
+				{
+					String ChildWindow=i5.next();
+
+					if(!MainWindow5.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+				driver.manage().window().maximize();
+				Thread.sleep(5000);
+
+				driver.findElement(By.xpath("//img[@alt='Select Drilldown']")).click();
+
+				String MainWindow6=driver.getWindowHandle();
+				Set<String> s6=driver.getWindowHandles();
+				Iterator<String> i6=s6.iterator();
+
+				while(i6.hasNext())
+				{
+					String ChildWindow=i6.next();
+
+					if(!MainWindow6.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+
+				driver.findElement(By.xpath("//img[@alt='Authorises a deal']")).click();
+				Thread.sleep(3000);
+
 
 
 				String screenshotPath = getScreenShot(driver, "Fin del Caso");
 				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
 				extent.flush();
-				write(i+1, 5, "PASSED");
+				write(i+1, 6, "PASSED");
 
 				DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				String fecha = dateFormat.format(new Date());
 				System.out.println(date);
-				write(i+1, 7, fecha);
+				write(i+1, 8, fecha);
 
 				driver.quit();
 
@@ -230,13 +325,13 @@ public class ActualizacionIntangibleCTS {
 				  String screenshotPath = getScreenShot(driver, "Error");
 				  logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
 				  extent.flush();
-				  write(i+1, 5, "FAILED");
-				  write(i+1, 6, "");
+				  write(i+1, 6, "FAILED");
+				  write(i+1, 7, "");
 
 				  DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(date);
-				  write(i+1, 7, fecha);
+				  write(i+1, 8, fecha);
 
 				  System.out.println("Error: " + e);
 

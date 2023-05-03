@@ -206,6 +206,8 @@ public class CambioTasaCuentaAhorro {
 				String cod2 = "ALTA CUENTA";
 				System.out.println("este es : " +cod);
 
+				////// APROBACION ******************
+
 
 				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
@@ -217,9 +219,6 @@ public class CambioTasaCuentaAhorro {
 				driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
 				driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
 				driver.findElement(By.id("sign-in")).click();
-
-				//WebDriverWait wait = new WebDriverWait(driver, 30);
-				//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Sign Off')]")));
 
 				WebElement iframe2 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
 				driver.switchTo().frame(iframe2);
@@ -304,6 +303,8 @@ public class CambioTasaCuentaAhorro {
 				String sSubCadena = cod1.substring(22,39);
 				System.out.println(sSubCadena);
 				write(i+1, 6, sSubCadena);
+
+
 
 				String screenshotPath = getScreenShot(driver, "Fin del Caso");
 				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));

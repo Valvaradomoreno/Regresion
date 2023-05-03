@@ -58,7 +58,7 @@ public class AltaPrestamo {
 
 
     @Test
-    public void AltaCliente()throws IOException, InterruptedException, AWTException {
+    public void AltaPrestamo()throws IOException, InterruptedException, AWTException {
 
         extent = new ExtentReports();
         spark = new ExtentSparkReporter(System.getProperty("user.dir") + "/test-output/reports2/AltaClienteNaturalSinBiometria/Report.html");
@@ -180,7 +180,8 @@ public class AltaPrestamo {
                     driver.findElement(By.id("fieldName:CURRENCY")).sendKeys("PEN");
 
                     //El usuario prevalida
-                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("fieldName:AMOUNT.LOCAL.1:1"))).sendKeys(monto.get(i));
+                   // wait.until(ExpectedConditions.elementToBeClickable(By.xpath("fieldName:AMOUNT.LOCAL.1:1"))).sendKeys(monto.get(i));
+                    driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
                     //El usuario ingresa datos de cliente "<ejecutivo>", marca virtual y personal para prestamo
                     wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:PRIMARY.OFFICER")));
@@ -215,8 +216,8 @@ public class AltaPrestamo {
                     driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 
                     //El usuario marca recibido y acepta prestamo "<documento>"
-                    wait.until(ExpectedConditions.elementToBeClickable(By.id("warningChooser:Ha recibido Contrato de Préstamo/AAA*203 de "+documento+"")));
-                    Select selectProducto = new Select(driver.findElement(By.id("warningChooser:Ha recibido Contrato de Préstamo/AAA*203 de "+documento+"")));
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/div[2]/form[1]/div[3]/table/tbody/tr[1]/td/table/tbody/tr/td[3]/select")));
+                    Select selectProducto = new Select(driver.findElement(By.xpath("/html/body/div[3]/div/div[2]/form[1]/div[3]/table/tbody/tr[1]/td/table/tbody/tr/td[3]/select")));
                     selectProducto.selectByVisibleText("RECEIVED");
 
                     //El usuario hace commit

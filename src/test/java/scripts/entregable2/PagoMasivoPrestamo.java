@@ -74,16 +74,9 @@ public class PagoMasivoPrestamo {
 
         ArrayList<String> usuario= readExcelData(0);
         ArrayList<String> contraseña =readExcelData(1);
-        ArrayList<String> mnemocino =readExcelData(2);
-        ArrayList<String> dni =readExcelData(3);
-        ArrayList<String> apaterno =readExcelData(4);
-        ArrayList<String> amaterno =readExcelData(5);
-        ArrayList<String> nombre =readExcelData(6);
-        ArrayList<String> ncompleto =readExcelData(7);
-        ArrayList<String> estadocivil =readExcelData(8);
-        ArrayList<String> nacimiento =readExcelData(9);
-        ArrayList<String> gbdirec =readExcelData(10);
-        ArrayList<String> empresa =readExcelData(11);
+        ArrayList<String> tipo_carga =readExcelData(2);
+        ArrayList<String> archivo =readExcelData(3);
+
 
 
         int filas=usuario.size();
@@ -132,19 +125,64 @@ public class PagoMasivoPrestamo {
                     driver.switchTo().frame(iframe2);
                     driver.findElement(By.id("imgError")).click();
 
+                    driver.findElement(By.xpath("//img[@alt='Servicios de Pagos']")).click();
+                    driver.findElement(By.xpath("//img[@alt='Pagos Masivos']")).click();
+                    driver.findElement(By.xpath("//img[@alt='Creación de FT Masivo Master']")).click();
 
+                    driver.findElement(By.xpath("//a[contains(text(),'Carga de Archivo Masivo ')]")).click();
+                    driver.switchTo().parentFrame();
 
+                    String MainWindow=driver.getWindowHandle();
+                    Set<String> s1=driver.getWindowHandles();
+                    Iterator<String> i1=s1.iterator();
 
+                    while(i1.hasNext())
+                    {
+                        String ChildWindow=i1.next();
 
+                        if(!MainWindow.equalsIgnoreCase(ChildWindow))
+                        {
+                            driver.switchTo().window(ChildWindow);
+                        }
+                    }
+                    Thread.sleep(3000);
+                    WebElement iframe3 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
+                    driver.switchTo().frame(iframe3);
 
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='New Deal']"))).click();
+                    wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:DESCRIPTION"))).sendKeys("Descripción 1");
+                    wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:UPLOAD.TYPE"))).sendKeys(tipo_carga.get(i));
 
+                    WebElement iframe4 = driver.findElement(By.xpath("/html/body/div[3]/div[2]/form[1]/div[4]/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/iframe"));
+                    driver.switchTo().frame(iframe4);
+                    Thread.sleep(2000);
+                    driver.findElement(By.xpath("//input[@type='file']")).sendKeys(archivo.get(i));
+                    driver.findElement(By.xpath("//img[@title='Upload']")).click();
+                    Thread.sleep(1000);
+                    driver.switchTo().parentFrame();
+                    driver.switchTo().parentFrame();
 
+                    WebElement iframe5 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
+                    driver.switchTo().frame(iframe5);
+                    driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
+                    driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
+
+                    Thread.sleep(3000);
+
+                    String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
+                    String sSubCadena = cod.substring(22,39);
+                    System.out.println(sSubCadena);
+                    write(i+1, 5, sSubCadena);
+
+                    extent.flush();
+                    write(i+1, 4, "PASSED");
 
 
                     DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
                     String fecha = dateFormat.format(new Date());
                     System.out.println(fecha);
-                    write(i+1, 14, fecha);
+                    write(i+1, 6, fecha);
 
                     driver.quit();
                 }
@@ -153,13 +191,13 @@ public class PagoMasivoPrestamo {
                 String screenshotPath = getScreenShot(driver, "Error");
                 logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
                 extent.flush();
-                write(i+1, 12, "FAILED");
-                write(i+1, 13, "");
+                write(i+1, 4, "FAILED");
+                write(i+1, 5, "");
 
                 DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
                 String fecha = dateFormat.format(new Date());
                 System.out.println(fecha);
-                write(i+1, 14, fecha);
+                write(i+1, 6, fecha);
                 System.out.println("Error: " + e);
                 driver.quit();
             }
