@@ -61,7 +61,7 @@ public class AltaPrestamo {
     public void AltaPrestamo()throws IOException, InterruptedException, AWTException {
 
         extent = new ExtentReports();
-        spark = new ExtentSparkReporter(System.getProperty("user.dir") + "/test-output/reports2/AltaClienteNaturalSinBiometria/Report.html");
+        spark = new ExtentSparkReporter(System.getProperty("user.dir") + "/test-output/reports3/AltaPrestamo/Report.html");
         extent.attachReporter(spark);
         extent.setSystemInfo("Host Name", "SoftwareTestingMaterial");
         extent.setSystemInfo("Environment", "Production");
@@ -76,10 +76,11 @@ public class AltaPrestamo {
         ArrayList<String> usuario= readExcelData(0);
         ArrayList<String> contraseña =readExcelData(1);
         ArrayList<String> documento =readExcelData(2);
-        ArrayList<String> ejecutivo =readExcelData(3);
-        ArrayList<String> monto =readExcelData(4);
-        ArrayList<String> fechamaduracion =readExcelData(5);
-        ArrayList<String> tarifa1 =readExcelData(6);
+        ArrayList<String> tipo_producto =readExcelData(3);
+        ArrayList<String> ejecutivo =readExcelData(4);
+        ArrayList<String> monto =readExcelData(5);
+        ArrayList<String> fechamaduracion =readExcelData(6);
+        ArrayList<String> tarifa1 =readExcelData(7);
 
 
         int filas=usuario.size();
@@ -109,6 +110,10 @@ public class AltaPrestamo {
                     wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
                     driver.findElement(By.id("signOnName")).sendKeys(usuario.get(i));
                     driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
+
+                    String screenshotPath1 = getScreenShot(driver, "Fin del Caso");
+
+
                     driver.findElement(By.id("sign-in")).click();
 
                     WebElement iframe = driver.findElement(By.xpath("/html/frameset/frame[1]"));
@@ -127,6 +132,9 @@ public class AltaPrestamo {
                     WebElement iframe2 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
                     driver.switchTo().frame(iframe2);
                     driver.findElement(By.id("imgError")).click();
+
+                    String screenshotPath2 = getScreenShot(driver, "Fin del Caso");
+
 
                     //El usuario da click en Catalogo de Productos
                     Thread.sleep(1000);
@@ -154,10 +162,23 @@ public class AltaPrestamo {
                     driver.findElement(By.xpath("//*[@id='r9']/td[4]/a/img")).click();
                     driver.switchTo().parentFrame();
 
+                    String screenshotPath3 = getScreenShot(driver, "Fin del Caso");
+
+
                     //El usuario crea un prestamo ya
                     WebElement iframe4 = driver.findElement(By.xpath("/html/frameset/frameset[2]/frameset[2]/frame[2]"));
                     driver.switchTo().frame(iframe4);
-                    driver.findElement(By.xpath("//*[@id='r2']/td[3]/a/img")).click();
+                    if(tipo_producto.get(i).equals("LD011005")){
+                        driver.findElement(By.xpath("//*[@id='r2']/td[3]/a/img")).click();
+                    }else if(tipo_producto.get(i).equals("LD011006")){
+                        driver.findElement(By.xpath("//*[@id='r3']/td[3]/a/img")).click();
+                    }else if(tipo_producto.get(i).equals("LD011011")){
+                        driver.findElement(By.xpath("//*[@id='r7']/td[3]/a/img")).click();
+                    }else if(tipo_producto.get(i).equals("LD011010")){
+                        driver.findElement(By.xpath("//*[@id='r6']/td[3]/a/img")).click();
+                    }else if(tipo_producto.get(i).equals("LD011002")){
+                        driver.findElement(By.xpath("//*[@id='r1']/td[3]/a/img")).click();
+                    }
                     driver.switchTo().parentFrame();
 
                     //El usuario ingresa documento "<documento>" y moneda
@@ -189,9 +210,12 @@ public class AltaPrestamo {
                     driver.findElement(By.xpath("/html/body/div[5]/fieldset[3]/div/div/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr[8]/td[3]/table/tbody/tr/td[2]/input")).click();
                     driver.findElement(By.xpath("/html/body/div[5]/fieldset[3]/div/div/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr[9]/td[3]/table/tbody/tr/td[2]/input")).click();
 
+                    String screenshotPath4 = getScreenShot(driver, "Fin del Caso");
+
                     //El usuario captura la cuenta prestamo
                     String cod = driver.findElement(By.id("disabled_ACCOUNT.REFERENCE")).getText();
                     System.out.println("CUENTA : " +cod);
+                    write(i+1, 10, cod);
                     String arreglo = driver.findElement(By.id("disabled_ARRANGEMENT")).getText();
                     System.out.println("ARREGLO : " +arreglo);
 
@@ -211,6 +235,8 @@ public class AltaPrestamo {
                     //El usuario prevalida
                     driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
+                    String screenshotPath5 = getScreenShot(driver, "Fin del Caso");
+
                     //El usuario hace commit
                     wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
                     driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
@@ -228,18 +254,24 @@ public class AltaPrestamo {
                     String cod2 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
                     String sSubCadena = cod2.substring(22,39);
                     System.out.println(sSubCadena);
-                    write(i+1, 8, sSubCadena);
+                    write(i+1, 9, sSubCadena);
 
 
                     String screenshotPath = getScreenShot(driver, "Fin del Caso");
-                    logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
+                    logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath1) + " ", ExtentColor.GREEN));
+                    logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath2) + " ", ExtentColor.GREEN));
+                    logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath3) + "", ExtentColor.GREEN));
+                    logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath4) + " ", ExtentColor.GREEN));
+                    logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath5) + " ", ExtentColor.GREEN));
+                    logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " ", ExtentColor.GREEN));
+
                     extent.flush();
-                    write(i+1, 7, "PASSED");
+                    write(i+1, 8, "PASSED");
 
                     DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
                     String fecha = dateFormat.format(new Date());
                     System.out.println(fecha);
-                    write(i+1, 9, fecha);
+                    write(i+1, 10, fecha);
 
                     driver.quit();
                 }
@@ -248,13 +280,13 @@ public class AltaPrestamo {
                 String screenshotPath = getScreenShot(driver, "Error");
                 logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
                 extent.flush();
-                write(i+1, 7, "FAILED");
-                write(i+1, 8, "");
+                write(i+1, 8, "FAILED");
+                write(i+1, 9, "");
 
                 DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
                 String fecha = dateFormat.format(new Date());
                 System.out.println(fecha);
-                write(i+1, 9, fecha);
+                write(i+1, 10, fecha);
                 System.out.println("Error: " + e);
                 driver.quit();
             }

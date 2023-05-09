@@ -2,6 +2,7 @@ package scripts.entregable1;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
@@ -195,6 +196,9 @@ public class CambioTasaCuentaAhorro {
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:FIXED.RATE:1"))).clear();
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:FIXED.RATE:1"))).sendKeys(fijo.get(i));
 
+				String screenshotPath1 = getScreenShot(driver, "Fin del Caso");
+
+
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
 
@@ -306,8 +310,12 @@ public class CambioTasaCuentaAhorro {
 
 
 
-				String screenshotPath = getScreenShot(driver, "Fin del Caso");
-				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
+				String screenshotPath2 = getScreenShot(driver, "Fin del Caso");
+				logger.log(Status.PASS, MarkupHelper.createLabel("Tasa cambiada", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Tasa cambiada", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath1).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Fin del Caso", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Fin del Caso", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
+
 				extent.flush();
 				write(i+1, 5, "PASSED");
 

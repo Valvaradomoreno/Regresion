@@ -224,7 +224,7 @@ public class CambioSimpleAPlus {
 				{
 					String ChildWindow=i4.next();
 
-					if(!MainWindow3.equalsIgnoreCase(ChildWindow))
+					if(!MainWindow4.equalsIgnoreCase(ChildWindow))
 					{
 						driver.switchTo().window(ChildWindow);
 					}

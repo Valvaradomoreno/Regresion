@@ -2,6 +2,7 @@ package scripts.entregable1;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
@@ -153,7 +154,7 @@ public class ActualizacionIntangibleCTS {
 				Thread.sleep(200);
 				driver.findElement(By.id("value:2:1:1")).clear();
 				Thread.sleep(200);
-				String attr = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
+				String attr = driver.findElement(By.xpath("//label[contains(text(),'ID de Arreglo')]")).getAttribute("for");
 				driver.findElement(By.id(attr)).sendKeys(cuenta.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
 
@@ -200,6 +201,9 @@ public class ActualizacionIntangibleCTS {
 
 				driver.findElement(By.id("fieldName:CTS.INTAG.AMT")).sendKeys(amount.get(i));
 				driver.findElement(By.id("fieldName:CTS.INTAG.DATE")).sendKeys(date.get(i));
+
+				String screenshotPath1 = getScreenShot(driver, "");
+
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
@@ -263,7 +267,7 @@ public class ActualizacionIntangibleCTS {
 				Thread.sleep(200);
 				driver.findElement(By.id("value:2:1:1")).clear();
 				Thread.sleep(200);
-				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
+				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'ID de Arreglo')]")).getAttribute("for");
 				driver.findElement(By.id(attr1)).sendKeys(cuenta.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
 				Thread.sleep(500);
@@ -307,8 +311,11 @@ public class ActualizacionIntangibleCTS {
 
 
 
-				String screenshotPath = getScreenShot(driver, "Fin del Caso");
-				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
+				String screenshotPath2 = getScreenShot(driver, "Fin del Caso");
+				logger.log(Status.PASS, MarkupHelper.createLabel("Actualizacion", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Actualizacion", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath1).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Fin del Caso", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Fin del Caso", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
 				extent.flush();
 				write(i+1, 6, "PASSED");
 

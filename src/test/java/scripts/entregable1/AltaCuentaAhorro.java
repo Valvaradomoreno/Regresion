@@ -189,6 +189,7 @@ public class AltaCuentaAhorro {
 					String cod = driver.findElement(By.id("disabled_ACCOUNT.REFERENCE")).getText();
 					System.out.println("CUENTA : " + cod);
 					System.out.println("pase2 : " );
+					write(i+1, 7, cod);
 					//Thread.sleep(5000);
 
 					//String arreglo = driver.findElement(By.id("disabled_ARRANGEMENT")).getText();
@@ -244,6 +245,7 @@ public class AltaCuentaAhorro {
 				extent.flush();
 				write(i+1, 5, "");
 				write(i+1, 4, "FAILED");
+				write(i+1, 7, "");
 
 				DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				String date = dateFormat.format(new Date());

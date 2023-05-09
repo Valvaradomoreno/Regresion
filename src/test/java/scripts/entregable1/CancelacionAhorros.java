@@ -2,6 +2,7 @@ package scripts.entregable1;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
@@ -175,6 +176,9 @@ public class CancelacionAhorros {
 				}
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Nueva Actividad')]"))).click();
+
+				String screenshotPath1 = getScreenShot(driver, "");
+
 				driver.findElement(By.xpath("//a[contains(text(),'Nueva Actividad')]")).click();
 
 				String MainWindow3=driver.getWindowHandle();
@@ -198,6 +202,9 @@ public class CancelacionAhorros {
 
 				Select selectProducto2 = new Select(driver.findElement(By.id("fieldName:CLOSURE.REASON")));
 				selectProducto2.selectByVisibleText(razon.get(i));
+
+				String screenshotPath2 = getScreenShot(driver, "");
+
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
@@ -294,6 +301,9 @@ public class CancelacionAhorros {
 				driver.manage().window().maximize();
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Select Drilldown']"))).click();
 
+				String screenshotPath3 = getScreenShot(driver, "");
+
+
 				String MainWindow6=driver.getWindowHandle();
 				Set<String> s6=driver.getWindowHandles();
 				Iterator<String> i6=s6.iterator();
@@ -312,8 +322,16 @@ public class CancelacionAhorros {
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
 
 
-				String screenshotPath = getScreenShot(driver, "Fin del Caso");
-				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
+				String screenshotPath4 = getScreenShot(driver, "Fin del Caso");
+				logger.log(Status.PASS, MarkupHelper.createLabel("Estado Autorizado", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Estado Autorizado", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath1).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Motivo Cierre", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Motivo Cierre", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Estado Close", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Estado Close", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath3).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Fin del caso", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Fin del caso", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath4).build());
+
 				extent.flush();
 				write(i+1, 5, "PASSED");
 

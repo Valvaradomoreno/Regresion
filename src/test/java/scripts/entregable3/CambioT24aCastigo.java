@@ -74,8 +74,9 @@ public class CambioT24aCastigo {
 
 		ArrayList<String> usuario=readExcelData(0);
 		ArrayList<String> contraseña =readExcelData(1);
-		ArrayList<String> arreglo =readExcelData(2);
-		ArrayList<String> producto =readExcelData(3);
+		ArrayList<String> tipo_producto =readExcelData(1);
+		ArrayList<String> arreglo =readExcelData(3);
+		ArrayList<String> producto =readExcelData(4);
 
 
 		int filas=usuario.size();
@@ -185,10 +186,14 @@ public class CambioT24aCastigo {
 					}
 				}
 
-				String attr2 = driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[36]")).getAttribute("id");
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='"+attr2+"']//img[@alt='Do Activity Today']")));
-				driver.findElement(By.xpath("//tr[@id='"+attr2+"']//img[@alt='Do Activity Today']")).click();
+				// TUERCA
+				if(tipo_producto.get(i).equals("PRESTAMO YA")){
+					driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[36]")).click();
+				}else if(tipo_producto.get(i).equals("PRESTAMO SENIOR")){
+					driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[35]")).click();
+				}else{
+					driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[36]")).click();
+				}
 
 				driver.manage().window().maximize();
 				Thread.sleep(1000);
@@ -213,17 +218,17 @@ public class CambioT24aCastigo {
 				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String sSubCadena = cod.substring(22,39);
 				System.out.println(sSubCadena);
-				write(i+1, 5, sSubCadena);
+				write(i+1, 6, sSubCadena);
 
 				String screenshotPath = getScreenShot(driver, "Fin del Caso");
 				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
 				extent.flush();
-				write(i+1, 4, "PASSED");
+				write(i+1, 5, "PASSED");
 
 				DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				String fecha = dateFormat.format(new Date());
 				System.out.println(fecha);
-				write(i+1, 6, fecha);
+				write(i+1, 7, fecha);
 					driver.quit();
 
 				}
@@ -233,13 +238,13 @@ public class CambioT24aCastigo {
 				  String screenshotPath = getScreenShot(driver, "Error");
 				  logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
 				  extent.flush();
-				  write(i+1, 4, "FAILED");
-				  write(i+1, 5, "");
+				  write(i+1, 5, "FAILED");
+				  write(i+1, 6, "");
 
 				  DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
-				  write(i+1, 6, fecha);
+				  write(i+1, 7, fecha);
 				  System.out.println("Error: " + e);
 				driver.quit();
 

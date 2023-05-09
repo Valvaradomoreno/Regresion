@@ -2,6 +2,7 @@ package scripts.entregable1;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
@@ -174,6 +175,7 @@ public class AltaCuentaCTS {
 				driver.findElement(By.id("fieldName:CUSTOMER:1")).sendKeys(documento.get(i));
 				driver.findElement(By.id("fieldName:CURRENCY")).sendKeys("PEN");
 
+
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:PRIMARY.OFFICER")));
@@ -184,14 +186,20 @@ public class AltaCuentaCTS {
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:PRIMARY.OFFICER")));
 				driver.findElement(By.id("fieldName:CTS.EMP.NAME")).sendKeys(empleador.get(i));
 				driver.findElement(By.id("fieldName:CTS.EMP.RUC")).sendKeys(ruc.get(i));
-				if(razon.get(i).equals("CTS Campaign"))
+				if(razon.get(i).equals("New Account")) {
+					driver.findElement(By.xpath("/html/body/div[5]/fieldset[4]/div/div/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr[5]/td[3]/table/tbody/tr/td[1]/input")).click();
+				}else if(razon.get(i).equals("Transfer from other Bank")) {
+					driver.findElement(By.xpath("/html/body/div[5]/fieldset[4]/div/div/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr[5]/td[3]/table/tbody/tr/td[2]/input")).click();
+				}else if(razon.get(i).equals("CTS Campaign")) {
 					driver.findElement(By.xpath("/html/body/div[5]/fieldset[4]/div/div/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr[5]/td[3]/table/tbody/tr/td[3]/input")).click();
-				//
+				}
 
 				String cod = driver.findElement(By.id("disabled_ACCOUNT.REFERENCE")).getText();
 				System.out.println("CUENTA : " +cod);
+				write(i+1, 10, cod);
 				String arreglo = driver.findElement(By.id("disabled_ARRANGEMENT")).getText();
 				System.out.println("ARREGLO : " +arreglo);
+				String screenshotPath2 = getScreenShot(driver, "");
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
@@ -216,9 +224,15 @@ public class AltaCuentaCTS {
 
 
 				String screenshotPath = getScreenShot(driver, "Fin del Caso");
-				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
+
+				logger.log(Status.PASS, MarkupHelper.createLabel("Cuenta Creada", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Cuenta Creada", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Fin del Caso", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Fin del Caso", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
 				extent.flush();
 				write(i+1, 7, "PASSED");
+
+
 
 				DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				String fecha = dateFormat.format(new Date());

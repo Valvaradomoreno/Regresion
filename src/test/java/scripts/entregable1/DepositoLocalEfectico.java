@@ -2,6 +2,7 @@ package scripts.entregable1;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
@@ -254,7 +255,7 @@ public class DepositoLocalEfectico {
 						driver.switchTo().window(ChildWindow2);
 					}
 				}
-				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'Cliente')]")).getAttribute("for");
+				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'Numero de Cuenta')]")).getAttribute("for");
 				driver.findElement(By.id(attr1)).clear();
 				driver.findElement(By.id(attr1)).sendKeys(cuenta.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
@@ -266,6 +267,9 @@ public class DepositoLocalEfectico {
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:AMOUNT.LOCAL.1:1")));
 				driver.findElement(By.id("fieldName:AMOUNT.LOCAL.1:1")).sendKeys(monto.get(i));
+
+				String screenshotPath1 = getScreenShot(driver, "");
+
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
@@ -375,8 +379,11 @@ public class DepositoLocalEfectico {
 				write(i+1, 5, sSubCadena);
 
 
-				String screenshotPath = getScreenShot(driver, "Fin del Caso");
-				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
+				String screenshotPath2 = getScreenShot(driver, "");
+				logger.log(Status.PASS, MarkupHelper.createLabel("Opciones seleccionadas", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Opciones seleccionadas", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath1).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Fin del Caso", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Fin del Caso", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
 				extent.flush();
 				write(i+1, 4, "PASSED");
 
