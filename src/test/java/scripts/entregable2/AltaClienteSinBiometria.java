@@ -2,6 +2,7 @@ package scripts.entregable2;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
@@ -85,6 +86,10 @@ public class AltaClienteSinBiometria {
         ArrayList<String> nacimiento =readExcelData(9);
         ArrayList<String> gbdirec =readExcelData(10);
         ArrayList<String> empresa =readExcelData(11);
+        ArrayList<String> profesion =readExcelData(12);
+        ArrayList<String> ubigeo =readExcelData(13);
+        ArrayList<String> celular =readExcelData(14);
+        ArrayList<String> correo =readExcelData(15);
 
 
         int filas=usuario.size();
@@ -172,12 +177,12 @@ public class AltaClienteSinBiometria {
                     driver.findElement(By.xpath("//img[@dropfield='fieldName:OCCUPATION:1']")).click();
                     Thread.sleep(2500);
                     wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//td[contains(text(),'ABOGADO')]")));
-                    driver.findElement(By.xpath("//td[contains(text(),'ABOGADO')]")).click();
+                    driver.findElement(By.xpath("//td[contains(text(),'"+profesion.get(i)+"')]")).click();
 
                     driver.findElement(By.xpath("//img[@dropfield='fieldName:STREET:1']")).click();
                     Thread.sleep(3000);
-                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//td[contains(text(),'AMAZONAS')]")));
-                    driver.findElement(By.xpath("//td[contains(text(),'AMAZONAS')]")).click();
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//td[contains(text(),'"+ubigeo.get(i)+"')]")));
+                    driver.findElement(By.xpath("//td[contains(text(),'"+ubigeo.get(i)+"')]")).click();
 
                     driver.findElement(By.id("fieldName:ADDRESS:1:1")).sendKeys(gbdirec.get(i));
 
@@ -185,9 +190,10 @@ public class AltaClienteSinBiometria {
                     Thread.sleep(2500);
                     wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//td[contains(text(),'PERSONAL')]")));
                     driver.findElement(By.xpath("//td[contains(text(),'PERSONAL')]")).click();
-                    driver.findElement(By.id("fieldName:SMS.1:1")).sendKeys("999999999");
-                    driver.findElement(By.id("fieldName:EMAIL.1:1")).sendKeys("claynes@gmail.com");
+                    driver.findElement(By.id("fieldName:SMS.1:1")).sendKeys(""+celular.get(i)+"");
+                    driver.findElement(By.id("fieldName:EMAIL.1:1")).sendKeys(""+correo.get(i)+"");
 
+                    String screenshotPath1 = getScreenShot(driver, "Fin del Caso");
 
                     driver.findElement(By.xpath("//span[contains(text(),'Datos Laborales')]")).click();
                     Thread.sleep(1000);
@@ -210,18 +216,21 @@ public class AltaClienteSinBiometria {
                     String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
                     String sSubCadena = cod.substring(22,39);
                     System.out.println(sSubCadena);
-                    write(i+1, 13, sSubCadena);
+                    write(i+1, 17, sSubCadena);
 
 
-                    String screenshotPath = getScreenShot(driver, "Fin del Caso");
-                    logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
+                    String screenshotPath2 = getScreenShot(driver, "Fin del Caso");
+                    logger.log(Status.PASS, MarkupHelper.createLabel("Datos del cliente", ExtentColor.GREEN));
+                    logger.log(Status.PASS,"Datos del cliente", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath1).build());
+                    logger.log(Status.PASS, MarkupHelper.createLabel("Fin del Caso", ExtentColor.GREEN));
+                    logger.log(Status.PASS,"Fin del Caso", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
                     extent.flush();
-                    write(i+1, 12, "PASSED");
+                    write(i+1, 16, "PASSED");
 
                     DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
                     String fecha = dateFormat.format(new Date());
                     System.out.println(fecha);
-                    write(i+1, 14, fecha);
+                    write(i+1, 18, fecha);
 
                     driver.quit();
                 }
@@ -230,13 +239,13 @@ public class AltaClienteSinBiometria {
                 String screenshotPath = getScreenShot(driver, "Error");
                 logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
                 extent.flush();
-                write(i+1, 12, "FAILED");
-                write(i+1, 13, "");
+                write(i+1, 16, "FAILED");
+                write(i+1, 17, "");
 
                 DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
                 String fecha = dateFormat.format(new Date());
                 System.out.println(fecha);
-                write(i+1, 14, fecha);
+                write(i+1, 18, fecha);
                 System.out.println("Error: " + e);
                 driver.quit();
             }

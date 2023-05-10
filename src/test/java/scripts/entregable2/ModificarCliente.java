@@ -2,6 +2,7 @@ package scripts.entregable2;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
@@ -76,7 +77,14 @@ public class ModificarCliente {
 
 		ArrayList<String> usuario= readExcelData(0);
 		ArrayList<String> contraseña =readExcelData(1);
-		ArrayList<String> codigo =readExcelData(2);
+		ArrayList<String> dni =readExcelData(2);
+		ArrayList<String> apaterno =readExcelData(3);
+		ArrayList<String> amaterno =readExcelData(4);
+		ArrayList<String> pnombre =readExcelData(5);
+		ArrayList<String> ncompleto =readExcelData(6);
+		ArrayList<String> ecivil =readExcelData(7);
+		ArrayList<String> genero =readExcelData(8);
+		ArrayList<String> direccion =readExcelData(9);
 
 		int filas=usuario.size();
   		for(int i=0;i<usuario.size();i++) {
@@ -144,8 +152,9 @@ public class ModificarCliente {
 
 					//And El usuario ingresa codigo del cliente
 					String attr1 = driver.findElement(By.xpath("//label[contains(text(),'Número de documento')]")).getAttribute("for");
-					driver.findElement(By.id(attr1)).clear();
-					driver.findElement(By.id(attr1)).sendKeys(codigo.get(i));
+					driver.findElement(By.id("value:1:1:1")).clear();
+					driver.findElement(By.id("value:2:1:1")).clear();
+					driver.findElement(By.id(attr1)).sendKeys(dni.get(i));
 
 					//And El usuario da clikc en Find
 					driver.findElement(By.xpath("/html/body/div[3]/form/table/tbody/tr/td[2]/table/tbody/tr[1]/td/table/tbody/tr/td[3]/div/table/tbody/tr/td/a")).click();
@@ -156,12 +165,41 @@ public class ModificarCliente {
 
 					Thread.sleep(2000);
 					//And El usuario modifica al cliente
-					driver.findElement(By.id("fieldName:FAMILY.NAME")).clear();
-					driver.findElement(By.id("fieldName:NAME.2:1")).clear();
-					driver.findElement(By.id("fieldName:NAME.1:1")).clear();
-					driver.findElement(By.id("fieldName:FAMILY.NAME")).sendKeys("Fernandez");
-					driver.findElement(By.id("fieldName:NAME.2:1")).sendKeys("Castro");
-					driver.findElement(By.id("fieldName:NAME.1:1")).sendKeys("Nicole");
+
+					if(dni.get(i)!=""){
+						driver.findElement(By.id("fieldName:LEGAL.ID:1")).clear();
+						driver.findElement(By.id("fieldName:LEGAL.ID:1")).sendKeys(dni.get(i));
+					}else if(apaterno.get(i)!=""){
+						driver.findElement(By.id("fieldName:FAMILY.NAME")).clear();
+						driver.findElement(By.id("fieldName:FAMILY.NAME")).sendKeys(apaterno.get(i));
+					}else if(amaterno.get(i)!=""){
+						driver.findElement(By.id("fieldName:NAME.2:1")).clear();
+						driver.findElement(By.id("fieldName:NAME.2:1")).sendKeys(amaterno.get(i));
+					}else if(pnombre.get(i)!=""){
+						driver.findElement(By.id("fieldName:NAME.1:1")).clear();
+						driver.findElement(By.id("fieldName:NAME.1:1")).sendKeys(pnombre.get(i));
+					}else if(ncompleto.get(i)!=""){
+						driver.findElement(By.id("fieldName:SHORT.NAME:1")).clear();
+						driver.findElement(By.id("fieldName:SHORT.NAME:1")).sendKeys(ncompleto.get(i));
+					}else if(ecivil.get(i)!=""){
+						Select selectGenero = new Select(driver.findElement(By.id("fieldName:MARITAL.STATUS")));
+						selectGenero.selectByVisibleText(ecivil.get(i));
+					}else if(ecivil.get(i)!=""){
+						Select selectCivil = new Select(driver.findElement(By.id("fieldName:MARITAL.STATUS")));
+						selectCivil.selectByVisibleText(ecivil.get(i));
+					}else if(genero.get(i)!=""){
+						if(genero.get(i)=="Femenino"){
+							driver.findElement(By.xpath("/html/body/div[3]/div[2]/form[1]/div[4]/table/tbody/tr[1]/td/table/tbody/tr[17]/td[3]/table/tbody/tr/td[1]/input")).click();
+						}else{
+							driver.findElement(By.xpath("/html/body/div[3]/div[2]/form[1]/div[4]/table/tbody/tr[1]/td/table/tbody/tr[17]/td[3]/table/tbody/tr/td[2]/input")).click();
+						}
+					}else if(direccion.get(i)!=""){
+						driver.findElement(By.id("fieldName:ADDRESS:1:1")).clear();
+						driver.findElement(By.id("fieldName:ADDRESS:1:1")).sendKeys(direccion.get(i));
+					}
+
+					String screenshotPath1 = getScreenShot(driver, "Fin del Caso");
+
 
 					//And El usuario prevalida
 					driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
@@ -175,8 +213,11 @@ public class ModificarCliente {
 					System.out.println(sSubCadena);
 					write(i+1, 4, sSubCadena);
 
-					String screenshotPath = getScreenShot(driver, "Fin del Caso");
-					logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
+					String screenshotPath2 = getScreenShot(driver, "Fin del Caso");
+					logger.log(Status.PASS, MarkupHelper.createLabel("Datos Modificados", ExtentColor.GREEN));
+					logger.log(Status.PASS,"Datos Modificados", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath1).build());
+					logger.log(Status.PASS, MarkupHelper.createLabel("Fin del Caso", ExtentColor.GREEN));
+					logger.log(Status.PASS,"Fin del Caso", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
 					extent.flush();
 					write(i+1, 3, "PASSED");
 
