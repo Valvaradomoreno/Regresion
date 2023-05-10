@@ -2,6 +2,7 @@ package scripts.entregable3;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
@@ -111,7 +112,6 @@ public class AltaPrestamo {
                     driver.findElement(By.id("signOnName")).sendKeys(usuario.get(i));
                     driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
 
-                    String screenshotPath1 = getScreenShot(driver, "Fin del Caso");
 
 
                     driver.findElement(By.id("sign-in")).click();
@@ -133,7 +133,6 @@ public class AltaPrestamo {
                     driver.switchTo().frame(iframe2);
                     driver.findElement(By.id("imgError")).click();
 
-                    String screenshotPath2 = getScreenShot(driver, "Fin del Caso");
 
 
                     //El usuario da click en Catalogo de Productos
@@ -162,8 +161,7 @@ public class AltaPrestamo {
                     driver.findElement(By.xpath("//*[@id='r9']/td[4]/a/img")).click();
                     driver.switchTo().parentFrame();
 
-                    String screenshotPath3 = getScreenShot(driver, "Fin del Caso");
-
+                    String screenshotPath1 = getScreenShot(driver, "Fin del Caso");
 
                     //El usuario crea un prestamo ya
                     WebElement iframe4 = driver.findElement(By.xpath("/html/frameset/frameset[2]/frameset[2]/frame[2]"));
@@ -197,6 +195,8 @@ public class AltaPrestamo {
                     }
 
                     driver.manage().window().maximize();
+
+
                     driver.findElement(By.id("fieldName:CUSTOMER:1")).sendKeys(documento.get(i));
                     driver.findElement(By.id("fieldName:CURRENCY")).sendKeys("PEN");
 
@@ -210,7 +210,7 @@ public class AltaPrestamo {
                     driver.findElement(By.xpath("/html/body/div[5]/fieldset[3]/div/div/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr[8]/td[3]/table/tbody/tr/td[2]/input")).click();
                     driver.findElement(By.xpath("/html/body/div[5]/fieldset[3]/div/div/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr[9]/td[3]/table/tbody/tr/td[2]/input")).click();
 
-                    String screenshotPath4 = getScreenShot(driver, "Fin del Caso");
+                    String screenshotPath2 = getScreenShot(driver, "");
 
                     //El usuario captura la cuenta prestamo
                     String cod = driver.findElement(By.id("disabled_ACCOUNT.REFERENCE")).getText();
@@ -256,14 +256,14 @@ public class AltaPrestamo {
                     System.out.println(sSubCadena);
                     write(i+1, 9, sSubCadena);
 
+                    String screenshotPath3 = getScreenShot(driver, "Fin del Caso");
 
-                    String screenshotPath = getScreenShot(driver, "Fin del Caso");
-                    logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath1) + " ", ExtentColor.GREEN));
-                    logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath2) + " ", ExtentColor.GREEN));
-                    logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath3) + "", ExtentColor.GREEN));
-                    logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath4) + " ", ExtentColor.GREEN));
-                    logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath5) + " ", ExtentColor.GREEN));
-                    logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " ", ExtentColor.GREEN));
+                    logger.log(Status.PASS, MarkupHelper.createLabel("Tipos de Prestamo", ExtentColor.GREEN));
+                    logger.log(Status.PASS,"Tipos de Prestamo", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath1).build());
+                    logger.log(Status.PASS, MarkupHelper.createLabel("Estado de la cuenta", ExtentColor.GREEN));
+                    logger.log(Status.PASS,"Estado de la cuenta", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
+                    logger.log(Status.PASS, MarkupHelper.createLabel("Alta creada", ExtentColor.GREEN));
+                    logger.log(Status.PASS,"Alta creada", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath3).build());
 
                     extent.flush();
                     write(i+1, 8, "PASSED");

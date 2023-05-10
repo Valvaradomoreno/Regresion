@@ -2,6 +2,7 @@ package scripts.entregable3;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
@@ -170,6 +171,7 @@ public class CambioFechaPago {
 					}
 				}
 				Thread.sleep(2500);
+				String screenshotPath1 = getScreenShot(driver, "");
 
 				driver.findElement(By.xpath("//a[contains(text(),'Nueva Actividad')]")).click();
 
@@ -203,6 +205,7 @@ public class CambioFechaPago {
 
 				driver.findElement(By.id("Recurrance:M:On")).click();
 				driver.findElement(By.id("M:dayOfMonth:day")).sendKeys(dia.get(i));
+				String screenshotPath2 = getScreenShot(driver, "");
 				driver.findElement(By.xpath("//*[@id=\"toolbar_icons\"]/table/tbody/tr/td[2]/a[1]/img")).click();
 
 
@@ -296,6 +299,9 @@ public class CambioFechaPago {
 
 				Thread.sleep(5000);
 				driver.manage().window().maximize();
+				Thread.sleep(3000);
+				String screenshotPath3 = getScreenShot(driver, "");
+
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Select Drilldown']"))).click();
 
 				String MainWindow6=driver.getWindowHandle();
@@ -316,14 +322,16 @@ public class CambioFechaPago {
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
 
 
+				String screenshotPath4 = getScreenShot(driver, "");
+				logger.log(Status.PASS, MarkupHelper.createLabel("Fecha Antes", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Fecha Antes", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath1).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Fecha modificada", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Fecha modificada", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Por aprobar", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Por aprobar", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath3).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Fin del Caso", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Fin del Caso", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath4).build());
 
-
-
-
-
-
-				String screenshotPath = getScreenShot(driver, "Fin del Caso");
-				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
 				extent.flush();
 				write(i+1, 5, "PASSED");
 

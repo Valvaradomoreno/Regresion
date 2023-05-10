@@ -2,6 +2,7 @@ package scripts.entregable3;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
@@ -77,6 +78,7 @@ public class CambioTasa {
 		ArrayList<String> contraseña =readExcelData(1);
 		ArrayList<String> cuenta =readExcelData(2);
 		ArrayList<String> fijo =readExcelData(3);
+		ArrayList<String> usuario2=readExcelData(4);
 
 		int filas=usuario.size();
   		for(int i=0;i<usuario.size();i++) {
@@ -170,7 +172,10 @@ public class CambioTasa {
 					}
 				}
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr[8]/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[1]/td[8]/a/img"))).click();
+				String screenshotPath1 = getScreenShot(driver, "");
+
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr[8]/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[1]/td[8]/a/img")));
+				driver.findElement(By.xpath("//a[contains(text(),'Nueva Actividad')]")).click();
 
 				String MainWindow2=driver.getWindowHandle();
 				Set<String> s2=driver.getWindowHandles();
@@ -185,11 +190,15 @@ public class CambioTasa {
 						driver.switchTo().window(ChildWindow);
 					}
 				}
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[23]/td[3]/a/img"))).sendKeys(fijo.get(i));
+				driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[23]/td[3]/a/img")).click();
+
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:FIXED.RATE:1"))).sendKeys(fijo.get(i));
+				String screenshotPath2 = getScreenShot(driver, "");
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
@@ -203,33 +212,29 @@ public class CambioTasa {
 				System.out.println("este es : " +cod);
 
 
-				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+				////// APROBACION ******************
+
+
 				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
+
 				Thread.sleep(1000);
+				driver.findElement(By.id("details-button")).click();
+				driver.findElement(By.id("proceed-link")).click();
+				Thread.sleep(3000);
 
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
-
-				driver.findElement(By.id("signOnName")).sendKeys(usuario.get(i));
+				driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
 				driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
 				driver.findElement(By.id("sign-in")).click();
 
-				//WebDriverWait wait = new WebDriverWait(driver, 30);
-				//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Sign Off')]")));
-
-				WebElement iframe2 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
-				driver.switchTo().frame(iframe2);
-
-				Thread.sleep(2000);
-				String exp_message1 = "Sign Off";
-				String actual1 = driver.findElement(By.xpath("//a[contains(text(),'Sign Off')]")).getText();
-				Assert.assertEquals(exp_message, actual1);
+				WebElement iframe0 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
+				driver.switchTo().frame(iframe0);
+				Assert.assertEquals(exp_message, actual);
 				System.out.println("assert complete");
 				driver.switchTo().parentFrame();
 
 				Thread.sleep(1000);
-				WebElement iframe3 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
-				driver.switchTo().frame(iframe3);
+				WebElement iframe10 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
+				driver.switchTo().frame(iframe10);
 
 				driver.findElement(By.id("imgError")).click();
 
@@ -238,35 +243,71 @@ public class CambioTasa {
 				driver.findElement(By.xpath("//a[contains(text(),'Buscar Préstamo ')]")).click();
 				driver.switchTo().parentFrame();
 
-				String MainWindow3=driver.getWindowHandle();
-				Set<String> s3=driver.getWindowHandles();
-				Iterator<String> i3=s3.iterator();
+				String MainWindow4=driver.getWindowHandle();
+				Set<String> s4=driver.getWindowHandles();
+				Iterator<String> i4=s4.iterator();
 
-				while(i3.hasNext())
+				while(i4.hasNext())
 				{
-					String ChildWindow=i3.next();
+					String ChildWindow=i4.next();
 
-					if(!MainWindow3.equalsIgnoreCase(ChildWindow))
+					if(!MainWindow4.equalsIgnoreCase(ChildWindow))
 					{
 						driver.switchTo().window(ChildWindow);
 					}
 				}
 
-				Thread.sleep(2500);
-
+				Thread.sleep(3000);
+				driver.findElement(By.id("value:1:1:1")).clear();
+				Thread.sleep(200);
+				driver.findElement(By.id("value:2:1:1")).clear();
+				Thread.sleep(200);
 				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'ID de Arreglo')]")).getAttribute("for");
-				driver.findElement(By.id(attr1)).clear();
 				driver.findElement(By.id(attr1)).sendKeys(cuenta.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
-				Thread.sleep(1000);
+				Thread.sleep(500);
 
 				driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[2]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[7]/a/img")).click();
 
+				String MainWindow5=driver.getWindowHandle();
+				Set<String> s5=driver.getWindowHandles();
+				Iterator<String> i5=s5.iterator();
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Select Drilldown']"))).click();
+				while(i5.hasNext())
+				{
+					String ChildWindow=i5.next();
+
+					if(!MainWindow5.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+				driver.manage().window().maximize();
+				Thread.sleep(5000);
+
+				String screenshotPath3 = getScreenShot(driver, "");
+
+				driver.findElement(By.xpath("//img[@alt='Select Drilldown']")).click();
+
+				String MainWindow6=driver.getWindowHandle();
+				Set<String> s6=driver.getWindowHandles();
+				Iterator<String> i6=s6.iterator();
+
+				while(i6.hasNext())
+				{
+					String ChildWindow=i6.next();
+
+					if(!MainWindow6.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+
+				driver.findElement(By.xpath("//img[@alt='Authorises a deal']")).click();
+				Thread.sleep(3000);
 
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Authorises a deal']"))).click();
+
 
 				//String cod = driver.findElement(By.id("transactionId")).getCssValue("value");
 				String cod1 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
@@ -274,8 +315,16 @@ public class CambioTasa {
 				System.out.println(sSubCadena);
 				write(i+1, 5, sSubCadena);
 
-				String screenshotPath = getScreenShot(driver, "Fin del Caso");
-				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
+				String screenshotPath4 = getScreenShot(driver, "");
+				logger.log(Status.PASS, MarkupHelper.createLabel("Tasa Antes", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Tasa Antes", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath1).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Nueva Tasa", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Nueva Tasa", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Por Aprobar", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Por Aprobar", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath3).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Fin del Caso", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Fin del Caso", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath4).build());
+
 				extent.flush();
 				write(i+1, 4, "PASSED");
 
