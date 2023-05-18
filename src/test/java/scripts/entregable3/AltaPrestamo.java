@@ -82,6 +82,8 @@ public class AltaPrestamo {
         ArrayList<String> monto =readExcelData(5);
         ArrayList<String> fechamaduracion =readExcelData(6);
         ArrayList<String> tarifa1 =readExcelData(7);
+        ArrayList<String> usuario2= readExcelData(8);
+        ArrayList<String> cuenta= readExcelData(9);
 
 
         int filas=usuario.size();
@@ -254,24 +256,90 @@ public class AltaPrestamo {
                     String cod2 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
                     String sSubCadena = cod2.substring(22,39);
                     System.out.println(sSubCadena);
-                    write(i+1, 9, sSubCadena);
+                    write(i+1, 11, sSubCadena);
+
+
+                    ////// DESEMBOLSO ******************
+
+
+                    driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
+
+                    Thread.sleep(1000);
+                    driver.findElement(By.id("details-button")).click();
+                    driver.findElement(By.id("proceed-link")).click();
+                    Thread.sleep(3000);
+
+                    driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
+                    driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
+                    driver.findElement(By.id("sign-in")).click();
+
+                    WebElement iframe0 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
+                    driver.switchTo().frame(iframe0);
+                    Assert.assertEquals(exp_message, actual);
+                    System.out.println("assert complete");
+                    driver.switchTo().parentFrame();
+
+                    Thread.sleep(1000);
+                    WebElement iframe10 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
+                    driver.switchTo().frame(iframe10);
+
+                    driver.findElement(By.id("imgError")).click();
+
+                    driver.findElement(By.xpath("//img[@alt='Operaciones Minoristas']")).click();
+                    driver.findElement(By.xpath("//img[@alt='Transacciones de Préstamo']")).click();
+                    driver.findElement(By.xpath("//img[@alt='Actividades de Contrato (TT)']")).click();
+
+                    driver.findElement(By.xpath("//a[contains(text(),'AA Desembolso ')]")).click();
+                    driver.switchTo().parentFrame();
+
+
+                    String MainWindow3=driver.getWindowHandle();
+                    Set<String> s3=driver.getWindowHandles();
+                    Iterator<String> i3=s3.iterator();
+
+                    while(i3.hasNext())
+                    {
+                        String ChildWindow=i3.next();
+
+                        if(!MainWindow3.equalsIgnoreCase(ChildWindow))
+                        {
+                            driver.switchTo().window(ChildWindow);
+                        }
+                    }
+
+                    wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:ACCOUNT.1:1")));
+                    driver.findElement(By.id("fieldName:ACCOUNT.1:1")).sendKeys(cuenta.get(i));
+                    driver.findElement(By.id("fieldName:AMOUNT.LOCAL.1:1")).sendKeys(monto.get(i));
 
                     String screenshotPath3 = getScreenShot(driver, "Fin del Caso");
+
+                    driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
+
+
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
+                    driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
+
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
+
+
+                    String screenshotPath4 = getScreenShot(driver, "Fin del Caso");
 
                     logger.log(Status.PASS, MarkupHelper.createLabel("Tipos de Prestamo", ExtentColor.GREEN));
                     logger.log(Status.PASS,"Tipos de Prestamo", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath1).build());
                     logger.log(Status.PASS, MarkupHelper.createLabel("Estado de la cuenta", ExtentColor.GREEN));
                     logger.log(Status.PASS,"Estado de la cuenta", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
+                    logger.log(Status.PASS, MarkupHelper.createLabel("Desembolso", ExtentColor.GREEN));
+                    logger.log(Status.PASS,"Desembolso", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath3).build());
                     logger.log(Status.PASS, MarkupHelper.createLabel("Alta creada", ExtentColor.GREEN));
-                    logger.log(Status.PASS,"Alta creada", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath3).build());
+                    logger.log(Status.PASS,"Alta creada", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath4).build());
 
                     extent.flush();
-                    write(i+1, 8, "PASSED");
+                    write(i+1, 10, "PASSED");
 
                     DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
                     String fecha = dateFormat.format(new Date());
                     System.out.println(fecha);
-                    write(i+1, 10, fecha);
+                    write(i+1, 12, fecha);
 
                     driver.quit();
                 }
@@ -280,13 +348,13 @@ public class AltaPrestamo {
                 String screenshotPath = getScreenShot(driver, "Error");
                 logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
                 extent.flush();
-                write(i+1, 8, "FAILED");
-                write(i+1, 9, "");
+                write(i+1, 10, "FAILED");
+                write(i+1, 11, "");
 
                 DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
                 String fecha = dateFormat.format(new Date());
                 System.out.println(fecha);
-                write(i+1, 10, fecha);
+                write(i+1, 12, fecha);
                 System.out.println("Error: " + e);
                 driver.quit();
             }

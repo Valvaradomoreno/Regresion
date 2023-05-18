@@ -2,6 +2,7 @@ package scripts.entregable1;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
@@ -80,6 +81,7 @@ public class AltaDPF {
 		ArrayList<String> ejecutivo =readExcelData(3);
 		ArrayList<String> monto =readExcelData(4);
 		ArrayList<String> plazo =readExcelData(5);
+		ArrayList<String> cuenta =readExcelData(6);
 
 		int filas=usuario.size();
   		for(int i=0;i<usuario.size();i++) {
@@ -176,6 +178,8 @@ public class AltaDPF {
 				driver.findElement(By.id("fieldName:CUSTOMER:1")).sendKeys(documento.get(i));
 				driver.findElement(By.id("fieldName:CURRENCY")).sendKeys("PEN");
 
+				String screenshotPath1 = getScreenShot(driver, "");
+
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:PRIMARY.OFFICER")));
@@ -191,11 +195,24 @@ public class AltaDPF {
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:AMOUNT")));
 				driver.findElement(By.id("fieldName:AMOUNT")).sendKeys(monto.get(i));
+
+				String screenshotPath2 = getScreenShot(driver, "");
+
 				driver.findElement(By.id("fieldName:CHANGE.PERIOD")).sendKeys(plazo.get(i));
+
+				String screenshotPath3 = getScreenShot(driver, "");
+
 				Select selectProducto = new Select(driver.findElement(By.id("fieldName:PAYIN.SETTLEMENT:1")));
-				selectProducto.selectByVisibleText("NO");
+				selectProducto.selectByVisibleText("YES");
 				Select selectProducto2 = new Select(driver.findElement(By.id("fieldName:PAYOUT.SETTLEMENT:1")));
-				selectProducto2.selectByVisibleText("NO");
+				selectProducto2.selectByVisibleText("YES");
+
+				driver.findElement(By.id("fieldName:PAYIN.ACCOUNT:1:1")).sendKeys(cuenta.get(i));
+				driver.findElement(By.id("fieldName:PAYOUT.ACCOUNT:1:1")).sendKeys(cuenta.get(i));
+
+				String screenshotPath4 = getScreenShot(driver, "");
+
+				Thread.sleep(1000);
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
@@ -213,19 +230,28 @@ public class AltaDPF {
 				String cod1 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String sSubCadena = cod1.substring(22,39);
 				System.out.println(sSubCadena);
-				write(i+1, 7, sSubCadena);
+				write(i+1, 8, sSubCadena);
+
+				String screenshotPath5 = getScreenShot(driver, "");
 
 
-
-				String screenshotPath = getScreenShot(driver, "Fin del Caso");
-				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
+				logger.log(Status.PASS, MarkupHelper.createLabel("Dni Agregado", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Dni Agregado", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath1).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Monto Agregado", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Monto Agregado", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Plazo Agregado", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Plazo Agregado", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath3).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Cuenta Agregada", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Cuenta Agregada", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath4).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Alta creada", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Alta creada", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath5).build());
 				extent.flush();
-				write(i+1, 6, "PASSED");
+				write(i+1, 7, "PASSED");
 
 				DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				String fecha = dateFormat.format(new Date());
 				System.out.println(fecha);
-				write(i+1, 8, fecha);
+				write(i+1, 9, fecha);
 					driver.quit();
 
 				}
@@ -235,13 +261,13 @@ public class AltaDPF {
 				  String screenshotPath = getScreenShot(driver, "Error");
 				  logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
 				  extent.flush();
-				  write(i+1, 6, "FAILED");
-				  write(i+1, 7, "");
+				  write(i+1, 7, "FAILED");
+				  write(i+1, 8, "");
 
 				  DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
-				  write(i+1, 8, fecha);
+				  write(i+1, 9, fecha);
 				  System.out.println("Error: " + e);
 				driver.quit();
 
