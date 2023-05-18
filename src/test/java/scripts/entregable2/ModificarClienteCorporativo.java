@@ -144,8 +144,8 @@ public class ModificarClienteCorporativo {
 
 					//And  El usuario ingresa numero de documento RUC
 					String attr1 = driver.findElement(By.xpath("//label[contains(text(),'Número de documento')]")).getAttribute("for");
-					driver.findElement(By.id(attr1)).clear();
-					driver.findElement(By.id(attr1)).clear();
+					driver.findElement(By.id("value:1:1:1")).clear();
+					driver.findElement(By.id("value:2:1:1")).clear();
 					driver.findElement(By.id(attr1)).sendKeys(RUC.get(i));
 
 					Thread.sleep(2000);

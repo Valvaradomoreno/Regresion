@@ -195,7 +195,8 @@ public class CancelacionAhorros {
 					}
 				}
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[53]/td[3]/a/img")));
+				//wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[53]/td[3]/a/img")));
+				Thread.sleep(80000);
 				driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[53]/td[3]/a/img")).click();
 
 				driver.manage().window().maximize();

@@ -180,6 +180,7 @@ public class DepositoEfectivoLocalExtranjero {
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr[1]/td/table/tbody/tr[11]/td/table/tbody/tr[1]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[2]/td[5]")));
 				String saldo = driver.findElement(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr[1]/td/table/tbody/tr[11]/td/table/tbody/tr[1]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[2]/td[5]")).getText();
 
+				String screenshotPath1 = getScreenShot(driver, "");
 
 
 				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -271,7 +272,7 @@ public class DepositoEfectivoLocalExtranjero {
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:AMOUNT.FCY.1:1")));
 				driver.findElement(By.id("fieldName:AMOUNT.FCY.1:1")).sendKeys(monto.get(i));
 
-				String screenshotPath1 = getScreenShot(driver, "");
+				String screenshotPath2 = getScreenShot(driver, "");
 
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
@@ -291,11 +292,10 @@ public class DepositoEfectivoLocalExtranjero {
 				System.out.println(sSubCadena);
 				write(i+1, 5, sSubCadena);
 
-				String screenshotPath2 = getScreenShot(driver, "");
-				logger.log(Status.PASS, MarkupHelper.createLabel("Opciones seleccionadas", ExtentColor.GREEN));
-				logger.log(Status.PASS,"Opciones seleccionadas", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath1).build());
-				logger.log(Status.PASS, MarkupHelper.createLabel("Fin del Caso", ExtentColor.GREEN));
-				logger.log(Status.PASS,"Fin del Caso", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Saldo Antes", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Saldo Antes", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath1).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Monto a depositar y datos", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Monto a depositar y datos", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
 				extent.flush();
 				write(i+1, 4, "PASSED");
 

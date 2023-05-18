@@ -177,6 +177,7 @@ public class AltaCuentaCTS {
 
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
+				String screenshotPath2 = getScreenShot(driver, "");
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:PRIMARY.OFFICER")));
 				driver.findElement(By.id("fieldName:PRIMARY.OFFICER")).sendKeys(ejecutivo.get(i));
@@ -199,7 +200,6 @@ public class AltaCuentaCTS {
 				write(i+1, 10, cod);
 				String arreglo = driver.findElement(By.id("disabled_ARRANGEMENT")).getText();
 				System.out.println("ARREGLO : " +arreglo);
-				String screenshotPath2 = getScreenShot(driver, "");
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 

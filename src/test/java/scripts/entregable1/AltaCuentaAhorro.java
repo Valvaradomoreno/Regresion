@@ -14,6 +14,7 @@ import java.util.Set;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
@@ -167,6 +168,10 @@ public class AltaCuentaAhorro {
 					}
 
 					driver.manage().window().maximize();
+
+					String screenshotPath2 = getScreenShot(driver, "CUENTA CREADA");
+
+
 					driver.findElement(By.id("fieldName:CUSTOMER:1")).sendKeys(documento.get(i));
 					System.out.println("doc : " + documento.get(i));
 					driver.findElement(By.id("fieldName:CURRENCY")).sendKeys("PEN");
@@ -226,13 +231,14 @@ public class AltaCuentaAhorro {
 					System.out.println(date);
 					write(i+1, 6, date);
 
-					String screenshotPath2 = getScreenShot(driver, "ALTA CREADA");
+				logger.log(Status.PASS, MarkupHelper.createLabel("Datos Agregados", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Datos Agregados", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Commit", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Commit", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath1).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Cuenta creada", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Cuenta creada", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
 
-					logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Datos Agregados", ExtentColor.GREEN));
-					logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath1) + " Commit", ExtentColor.GREEN));
-					logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath2) + " Alta creada", ExtentColor.GREEN));
-
-					extent.flush();
+				extent.flush();
 					write(i+1, 4, "PASSED");
 					driver.quit();
 				}

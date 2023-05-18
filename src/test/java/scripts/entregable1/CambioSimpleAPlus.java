@@ -2,6 +2,7 @@ package scripts.entregable1;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
@@ -172,7 +173,11 @@ public class CambioSimpleAPlus {
 					}
 				}
 				driver.manage().window().maximize();
+
 				Thread.sleep(3000);
+
+				String screenshotPath = getScreenShot(driver, "");
+
 				driver.findElement(By.xpath("//a[contains(text(),'Nueva Actividad')]")).click();
 
 				String MainWindow3=driver.getWindowHandle();
@@ -196,6 +201,9 @@ public class CambioSimpleAPlus {
 
 				driver.findElement(By.id("fieldName:PRODUCT")).sendKeys(producto.get(i));
 
+				String screenshotPath2 = getScreenShot(driver, "");
+
+
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
@@ -216,6 +224,39 @@ public class CambioSimpleAPlus {
 
 				////// APROBACION ******************
 
+
+				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
+				Thread.sleep(1000);
+
+
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
+
+				driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
+				driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
+				driver.findElement(By.id("sign-in")).click();
+
+				WebElement iframe2 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
+				driver.switchTo().frame(iframe2);
+
+				Thread.sleep(2000);
+				String exp_message1 = "Sign Off";
+				String actual1 = driver.findElement(By.xpath("//a[contains(text(),'Sign Off')]")).getText();
+				Assert.assertEquals(exp_message, actual1);
+				System.out.println("assert complete");
+				driver.switchTo().parentFrame();
+
+				Thread.sleep(1000);
+				WebElement iframe3 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
+				driver.switchTo().frame(iframe3);
+
+				driver.findElement(By.id("imgError")).click();
+
+				driver.findElement(By.xpath("//img[@alt='Operaciones Minoristas']")).click();
+
+				driver.findElement(By.xpath("//a[contains(text(),'Buscar Cuenta ')]")).click();
+				driver.switchTo().parentFrame();
+
 				String MainWindow4=driver.getWindowHandle();
 				Set<String> s4=driver.getWindowHandles();
 				Iterator<String> i4=s4.iterator();
@@ -230,89 +271,62 @@ public class CambioSimpleAPlus {
 					}
 				}
 
-				driver = new ChromeDriver();
-				driver.manage().window().maximize();
-				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
-
-				Thread.sleep(1000);
-				driver.findElement(By.id("details-button")).click();
-				driver.findElement(By.id("proceed-link")).click();
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
-
-				driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
-				driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
-				driver.findElement(By.id("sign-in")).click();
-
-				driver.switchTo().frame(iframe);
-				Assert.assertEquals(exp_message, actual);
-				System.out.println("assert complete");
-				driver.switchTo().parentFrame();
-
-				Thread.sleep(1000);
-				driver.switchTo().frame(iframe1);
-
-				driver.findElement(By.id("imgError")).click();
-
-				driver.findElement(By.xpath("//img[@alt='Operaciones Minoristas']")).click();
-
-				driver.findElement(By.xpath("//a[contains(text(),'Buscar Cuenta ')]")).click();
-				driver.switchTo().parentFrame();
-
-				while(i1.hasNext())
-				{
-					String ChildWindow2=i1.next();
-
-					if(!MainWindow.equalsIgnoreCase(ChildWindow2))
-					{
-						driver.switchTo().window(ChildWindow2);
-					}
-				}
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("value:1:1:1")));
-				driver.findElement(By.id("value:1:1:1")).clear();
-				Thread.sleep(200);
-				driver.findElement(By.id("value:2:1:1")).clear();
-				Thread.sleep(200);
-				driver.findElement(By.id(attr)).sendKeys(cuenta.get(i));
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//label[contains(text(),'Número de cuenta')]")));
+				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
+				driver.findElement(By.id(attr1)).clear();
+				driver.findElement(By.id(attr1)).sendKeys(cuenta.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
-				Thread.sleep(500);
+				Thread.sleep(1000);
 
 				driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[2]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[7]/a/img")).click();
 
-				while(i2.hasNext())
-				{
-					String ChildWindow=i2.next();
+				String MainWindow5=driver.getWindowHandle();
+				Set<String> s5=driver.getWindowHandles();
+				Iterator<String> i5=s5.iterator();
 
-					if(!MainWindow2.equalsIgnoreCase(ChildWindow))
+				while(i5.hasNext())
+				{
+					String ChildWindow=i5.next();
+
+					if(!MainWindow5.equalsIgnoreCase(ChildWindow))
 					{
 						driver.switchTo().window(ChildWindow);
 					}
 				}
+
+				Thread.sleep(5000);
 				driver.manage().window().maximize();
-				Thread.sleep(3000);
+				String screenshotPath3 = getScreenShot(driver, "");
+
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Select Drilldown']"))).click();
+
+				String MainWindow6=driver.getWindowHandle();
+				Set<String> s6=driver.getWindowHandles();
+				Iterator<String> i6=s6.iterator();
+
+				while(i6.hasNext())
+				{
+					String ChildWindow=i6.next();
+
+					if(!MainWindow6.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Authorises a deal']"))).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
+				String cod1 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 
 
 
+				logger.log(Status.PASS, MarkupHelper.createLabel("Cuenta Simple", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Cuenta Simple", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Cambio Cuenta", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Cambio Cuenta", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Cuenta Plus", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Cuenta Plus", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath3).build());
 
-
-
-
-
-				Thread.sleep(80000);
-
-
-
-
-
-
-
-
-
-
-
-				String screenshotPath = getScreenShot(driver, "Fin del Caso");
-				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
 				extent.flush();
 				write(i+1, 5, "PASSED");
 
