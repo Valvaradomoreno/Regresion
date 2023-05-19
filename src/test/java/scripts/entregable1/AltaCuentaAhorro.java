@@ -206,7 +206,6 @@ public class AltaCuentaAhorro {
 
 					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Validate a deal']")));
 					driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
-					Thread.sleep(50000);
 
 					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
 					driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();

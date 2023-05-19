@@ -188,14 +188,15 @@ public class CambioT24aCastigo {
 						driver.switchTo().window(ChildWindow);
 					}
 				}
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[1]/td[3]/a/img")));
 
 				// TUERCA
 				if(tipo_producto.get(i).equals("PRESTAMO YA")){
-					driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[36]")).click();
+					driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[36]/td[3]/a/img")).click();
 				}else if(tipo_producto.get(i).equals("PRESTAMO SENIOR")){
-					driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[35]")).click();
+					driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[35]/td[3]/a/img")).click();
 				}else{
-					driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[36]")).click();
+					driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[36]/td[3]/a/img")).click();
 				}
 
 				driver.manage().window().maximize();

@@ -1,4 +1,4 @@
-package scripts.entregable3;
+package scripts.entregable4;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
@@ -20,6 +20,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -37,11 +38,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
-import java.time.Duration;
 
 
-public class CambioTasa {
+public class CondonacionDeuda {
 
     WebDriver driver;
 	public ExtentSparkReporter spark;
@@ -60,10 +59,10 @@ public class CambioTasa {
 
 
 	@Test
-	public void CambioTasaCuentaAhorro()throws IOException, InterruptedException, AWTException {
+	public void CondonacionDeuda()throws IOException, InterruptedException, AWTException {
 
 		extent = new ExtentReports();
-		spark = new ExtentSparkReporter(System.getProperty("user.dir") + "/test-output/reports3/CambioTasa/Report.html");
+		spark = new ExtentSparkReporter(System.getProperty("user.dir") + "/test-output/reports4/CondonacionDeuda/Report.html");
 		extent.attachReporter(spark);
 		extent.setSystemInfo("Host Name", "SoftwareTestingMaterial");
 		extent.setSystemInfo("Environment", "Production");
@@ -77,8 +76,9 @@ public class CambioTasa {
 		ArrayList<String> usuario=readExcelData(0);
 		ArrayList<String> contraseña =readExcelData(1);
 		ArrayList<String> cuenta =readExcelData(2);
-		ArrayList<String> fijo =readExcelData(3);
-		ArrayList<String> usuario2=readExcelData(4);
+		ArrayList<String> usuario2 =readExcelData(3);
+		ArrayList<String> monto =readExcelData(4);
+
 
 		int filas=usuario.size();
   		for(int i=0;i<usuario.size();i++) {
@@ -86,13 +86,12 @@ public class CambioTasa {
 
   			if(i<(filas)) {
 
-					System.out.println("-----------------------------------");
-					System.out.println("Nuevo Test " + i);
-					int caso = i+1;
-					logger = extent.createTest("Nuevo Test " + caso);
+				System.out.println("-----------------------------------");
+				System.out.println("Nuevo Test " + i);
+				int caso = i + 1;
+				logger = extent.createTest("Nuevo Test " + caso);
 
-					// ** DESDE AQUI EMPIEZA EL TEST
-
+				// ** DESDE AQUI EMPIEZA EL TEST
 
 				driver = new ChromeDriver();
 				driver.manage().window().maximize();
@@ -133,31 +132,6 @@ public class CambioTasa {
 				driver.findElement(By.xpath("//a[contains(text(),'Buscar Préstamo ')]")).click();
 				driver.switchTo().parentFrame();
 
-				String MainWindow0=driver.getWindowHandle();
-				Set<String> s0=driver.getWindowHandles();
-				Iterator<String> i0=s0.iterator();
-
-				while(i0.hasNext())
-				{
-					String ChildWindow=i0.next();
-
-					if(!MainWindow0.equalsIgnoreCase(ChildWindow))
-					{
-						driver.switchTo().window(ChildWindow);
-					}
-				}
-
-				Thread.sleep(2500);
-
-
-				String attr = driver.findElement(By.xpath("//label[contains(text(),'ID de Arreglo')]")).getAttribute("for");
-				driver.findElement(By.id(attr)).clear();
-				driver.findElement(By.id(attr)).sendKeys(cuenta.get(i));
-				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
-				Thread.sleep(1000);
-
-				driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[2]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[7]/a/img")).click();
-
 				String MainWindow=driver.getWindowHandle();
 				Set<String> s1=driver.getWindowHandles();
 				Iterator<String> i1=s1.iterator();
@@ -172,10 +146,17 @@ public class CambioTasa {
 					}
 				}
 
-				String screenshotPath1 = getScreenShot(driver, "");
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr[8]/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[1]/td[8]/a/img")));
-				driver.findElement(By.xpath("//a[contains(text(),'Nueva Actividad')]")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("value:1:1:1")));
+				driver.findElement(By.id("value:1:1:1")).clear();
+				Thread.sleep(200);
+				driver.findElement(By.id("value:2:1:1")).clear();
+				Thread.sleep(200);
+				String attr = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
+				driver.findElement(By.id(attr)).sendKeys(cuenta.get(i));
+				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
+
+				driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[2]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[7]/a/img")).click();
 
 				String MainWindow2=driver.getWindowHandle();
 				Set<String> s2=driver.getWindowHandles();
@@ -190,27 +171,48 @@ public class CambioTasa {
 						driver.switchTo().window(ChildWindow);
 					}
 				}
+				Thread.sleep(2500);
+				String screenshotPath1 = getScreenShot(driver, "");
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[23]/td[3]/a/img")));
-				driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[23]/td[3]/a/img")).click();
+				driver.findElement(By.xpath("//a[contains(text(),'Nueva Actividad')]")).click();
 
+				String MainWindow3=driver.getWindowHandle();
+				Set<String> s3=driver.getWindowHandles();
+				Iterator<String> i3=s3.iterator();
 
-				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
+				while(i3.hasNext())
+				{
+					String ChildWindow=i3.next();
 
+					if(!MainWindow3.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:FIXED.RATE:1"))).sendKeys(fijo.get(i));
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[7]/td[3]/a/img")));
 				String screenshotPath2 = getScreenShot(driver, "");
 
-				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
+				driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[7]/td[3]/a/img")).click();
 
+				driver.manage().window().maximize();
+
+
+
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:NEW.BAL.AMT:2:1")));
+				driver.findElement(By.id("fieldName:NEW.BAL.AMT:2:1")).sendKeys(monto.get(i));
+
+				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
 				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
+				Thread.sleep(5000);
 
 				//String cod = driver.findElement(By.id("transactionId")).getCssValue("value");
 				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
-				String cod2 = "ALTA CUENTA";
-				System.out.println("este es : " +cod);
+				String sSubCadena = cod.substring(22,39);
+				System.out.println(sSubCadena);
+				write(i+1, 6, sSubCadena);
 
 
 				////// APROBACION ******************
@@ -263,7 +265,7 @@ public class CambioTasa {
 				Thread.sleep(200);
 				driver.findElement(By.id("value:2:1:1")).clear();
 				Thread.sleep(200);
-				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'ID de Arreglo')]")).getAttribute("for");
+				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
 				driver.findElement(By.id(attr1)).sendKeys(cuenta.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
 				Thread.sleep(500);
@@ -288,6 +290,7 @@ public class CambioTasa {
 
 				String screenshotPath3 = getScreenShot(driver, "");
 
+
 				driver.findElement(By.xpath("//img[@alt='Select Drilldown']")).click();
 
 				String MainWindow6=driver.getWindowHandle();
@@ -308,50 +311,38 @@ public class CambioTasa {
 				Thread.sleep(3000);
 
 
-
-
-				//String cod = driver.findElement(By.id("transactionId")).getCssValue("value");
-				String cod1 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
-				String sSubCadena = cod1.substring(22,39);
-				System.out.println(sSubCadena);
-				write(i+1, 5, sSubCadena);
-
-				String screenshotPath4 = getScreenShot(driver, "");
-				logger.log(Status.PASS, MarkupHelper.createLabel("Tasa Antes", ExtentColor.GREEN));
-				logger.log(Status.PASS,"Tasa Antes", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath1).build());
-				logger.log(Status.PASS, MarkupHelper.createLabel("Nueva Tasa", ExtentColor.GREEN));
-				logger.log(Status.PASS,"Nueva Tasa", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
-				logger.log(Status.PASS, MarkupHelper.createLabel("Por Aprobar", ExtentColor.GREEN));
-				logger.log(Status.PASS,"Por Aprobar", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath3).build());
-				logger.log(Status.PASS, MarkupHelper.createLabel("Fin del Caso", ExtentColor.GREEN));
-				logger.log(Status.PASS,"Fin del Caso", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath4).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Paso 1", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Paso 1", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath1).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Paso 2", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Paso 2", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Paso 3", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Paso 3", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath3).build());
 
 				extent.flush();
-				write(i+1, 4, "PASSED");
+				write(i+1, 5, "PASSED");
 
 				DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				String fecha = dateFormat.format(new Date());
 				System.out.println(fecha);
-				write(i+1, 6, fecha);
-
-
+				write(i+1, 7, fecha);
 					driver.quit();
 
 				}
 
 			}catch (Exception e){
+
 				  String screenshotPath = getScreenShot(driver, "Error");
 				  logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
 				  extent.flush();
-				  write(i+1, 4, "FAILED");
-				  write(i+1, 5, "");
+				  write(i+1, 5, "FAILED");
+				  write(i+1, 6, "");
 
 				  DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
-				  write(i+1, 6, fecha);
+				  write(i+1, 7, fecha);
 				  System.out.println("Error: " + e);
-				driver.quit();
+					driver.quit();
 
 			}
   		}
@@ -360,9 +351,9 @@ public class CambioTasa {
 
 	public static ArrayList<String> readExcelData(int colNo) throws IOException {
 
-		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable3/CambioTasa.xlsx");
+		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable4/CondonacionDeuda.xlsx");
 		XSSFWorkbook wb=new XSSFWorkbook(fis);
-		XSSFSheet s=wb.getSheet("CambioTasa");
+		XSSFSheet s=wb.getSheet("CondonacionDeuda");
 		Iterator<Row> rowIterator=s.iterator();
 		rowIterator.next();
 		//rowIterator.next();
@@ -375,7 +366,7 @@ public class CambioTasa {
 	}
 
 	public void write(int i, int celda, String dato) throws IOException {
-		String path = System.getProperty("user.dir") + "/src/Excel/entregable3/CambioTasa.xlsx";
+		String path = System.getProperty("user.dir") + "/src/Excel/entregable4/CondonacionDeuda.xlsx";
 		FileInputStream fs = new FileInputStream(path);
 		Workbook wb = new XSSFWorkbook(fs);
 		Sheet sheet1 = wb.getSheetAt(0);
@@ -395,7 +386,7 @@ public class CambioTasa {
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File source = ts.getScreenshotAs(OutputType.FILE);
 		// after execution, you could see a folder "FailedTestsScreenshots" under src folder
-		String destination = System.getProperty("user.dir") + "/test-output/reports/CambioTasa/Images/" + screenshotName + dateName + ".png";
+		String destination = System.getProperty("user.dir") + "/test-output/reports4/CondonacionDeuda/Images/" + screenshotName + dateName + ".png";
 		File finalDestination = new File(destination);
 		FileUtils.copyFile(source, finalDestination);
 		return destination;
