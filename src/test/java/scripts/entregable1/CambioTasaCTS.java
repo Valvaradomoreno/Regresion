@@ -219,8 +219,7 @@ public class CambioTasaCTS {
 				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 				System.out.println("Commit");
 
-
-				//String cod = driver.findElement(By.id("transactionId")).getCssValue("value");
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
 				String cod1 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String sSubCadena = cod1.substring(22,39);
 				System.out.println(sSubCadena);

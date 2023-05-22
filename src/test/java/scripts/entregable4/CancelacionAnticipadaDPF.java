@@ -2,6 +2,7 @@ package scripts.entregable4;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
@@ -39,7 +40,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 
-public class FondeoDPF {
+public class CancelacionAnticipadaDPF {
 
     WebDriver driver;
 	public ExtentSparkReporter spark;
@@ -58,10 +59,10 @@ public class FondeoDPF {
 
 
 	@Test
-	public void FondeoDPF()throws IOException, InterruptedException, AWTException {
+	public void CancelacionAnticipadaDPF()throws IOException, InterruptedException, AWTException {
 
 		extent = new ExtentReports();
-		spark = new ExtentSparkReporter(System.getProperty("user.dir") + "/test-output/reports4/FondeoDPF/Report.html");
+		spark = new ExtentSparkReporter(System.getProperty("user.dir") + "/test-output/reports4/CancelacionAnticipadaDPF/Report.html");
 		extent.attachReporter(spark);
 		extent.setSystemInfo("Host Name", "SoftwareTestingMaterial");
 		extent.setSystemInfo("Environment", "Production");
@@ -74,10 +75,8 @@ public class FondeoDPF {
 
 		ArrayList<String> usuario=readExcelData(0);
 		ArrayList<String> contraseña =readExcelData(1);
-		ArrayList<String> documento =readExcelData(2);
-		ArrayList<String> ejecutivo =readExcelData(3);
-		ArrayList<String> monto =readExcelData(4);
-		ArrayList<String> plazo =readExcelData(5);
+		ArrayList<String> cuenta =readExcelData(2);
+		ArrayList<String> razon =readExcelData(3);
 
 		int filas=usuario.size();
   		for(int i=0;i<usuario.size();i++) {
@@ -128,7 +127,9 @@ public class FondeoDPF {
 
 				driver.findElement(By.id("imgError")).click();
 
-				driver.findElement(By.xpath("//a[contains(text(),'Catálogo de Productos ')]")).click();
+				driver.findElement(By.xpath("//img[@alt='Operaciones Minoristas']")).click();
+
+				driver.findElement(By.xpath("//a[contains(text(),'Buscar Depósito ')]")).click();
 				driver.switchTo().parentFrame();
 
 				String MainWindow=driver.getWindowHandle();
@@ -144,17 +145,16 @@ public class FondeoDPF {
 						driver.switchTo().window(ChildWindow);
 					}
 				}
-				driver.manage().window().maximize();
-				WebElement iframe2 = driver.findElement(By.xpath("/html/frameset/frameset[2]/frameset[1]/frame[2]"));
-				driver.switchTo().frame(iframe2);
-				driver.findElement(By.id("treestop5")).click();
-				driver.findElement(By.xpath("//*[@id='r5']/td[4]/a/img")).click();
-				driver.switchTo().parentFrame();
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("value:1:1:1")));
+				driver.findElement(By.id("value:1:1:1")).clear();
+				Thread.sleep(200);
+				driver.findElement(By.id("value:2:1:1")).clear();
+				Thread.sleep(200);
+				String attr = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
+				driver.findElement(By.id(attr)).sendKeys(cuenta.get(i));
+				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
 
-				WebElement iframe3 = driver.findElement(By.xpath("/html/frameset/frameset[2]/frameset[2]/frame[2]"));
-				driver.switchTo().frame(iframe3);
-				driver.findElement(By.xpath("//*[@id='r1']/td[3]/a/img")).click();
-				driver.switchTo().parentFrame();
+				driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[2]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[7]/a/img")).click();
 
 				String MainWindow2=driver.getWindowHandle();
 				Set<String> s2=driver.getWindowHandles();
@@ -171,59 +171,78 @@ public class FondeoDPF {
 				}
 
 				driver.manage().window().maximize();
-				driver.findElement(By.id("fieldName:CUSTOMER:1")).sendKeys(documento.get(i));
-				driver.findElement(By.id("fieldName:CURRENCY")).sendKeys("PEN");
+
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Cancelacion Anticipada')]"))).click();
+
+				String MainWindow3=driver.getWindowHandle();
+				Set<String> s3=driver.getWindowHandles();
+				Iterator<String> i3=s3.iterator();
+
+				while(i3.hasNext())
+				{
+					String ChildWindow=i3.next();
+
+					if(!MainWindow3.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("radio:tab1:CASH.CANCEL"))).click();
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg"))).click();
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:PRIMARY.OFFICER")));
-				driver.findElement(By.id("fieldName:PRIMARY.OFFICER")).sendKeys(ejecutivo.get(i));
-				driver.findElement(By.xpath("/html/body/div[5]/fieldset[3]/div/div/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr[8]/td[3]/table/tbody/tr/td[2]/input")).click();
-				driver.findElement(By.xpath("/html/body/div[5]/fieldset[3]/div/div/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr[12]/td[3]/table/tbody/tr/td[1]/input")).click();
-
-
-				String cod = driver.findElement(By.id("disabled_ACCOUNT.REFERENCE")).getText();
-				System.out.println("CUENTA : " +cod);
-				String arreglo = driver.findElement(By.id("disabled_ARRANGEMENT")).getText();
-				System.out.println("ARREGLO : " +arreglo);
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:AMOUNT")));
-				driver.findElement(By.id("fieldName:AMOUNT")).sendKeys(monto.get(i));
-				driver.findElement(By.id("fieldName:CHANGE.PERIOD")).sendKeys(plazo.get(i));
-				Select selectProducto = new Select(driver.findElement(By.id("fieldName:PAYIN.SETTLEMENT:1")));
-				selectProducto.selectByVisibleText("NO");
-				Select selectProducto2 = new Select(driver.findElement(By.id("fieldName:PAYOUT.SETTLEMENT:1")));
-				selectProducto2.selectByVisibleText("NO");
-
-				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
-
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
-				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/div[2]/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr/td[3]/select")));
-
-				Select selectProducto1 = new Select(driver.findElement(By.xpath("/html/body/div[3]/div/div[2]/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr/td[3]/select")));
-				selectProducto1.selectByVisibleText("RECEIVED");
-				driver.findElement(By.id("errorImg")).click();
-
-				//String cod = driver.findElement(By.id("transactionId")).getCssValue("value");
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
 				String cod1 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String sSubCadena = cod1.substring(22,39);
 				System.out.println(sSubCadena);
-				write(i+1, 7, sSubCadena);
+				write(i+1, 5, sSubCadena);
+
+				driver.switchTo().window(MainWindow3);
+				driver.navigate().refresh();
+
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Run']"))).click();
+
+				String MainWindow4=driver.getWindowHandle();
+				Set<String> s4=driver.getWindowHandles();
+				Iterator<String> i4=s4.iterator();
+
+				while(i4.hasNext())
+				{
+					String ChildWindow=i4.next();
+
+					if(!MainWindow4.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:CLOSURE.REASON"))).click();
+				Select selectProducto2 = new Select(driver.findElement(By.id("fieldName:CLOSURE.REASON")));
+				selectProducto2.selectByVisibleText(razon.get(i));
+
+				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg"))).click();
+
+				Thread.sleep(8000);
 
 
 
-				String screenshotPath = getScreenShot(driver, "Fin del Caso");
-				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
+				String screenshotPath = getScreenShot(driver, "");
+
+
+				logger.log(Status.PASS, MarkupHelper.createLabel("Final", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Final", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
 				extent.flush();
-				write(i+1, 6, "PASSED");
+				write(i+1, 4, "PASSED");
 
 				DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				String fecha = dateFormat.format(new Date());
 				System.out.println(fecha);
-				write(i+1, 8, fecha);
+				write(i+1, 6, fecha);
 					driver.quit();
 
 				}
@@ -233,13 +252,13 @@ public class FondeoDPF {
 				  String screenshotPath = getScreenShot(driver, "Error");
 				  logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
 				  extent.flush();
-				  write(i+1, 6, "FAILED");
-				  write(i+1, 7, "");
+				  write(i+1, 4, "FAILED");
+				  write(i+1, 5, "");
 
 				  DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
-				  write(i+1, 8, fecha);
+				  write(i+1, 6, fecha);
 				  System.out.println("Error: " + e);
 				driver.quit();
 
@@ -250,9 +269,9 @@ public class FondeoDPF {
 
 	public static ArrayList<String> readExcelData(int colNo) throws IOException {
 
-		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable4/FondeoDPF.xlsx");
+		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable4/CancelacionAnticipadaDPF.xlsx");
 		XSSFWorkbook wb=new XSSFWorkbook(fis);
-		XSSFSheet s=wb.getSheet("FondeoDPF");
+		XSSFSheet s=wb.getSheet("CancelacionAnticipadaDPF");
 		Iterator<Row> rowIterator=s.iterator();
 		rowIterator.next();
 		//rowIterator.next();
@@ -265,7 +284,7 @@ public class FondeoDPF {
 	}
 
 	public void write(int i, int celda, String dato) throws IOException {
-		String path = System.getProperty("user.dir") + "/src/Excel/entregable4/FondeoDPF.xlsx";
+		String path = System.getProperty("user.dir") + "/src/Excel/entregable4/CancelacionAnticipadaDPF.xlsx";
 		FileInputStream fs = new FileInputStream(path);
 		Workbook wb = new XSSFWorkbook(fs);
 		Sheet sheet1 = wb.getSheetAt(0);
@@ -285,7 +304,7 @@ public class FondeoDPF {
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File source = ts.getScreenshotAs(OutputType.FILE);
 		// after execution, you could see a folder "FailedTestsScreenshots" under src folder
-		String destination = System.getProperty("user.dir") + "/test-output/reports4/FondeoDPF/Images/" + screenshotName + dateName + ".png";
+		String destination = System.getProperty("user.dir") + "/test-output/reports4/CancelacionAnticipadaDPF/Images/" + screenshotName + dateName + ".png";
 		File finalDestination = new File(destination);
 		FileUtils.copyFile(source, finalDestination);
 		return destination;

@@ -2,6 +2,7 @@ package scripts.entregable4;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
@@ -19,7 +20,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -39,7 +39,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 
-public class FondeoDPF {
+public class RetiroCuentaCTS {
 
     WebDriver driver;
 	public ExtentSparkReporter spark;
@@ -58,10 +58,10 @@ public class FondeoDPF {
 
 
 	@Test
-	public void FondeoDPF()throws IOException, InterruptedException, AWTException {
+	public void RetiroCuentaCTS()throws IOException, InterruptedException, AWTException {
 
 		extent = new ExtentReports();
-		spark = new ExtentSparkReporter(System.getProperty("user.dir") + "/test-output/reports4/FondeoDPF/Report.html");
+		spark = new ExtentSparkReporter(System.getProperty("user.dir") + "/test-output/reports4/RetiroCuentaCTS/Report.html");
 		extent.attachReporter(spark);
 		extent.setSystemInfo("Host Name", "SoftwareTestingMaterial");
 		extent.setSystemInfo("Environment", "Production");
@@ -74,10 +74,9 @@ public class FondeoDPF {
 
 		ArrayList<String> usuario=readExcelData(0);
 		ArrayList<String> contraseña =readExcelData(1);
-		ArrayList<String> documento =readExcelData(2);
-		ArrayList<String> ejecutivo =readExcelData(3);
-		ArrayList<String> monto =readExcelData(4);
-		ArrayList<String> plazo =readExcelData(5);
+		ArrayList<String> cuenta =readExcelData(2);
+		ArrayList<String> monto =readExcelData(3);
+		ArrayList<String> usuario2=readExcelData(4);
 
 		int filas=usuario.size();
   		for(int i=0;i<usuario.size();i++) {
@@ -92,6 +91,7 @@ public class FondeoDPF {
 
 					// ** DESDE AQUI EMPIEZA EL TEST
 
+
 				driver = new ChromeDriver();
 				driver.manage().window().maximize();
 				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
@@ -99,8 +99,6 @@ public class FondeoDPF {
 				Thread.sleep(1000);
 				driver.findElement(By.id("details-button")).click();
 				driver.findElement(By.id("proceed-link")).click();
-
-
 
 				WebDriverWait wait = new WebDriverWait(driver, 60);
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
@@ -128,118 +126,171 @@ public class FondeoDPF {
 
 				driver.findElement(By.id("imgError")).click();
 
-				driver.findElement(By.xpath("//a[contains(text(),'Catálogo de Productos ')]")).click();
+				driver.findElement(By.xpath("//img[@alt='Transacciones CTS']")).click();
+
+				driver.findElement(By.xpath("//a[contains(text(),'Retiro CTS Soles ')]")).click();
 				driver.switchTo().parentFrame();
 
-				String MainWindow=driver.getWindowHandle();
-				Set<String> s1=driver.getWindowHandles();
-				Iterator<String> i1=s1.iterator();
+				String MainWindow0=driver.getWindowHandle();
+				Set<String> s0=driver.getWindowHandles();
+				Iterator<String> i0=s0.iterator();
 
-				while(i1.hasNext())
+				while(i0.hasNext())
 				{
-					String ChildWindow=i1.next();
+					String ChildWindow=i0.next();
 
-					if(!MainWindow.equalsIgnoreCase(ChildWindow))
-					{
-						driver.switchTo().window(ChildWindow);
-					}
-				}
-				driver.manage().window().maximize();
-				WebElement iframe2 = driver.findElement(By.xpath("/html/frameset/frameset[2]/frameset[1]/frame[2]"));
-				driver.switchTo().frame(iframe2);
-				driver.findElement(By.id("treestop5")).click();
-				driver.findElement(By.xpath("//*[@id='r5']/td[4]/a/img")).click();
-				driver.switchTo().parentFrame();
-
-				WebElement iframe3 = driver.findElement(By.xpath("/html/frameset/frameset[2]/frameset[2]/frame[2]"));
-				driver.switchTo().frame(iframe3);
-				driver.findElement(By.xpath("//*[@id='r1']/td[3]/a/img")).click();
-				driver.switchTo().parentFrame();
-
-				String MainWindow2=driver.getWindowHandle();
-				Set<String> s2=driver.getWindowHandles();
-				Iterator<String> i2=s2.iterator();
-
-				while(i2.hasNext())
-				{
-					String ChildWindow=i2.next();
-
-					if(!MainWindow2.equalsIgnoreCase(ChildWindow))
+					if(!MainWindow0.equalsIgnoreCase(ChildWindow))
 					{
 						driver.switchTo().window(ChildWindow);
 					}
 				}
 
-				driver.manage().window().maximize();
-				driver.findElement(By.id("fieldName:CUSTOMER:1")).sendKeys(documento.get(i));
-				driver.findElement(By.id("fieldName:CURRENCY")).sendKeys("PEN");
-
-				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:PRIMARY.OFFICER")));
-				driver.findElement(By.id("fieldName:PRIMARY.OFFICER")).sendKeys(ejecutivo.get(i));
-				driver.findElement(By.xpath("/html/body/div[5]/fieldset[3]/div/div/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr[8]/td[3]/table/tbody/tr/td[2]/input")).click();
-				driver.findElement(By.xpath("/html/body/div[5]/fieldset[3]/div/div/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr[12]/td[3]/table/tbody/tr/td[1]/input")).click();
-
-
-				String cod = driver.findElement(By.id("disabled_ACCOUNT.REFERENCE")).getText();
-				System.out.println("CUENTA : " +cod);
-				String arreglo = driver.findElement(By.id("disabled_ARRANGEMENT")).getText();
-				System.out.println("ARREGLO : " +arreglo);
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:AMOUNT")));
-				driver.findElement(By.id("fieldName:AMOUNT")).sendKeys(monto.get(i));
-				driver.findElement(By.id("fieldName:CHANGE.PERIOD")).sendKeys(plazo.get(i));
-				Select selectProducto = new Select(driver.findElement(By.id("fieldName:PAYIN.SETTLEMENT:1")));
-				selectProducto.selectByVisibleText("NO");
-				Select selectProducto2 = new Select(driver.findElement(By.id("fieldName:PAYOUT.SETTLEMENT:1")));
-				selectProducto2.selectByVisibleText("NO");
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='New Deal']"))).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:ACCOUNT.2"))).sendKeys(cuenta.get(i));
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:AMOUNT.LOCAL.1:1"))).sendKeys(monto.get(i));
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
 				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
+				System.out.println("Commit");
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/div[2]/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr/td[3]/select")));
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
+				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
+				String cod2 = "ALTA CUENTA";
+				System.out.println("este es : " +cod);
 
-				Select selectProducto1 = new Select(driver.findElement(By.xpath("/html/body/div[3]/div/div[2]/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr/td[3]/select")));
-				selectProducto1.selectByVisibleText("RECEIVED");
-				driver.findElement(By.id("errorImg")).click();
 
-				//String cod = driver.findElement(By.id("transactionId")).getCssValue("value");
+				////// APROBACION ******************
+
+
+				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
+
+				Thread.sleep(1000);
+				driver.findElement(By.id("details-button")).click();
+				driver.findElement(By.id("proceed-link")).click();
+				Thread.sleep(3000);
+
+				driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
+				driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
+				driver.findElement(By.id("sign-in")).click();
+
+				WebElement iframe0 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
+				driver.switchTo().frame(iframe0);
+				Assert.assertEquals(exp_message, actual);
+				System.out.println("assert complete");
+				driver.switchTo().parentFrame();
+
+				Thread.sleep(1000);
+				WebElement iframe10 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
+				driver.switchTo().frame(iframe10);
+
+				driver.findElement(By.id("imgError")).click();
+
+				driver.findElement(By.xpath("//img[@alt='Operaciones Minoristas']")).click();
+
+				driver.findElement(By.xpath("//a[contains(text(),'Buscar Préstamo ')]")).click();
+				driver.switchTo().parentFrame();
+
+				String MainWindow4=driver.getWindowHandle();
+				Set<String> s4=driver.getWindowHandles();
+				Iterator<String> i4=s4.iterator();
+
+				while(i4.hasNext())
+				{
+					String ChildWindow=i4.next();
+
+					if(!MainWindow4.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+
+				Thread.sleep(3000);
+				driver.findElement(By.id("value:1:1:1")).clear();
+				Thread.sleep(200);
+				driver.findElement(By.id("value:2:1:1")).clear();
+				Thread.sleep(200);
+				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'ID de Arreglo')]")).getAttribute("for");
+				driver.findElement(By.id(attr1)).sendKeys(cuenta.get(i));
+				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
+				Thread.sleep(500);
+
+				driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[2]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[7]/a/img")).click();
+
+				String MainWindow5=driver.getWindowHandle();
+				Set<String> s5=driver.getWindowHandles();
+				Iterator<String> i5=s5.iterator();
+
+				while(i5.hasNext())
+				{
+					String ChildWindow=i5.next();
+
+					if(!MainWindow5.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+				driver.manage().window().maximize();
+				Thread.sleep(5000);
+
+				String screenshotPath3 = getScreenShot(driver, "");
+
+				driver.findElement(By.xpath("//img[@alt='Select Drilldown']")).click();
+
+				String MainWindow6=driver.getWindowHandle();
+				Set<String> s6=driver.getWindowHandles();
+				Iterator<String> i6=s6.iterator();
+
+				while(i6.hasNext())
+				{
+					String ChildWindow=i6.next();
+
+					if(!MainWindow6.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+
+				driver.findElement(By.xpath("//img[@alt='Authorises a deal']")).click();
+				Thread.sleep(3000);
+
+
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
 				String cod1 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String sSubCadena = cod1.substring(22,39);
 				System.out.println(sSubCadena);
-				write(i+1, 7, sSubCadena);
+				write(i+1, 5, sSubCadena);
 
+				String screenshotPath = getScreenShot(driver, "");
+				logger.log(Status.PASS, MarkupHelper.createLabel("Final", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Final", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
 
-
-				String screenshotPath = getScreenShot(driver, "Fin del Caso");
-				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
 				extent.flush();
-				write(i+1, 6, "PASSED");
+				write(i+1, 4, "PASSED");
 
 				DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				String fecha = dateFormat.format(new Date());
 				System.out.println(fecha);
-				write(i+1, 8, fecha);
+				write(i+1, 6, fecha);
+
+
 					driver.quit();
 
 				}
 
 			}catch (Exception e){
-
 				  String screenshotPath = getScreenShot(driver, "Error");
 				  logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
 				  extent.flush();
-				  write(i+1, 6, "FAILED");
-				  write(i+1, 7, "");
+				  write(i+1, 4, "FAILED");
+				  write(i+1, 5, "");
 
 				  DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
-				  write(i+1, 8, fecha);
+				  write(i+1, 6, fecha);
 				  System.out.println("Error: " + e);
 				driver.quit();
 
@@ -250,9 +301,9 @@ public class FondeoDPF {
 
 	public static ArrayList<String> readExcelData(int colNo) throws IOException {
 
-		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable4/FondeoDPF.xlsx");
+		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable4/RetiroCuentaCTS.xlsx");
 		XSSFWorkbook wb=new XSSFWorkbook(fis);
-		XSSFSheet s=wb.getSheet("FondeoDPF");
+		XSSFSheet s=wb.getSheet("RetiroCuentaCTS");
 		Iterator<Row> rowIterator=s.iterator();
 		rowIterator.next();
 		//rowIterator.next();
@@ -265,7 +316,7 @@ public class FondeoDPF {
 	}
 
 	public void write(int i, int celda, String dato) throws IOException {
-		String path = System.getProperty("user.dir") + "/src/Excel/entregable4/FondeoDPF.xlsx";
+		String path = System.getProperty("user.dir") + "/src/Excel/entregable4/RetiroCuentaCTS.xlsx";
 		FileInputStream fs = new FileInputStream(path);
 		Workbook wb = new XSSFWorkbook(fs);
 		Sheet sheet1 = wb.getSheetAt(0);
@@ -285,11 +336,15 @@ public class FondeoDPF {
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File source = ts.getScreenshotAs(OutputType.FILE);
 		// after execution, you could see a folder "FailedTestsScreenshots" under src folder
-		String destination = System.getProperty("user.dir") + "/test-output/reports4/FondeoDPF/Images/" + screenshotName + dateName + ".png";
+		String destination = System.getProperty("user.dir") + "/test-output/reports4/RetiroCuentaCTS/Images/" + screenshotName + dateName + ".png";
 		File finalDestination = new File(destination);
 		FileUtils.copyFile(source, finalDestination);
 		return destination;
 	}
+
+
+
+
 
 
 	@After
