@@ -308,7 +308,7 @@ public class AltaPrestamo {
                     }
 
                     wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:ACCOUNT.1:1")));
-                    driver.findElement(By.id("fieldName:ACCOUNT.1:1")).sendKeys(cuenta.get(i));
+                    driver.findElement(By.id("fieldName:ACCOUNT.1:1")).sendKeys(cod);
                     driver.findElement(By.id("fieldName:AMOUNT.LOCAL.1:1")).sendKeys(monto.get(i));
 
                     String screenshotPath3 = getScreenShot(driver, "Fin del Caso");
