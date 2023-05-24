@@ -218,6 +218,8 @@ public class AltaPrestamo {
                     String cod = driver.findElement(By.id("disabled_ACCOUNT.REFERENCE")).getText();
                     System.out.println("CUENTA : " +cod);
                     write(i+1, 10, cod);
+                    write(i+1, 8, cod);
+
                     String arreglo = driver.findElement(By.id("disabled_ARRANGEMENT")).getText();
                     System.out.println("ARREGLO : " +arreglo);
 
@@ -264,9 +266,6 @@ public class AltaPrestamo {
 
                     driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
 
-                    Thread.sleep(1000);
-                    driver.findElement(By.id("details-button")).click();
-                    driver.findElement(By.id("proceed-link")).click();
                     Thread.sleep(3000);
 
                     driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
