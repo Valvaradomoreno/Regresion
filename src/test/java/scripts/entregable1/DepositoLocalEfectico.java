@@ -159,7 +159,7 @@ public class DepositoLocalEfectico {
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
 				Thread.sleep(2000);
 
-				driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[2]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[7]/a/img")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Overview']"))).click();
 
 				String MainWindow2=driver.getWindowHandle();
 				Set<String> s2=driver.getWindowHandles();
@@ -352,7 +352,7 @@ public class DepositoLocalEfectico {
 				driver.findElement(By.id(attr)).sendKeys(cuenta.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
 
-				driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[2]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[7]/a/img")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Overview']"))).click();
 
 
 				String MainWindow6=driver.getWindowHandle();
