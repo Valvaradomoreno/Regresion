@@ -219,9 +219,7 @@ public class CambioTasa {
 				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
 
 				Thread.sleep(1000);
-				driver.findElement(By.id("details-button")).click();
-				driver.findElement(By.id("proceed-link")).click();
-				Thread.sleep(3000);
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
 
 				driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
 				driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
