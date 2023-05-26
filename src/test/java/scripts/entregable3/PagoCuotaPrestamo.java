@@ -131,7 +131,7 @@ public class PagoCuotaPrestamo {
                     Thread.sleep(1000);
                     driver.findElement(By.xpath("//span[contains(text(),'Operaciones Minoristas')]")).click();
                     driver.findElement(By.xpath("//span[contains(text(),'Transacciones de Préstamo')]")).click();
-                    driver.findElement(By.xpath("//span[contains(text(),'Actividades de Contrato (TT)')]")).click();
+                    driver.findElement(By.xpath("/html/body/div[3]/ul/li/ul/li[4]/ul/li[7]/ul/li/span/img")).click();
                     driver.findElement(By.xpath("//a[contains(text(),'Pago de Cuota de Prestamo ')]")).click();
                     driver.switchTo().parentFrame();
 
@@ -151,15 +151,13 @@ public class PagoCuotaPrestamo {
                     String attr = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
                     driver.findElement(By.id("value:1:1:1")).clear();
                     Thread.sleep(200);
-                    driver.findElement(By.id("value:2:1:1")).clear();
-                    Thread.sleep(200);
                     driver.findElement(By.id(attr)).sendKeys(cuenta.get(i));
                     driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
 
                     //El hace click en pago de cuota
                     driver.manage().window().maximize();
                     Thread.sleep(2000);
-                    driver.findElement(By.xpath("//a[@alt='Select Drilldown']")).click();
+                    driver.findElement(By.xpath("//img[@alt='Select Drilldown']")).click();
                     Thread.sleep(2000);
 
                     //El usuario digita monto a pagar
@@ -168,111 +166,21 @@ public class PagoCuotaPrestamo {
                     //El usuario prevalida
                     driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
+
                     //El usuario hace commit
                     wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
                     driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
+                    Thread.sleep(2000);
+                    Select selectProducto = new Select(driver.findElement(By.id("warningChooser:CALIFICA COMO PAGO ANTICIPADO, DEBE SALIR Y ELEGIR TRANSACCION")));
+                    selectProducto.selectByVisibleText("APPROVE");
+                    driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
+                    Thread.sleep(2000);
 
                     //Se muestra el codigo de transacción de alta prestamo
                     String cod2 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
                     String sSubCadena = cod2.substring(22,39);
                     System.out.println(sSubCadena);
                     write(i+1, 6, sSubCadena);
-
-
-                    ////// APROBACION ******************
-
-
-                    driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
-
-                    Thread.sleep(1000);
-                    driver.findElement(By.id("details-button")).click();
-                    driver.findElement(By.id("proceed-link")).click();
-                    Thread.sleep(3000);
-
-                    driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
-                    driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
-                    driver.findElement(By.id("sign-in")).click();
-
-                    WebElement iframe0 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
-                    driver.switchTo().frame(iframe0);
-                    Assert.assertEquals(exp_message, actual);
-                    System.out.println("assert complete");
-                    driver.switchTo().parentFrame();
-
-                    Thread.sleep(1000);
-                    WebElement iframe10 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
-                    driver.switchTo().frame(iframe10);
-
-                    driver.findElement(By.id("imgError")).click();
-
-                    driver.findElement(By.xpath("//span[contains(text(),'Operaciones Minoristas')]")).click();
-                    driver.findElement(By.xpath("//span[contains(text(),'Transacciones de Préstamo')]")).click();
-                    driver.findElement(By.xpath("//span[contains(text(),'Actividades de Contrato (TT)')]")).click();
-                    driver.findElement(By.xpath("//a[contains(text(),'Pago de Cuota de Prestamo ')]")).click();
-                    driver.switchTo().parentFrame();
-
-                    String MainWindow4=driver.getWindowHandle();
-                    Set<String> s4=driver.getWindowHandles();
-                    Iterator<String> i4=s4.iterator();
-
-                    while(i4.hasNext())
-                    {
-                        String ChildWindow=i4.next();
-
-                        if(!MainWindow4.equalsIgnoreCase(ChildWindow))
-                        {
-                            driver.switchTo().window(ChildWindow);
-                        }
-                    }
-
-                    Thread.sleep(3000);
-                    driver.findElement(By.id("value:1:1:1")).clear();
-                    Thread.sleep(200);
-                    driver.findElement(By.id("value:2:1:1")).clear();
-                    Thread.sleep(200);
-                    String attr1 = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
-                    driver.findElement(By.id(attr1)).sendKeys(cuenta.get(i));
-                    driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
-                    Thread.sleep(500);
-
-                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Overview']"))).click();
-
-                    String MainWindow5=driver.getWindowHandle();
-                    Set<String> s5=driver.getWindowHandles();
-                    Iterator<String> i5=s5.iterator();
-
-                    while(i5.hasNext())
-                    {
-                        String ChildWindow=i5.next();
-
-                        if(!MainWindow5.equalsIgnoreCase(ChildWindow))
-                        {
-                            driver.switchTo().window(ChildWindow);
-                        }
-                    }
-                    driver.manage().window().maximize();
-                    Thread.sleep(5000);
-
-                    String screenshotPath3 = getScreenShot(driver, "");
-
-                    driver.findElement(By.xpath("//img[@alt='Select Drilldown']")).click();
-
-                    String MainWindow6=driver.getWindowHandle();
-                    Set<String> s6=driver.getWindowHandles();
-                    Iterator<String> i6=s6.iterator();
-
-                    while(i6.hasNext())
-                    {
-                        String ChildWindow=i6.next();
-
-                        if(!MainWindow6.equalsIgnoreCase(ChildWindow))
-                        {
-                            driver.switchTo().window(ChildWindow);
-                        }
-                    }
-
-                    driver.findElement(By.xpath("//img[@alt='Authorises a deal']")).click();
-                    Thread.sleep(3000);
 
 
                     String screenshotPath = getScreenShot(driver, "Fin del Caso");

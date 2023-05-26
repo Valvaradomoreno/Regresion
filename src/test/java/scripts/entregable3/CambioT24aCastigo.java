@@ -194,7 +194,7 @@ public class CambioT24aCastigo {
 				if(tipo_producto.get(i).equals("PRESTAMO YA")){
 					driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[36]/td[3]/a/img")).click();
 				}else if(tipo_producto.get(i).equals("PRESTAMO SENIOR")){
-					driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[35]/td[3]/a/img")).click();
+					driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[36]/td[3]/a/img")).click();
 				}else{
 					driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[36]/td[3]/a/img")).click();
 				}
@@ -231,9 +231,6 @@ public class CambioT24aCastigo {
 
 				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
 
-				Thread.sleep(1000);
-				driver.findElement(By.id("details-button")).click();
-				driver.findElement(By.id("proceed-link")).click();
 				Thread.sleep(3000);
 
 				driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
@@ -300,8 +297,7 @@ public class CambioT24aCastigo {
 				Thread.sleep(5000);
 
 				String screenshotPath3 = getScreenShot(driver, "");
-
-				driver.findElement(By.xpath("//img[@alt='Select Drilldown']")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Select Drilldown']"))).click();
 
 				String MainWindow6=driver.getWindowHandle();
 				Set<String> s6=driver.getWindowHandles();

@@ -285,8 +285,7 @@ public class CambioTasa {
 				Thread.sleep(5000);
 
 				String screenshotPath3 = getScreenShot(driver, "");
-
-				driver.findElement(By.xpath("//img[@alt='Select Drilldown']")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Select Drilldown']"))).click();
 
 				String MainWindow6=driver.getWindowHandle();
 				Set<String> s6=driver.getWindowHandles();

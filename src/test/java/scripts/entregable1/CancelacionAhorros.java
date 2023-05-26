@@ -175,7 +175,7 @@ public class CancelacionAhorros {
 					}
 				}
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Nueva Actividad')]"))).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Nueva Actividad')]")));
 
 				String screenshotPath1 = getScreenShot(driver, "");
 
@@ -195,12 +195,10 @@ public class CancelacionAhorros {
 					}
 				}
 
-				//wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[53]/td[3]/a/img")));
-				Thread.sleep(80000);
-				driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[53]/td[3]/a/img")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[53]/td[3]/a/img"))).click();
 
 				driver.manage().window().maximize();
-
+				Thread.sleep(2000);
 				Select selectProducto2 = new Select(driver.findElement(By.id("fieldName:CLOSURE.REASON")));
 				selectProducto2.selectByVisibleText(razon.get(i));
 

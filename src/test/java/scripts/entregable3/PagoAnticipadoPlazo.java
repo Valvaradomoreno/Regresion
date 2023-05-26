@@ -195,9 +195,6 @@ public class PagoAnticipadoPlazo {
 
 				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
 
-				Thread.sleep(1000);
-				driver.findElement(By.id("details-button")).click();
-				driver.findElement(By.id("proceed-link")).click();
 				Thread.sleep(3000);
 
 				driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
@@ -218,7 +215,14 @@ public class PagoAnticipadoPlazo {
 
 				driver.findElement(By.xpath("//img[@alt='Operaciones Minoristas']")).click();
 
-				driver.findElement(By.xpath("//a[contains(text(),'Buscar Préstamo ')]")).click();
+				// ORDEN DE PAGO
+				driver.findElement(By.xpath("//span[contains(text(),'Orden de Pago')]")).click();
+
+				// Input Payment Order
+				driver.findElement(By.xpath("//span[contains(text(),'Input Payment Order')]")).click();
+
+				// Pago Prestamo
+				driver.findElement(By.xpath("//a[contains(text(),'Pago prestamo con cargo a cuenta ')]")).click();
 				driver.switchTo().parentFrame();
 
 				String MainWindow4=driver.getWindowHandle();
@@ -235,55 +239,26 @@ public class PagoAnticipadoPlazo {
 					}
 				}
 
-				Thread.sleep(3000);
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("value:1:1:1")));
 				driver.findElement(By.id("value:1:1:1")).clear();
 				Thread.sleep(200);
-				driver.findElement(By.id("value:2:1:1")).clear();
-				Thread.sleep(200);
-				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'ID de Arreglo')]")).getAttribute("for");
-				driver.findElement(By.id(attr1)).sendKeys(cuenta.get(i));
+				driver.findElement(By.id("value:1:1:1")).sendKeys(cuenta.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
-				Thread.sleep(500);
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Overview']"))).click();
+				Thread.sleep(2000);
 
-				String MainWindow5=driver.getWindowHandle();
-				Set<String> s5=driver.getWindowHandles();
-				Iterator<String> i5=s5.iterator();
 
-				while(i5.hasNext())
-				{
-					String ChildWindow=i5.next();
-
-					if(!MainWindow5.equalsIgnoreCase(ChildWindow))
-					{
-						driver.switchTo().window(ChildWindow);
-					}
-				}
 				driver.manage().window().maximize();
-				Thread.sleep(5000);
+				Thread.sleep(1000);
 
 				String screenshotPath3 = getScreenShot(driver, "");
 
 				driver.findElement(By.xpath("//img[@alt='Select Drilldown']")).click();
+				Thread.sleep(2000);
 
-				String MainWindow6=driver.getWindowHandle();
-				Set<String> s6=driver.getWindowHandles();
-				Iterator<String> i6=s6.iterator();
-
-				while(i6.hasNext())
-				{
-					String ChildWindow=i6.next();
-
-					if(!MainWindow6.equalsIgnoreCase(ChildWindow))
-					{
-						driver.switchTo().window(ChildWindow);
-					}
-				}
 
 				driver.findElement(By.xpath("//img[@alt='Authorises a deal']")).click();
 				Thread.sleep(3000);
-
 
 
 

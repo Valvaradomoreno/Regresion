@@ -172,9 +172,10 @@ public class CambioTasaCuentaAhorro {
 						driver.switchTo().window(ChildWindow);
 					}
 				}
+				driver.manage().window().maximize();
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Nueva Actividad')]"))).click();
-				driver.findElement(By.xpath("//a[contains(text(),'Nueva Actividad')]")).click();
+				System.out.println("Nueva Ac");
 
 				String MainWindow2=driver.getWindowHandle();
 				Set<String> s2=driver.getWindowHandles();
@@ -189,8 +190,12 @@ public class CambioTasaCuentaAhorro {
 						driver.switchTo().window(ChildWindow);
 					}
 				}
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[31]/td[3]/a/img"))).clear();
-				driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[31]/td[3]/a/img")).click();
+				driver.manage().window().maximize();
+				System.out.println("Opcion");
+
+				// ***** CAMBIAR XPATH DE OPCION (CHANGE FOR CINTEREST)
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[32]/td[3]/a/img")));
+				driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[32]/td[3]/a/img")).click();
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:FIXED.RATE:1"))).clear();
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:FIXED.RATE:1"))).sendKeys(fijo.get(i));

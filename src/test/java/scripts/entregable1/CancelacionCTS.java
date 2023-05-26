@@ -160,20 +160,6 @@ public class CancelacionCTS {
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Overview']"))).click();
 
 
-				String MainWindow2=driver.getWindowHandle();
-				Set<String> s2=driver.getWindowHandles();
-				Iterator<String> i2=s2.iterator();
-
-				while(i2.hasNext())
-				{
-					String ChildWindow=i2.next();
-
-					if(!MainWindow2.equalsIgnoreCase(ChildWindow))
-					{
-						driver.switchTo().window(ChildWindow);
-					}
-				}
-
 				driver.manage().window().maximize();
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[6]/td/table/tbody/tr/td[1]/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[2]/a/img")));
 
@@ -216,26 +202,39 @@ public class CancelacionCTS {
 				driver.findElement(By.id("errorImg")).click();
 				Thread.sleep(3000);
 
-
-				//wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
-				//driver.findElement(By.id("errorImg")).click();
-				Thread.sleep(60000);
-
 				//String cod = driver.findElement(By.id("transactionId")).getCssValue("value");
 				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String sSubCadena = cod.substring(22,39);
 				System.out.println(sSubCadena);
 				write(i+1, 6, sSubCadena);
 
+				Thread.sleep(30000);
+				String MainWindow7=driver.getWindowHandle();
+				Set<String> s7=driver.getWindowHandles();
+				Iterator<String> i7=s7.iterator();
+
+				while(i7.hasNext())
+				{
+					String ChildWindow=i7.next();
+
+					if(!MainWindow7.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+						driver.close();
+					}
+				}
+
 				////// APROBACION ******************
 
-
+				driver = new ChromeDriver();
+				driver.manage().window().maximize();
 				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
+				WebDriverWait wait2 = new WebDriverWait(driver, 60);
 
 				Thread.sleep(1000);
 				driver.findElement(By.id("details-button")).click();
 				driver.findElement(By.id("proceed-link")).click();
-				Thread.sleep(3000);
+				Thread.sleep(2000);
 
 				driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
 				driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
@@ -277,12 +276,12 @@ public class CancelacionCTS {
 				Thread.sleep(200);
 				driver.findElement(By.id("value:2:1:1")).clear();
 				Thread.sleep(200);
-				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'ID de Arreglo')]")).getAttribute("for");
+				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
 				driver.findElement(By.id(attr1)).sendKeys(cuenta.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
 				Thread.sleep(500);
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Overview']"))).click();
+				wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Overview']"))).click();
 
 				String MainWindow5=driver.getWindowHandle();
 				Set<String> s5=driver.getWindowHandles();
@@ -302,8 +301,7 @@ public class CancelacionCTS {
 
 				String screenshotPath3 = getScreenShot(driver, "");
 
-
-				driver.findElement(By.xpath("//img[@alt='Select Drilldown']")).click();
+				wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Select Drilldown']"))).click();
 
 				String MainWindow6=driver.getWindowHandle();
 				Set<String> s6=driver.getWindowHandles();
@@ -318,8 +316,7 @@ public class CancelacionCTS {
 						driver.switchTo().window(ChildWindow);
 					}
 				}
-
-				driver.findElement(By.xpath("//img[@alt='Authorises a deal']")).click();
+				wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Authorises a deal']"))).click();
 				Thread.sleep(3000);
 
 

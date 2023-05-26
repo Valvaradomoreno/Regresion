@@ -161,18 +161,7 @@ public class ActualizacionIntangibleCTS {
 
 				driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[7]")).click();
 
-				// poner numuero en el MainWindow, s2, i2 y reemplazar
-				String MainWindow2 = driver.getWindowHandle();
-				Set<String> s2 = driver.getWindowHandles();
-				Iterator<String> i2 = s2.iterator();
 
-				while (i2.hasNext()) {
-					String ChildWindow = i2.next();
-
-					if (!MainWindow2.equalsIgnoreCase(ChildWindow)) {
-						driver.switchTo().window(ChildWindow);
-					}
-				}
 				Thread.sleep(3000);
 
 				driver.findElement(By.xpath("//a[contains(text(),'Nueva Actividad')]")).click();
@@ -224,9 +213,6 @@ public class ActualizacionIntangibleCTS {
 				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
 
 				Thread.sleep(1000);
-				driver.findElement(By.id("details-button")).click();
-				driver.findElement(By.id("proceed-link")).click();
-				Thread.sleep(3000);
 
 				driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
 				driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
@@ -268,12 +254,12 @@ public class ActualizacionIntangibleCTS {
 				Thread.sleep(200);
 				driver.findElement(By.id("value:2:1:1")).clear();
 				Thread.sleep(200);
-				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'ID de Arreglo')]")).getAttribute("for");
+				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
 				driver.findElement(By.id(attr1)).sendKeys(cuenta.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
 				Thread.sleep(500);
 
-				driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[7]")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Overview']"))).click();
 
 				String MainWindow5=driver.getWindowHandle();
 				Set<String> s5=driver.getWindowHandles();
