@@ -2,6 +2,7 @@ package scripts.entregable3;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
@@ -168,6 +169,7 @@ public class PagoCuotaPrestamoCargoCuenta {
                     driver.findElement(By.id("fieldName:PAYMENT.CURRENCY")).sendKeys(moneda.get(i));
                     //driver.findElement(By.id("fieldName:PAYMENT.AMOUNT")).sendKeys(monto.get(i));
                     //driver.findElement(By.id("fieldName:PAYMENT.AMOUNT")).sendKeys(monto.get(i));
+                    String screenshotPath1 = getScreenShot(driver, "");
 
                     //El usuario prevalida
                     driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
@@ -189,6 +191,7 @@ public class PagoCuotaPrestamoCargoCuenta {
                     String sSubCadena = cod2.substring(22,39);
                     System.out.println(sSubCadena);
                     write(i+1, 8, sSubCadena);
+                    String screenshotPath2 = getScreenShot(driver, "");
 
 
                     ////// APROBACION ******************
@@ -250,9 +253,15 @@ public class PagoCuotaPrestamoCargoCuenta {
 
                     driver.findElement(By.xpath("//img[@alt='Authorises a deal']")).click();
                     Thread.sleep(3000);
+                    String screenshotPath3 = getScreenShot(driver, "");
 
-                    String screenshotPath = getScreenShot(driver, "Fin del Caso");
-                    logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
+
+                    logger.log(Status.PASS, MarkupHelper.createLabel("Ingreso datos", ExtentColor.GREEN));
+                    logger.log(Status.PASS,"Ingreso datos", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath1).build());
+                    logger.log(Status.PASS, MarkupHelper.createLabel("Pago Cuota Exitosa", ExtentColor.GREEN));
+                    logger.log(Status.PASS,"Pago Cuota Exitosa", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
+                    logger.log(Status.PASS, MarkupHelper.createLabel("Monto Aprobado", ExtentColor.GREEN));
+                    logger.log(Status.PASS,"Monto Aprobado", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath3).build());
                     extent.flush();
                     write(i+1, 7, "PASSED");
 

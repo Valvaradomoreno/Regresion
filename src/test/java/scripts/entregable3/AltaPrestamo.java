@@ -286,7 +286,8 @@ public class AltaPrestamo {
 
                     driver.findElement(By.xpath("//img[@alt='Operaciones Minoristas']")).click();
                     driver.findElement(By.xpath("//img[@alt='Transacciones de Préstamo']")).click();
-                    driver.findElement(By.xpath("//*[@id=\"pane_\"]/ul/li/ul/li[4]/ul/li[7]/ul/li/span/text()")).click();
+
+                    driver.findElement(By.xpath("/html/body/div[3]/ul/li/ul/li[4]/ul/li[7]/ul/li/span/img")).click();
 
                     driver.findElement(By.xpath("//a[contains(text(),'AA Desembolso ')]")).click();
                     driver.switchTo().parentFrame();

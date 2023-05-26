@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 
 public class CancelacionAnticipadaDPF {
@@ -228,8 +229,7 @@ public class CancelacionAnticipadaDPF {
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg"))).click();
 
-				Thread.sleep(8000);
-
+				Thread.sleep(15000);
 
 
 				String screenshotPath = getScreenShot(driver, "");

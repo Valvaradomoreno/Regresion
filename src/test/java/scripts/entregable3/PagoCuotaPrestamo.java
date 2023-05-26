@@ -180,18 +180,20 @@ public class PagoCuotaPrestamo {
                     String cod2 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
                     String sSubCadena = cod2.substring(22,39);
                     System.out.println(sSubCadena);
-                    write(i+1, 6, sSubCadena);
+                    write(i+1, 5, sSubCadena);
+
+                     Thread.sleep(3000);
 
 
                     String screenshotPath = getScreenShot(driver, "Fin del Caso");
                     logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
                     extent.flush();
-                    write(i+1, 5, "PASSED");
+                    write(i+1, 4, "PASSED");
 
                     DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
                     String fecha = dateFormat.format(new Date());
                     System.out.println(fecha);
-                    write(i+1, 7, fecha);
+                    write(i+1, 6, fecha);
 
                     driver.quit();
                 }
@@ -200,13 +202,13 @@ public class PagoCuotaPrestamo {
                 String screenshotPath = getScreenShot(driver, "Error");
                 logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
                 extent.flush();
-                write(i+1, 5, "FAILED");
-                write(i+1, 6, "");
+                write(i+1, 4, "FAILED");
+                write(i+1, 5, "");
 
                 DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
                 String fecha = dateFormat.format(new Date());
                 System.out.println(fecha);
-                write(i+1, 7, fecha);
+                write(i+1, 6, fecha);
                 System.out.println("Error: " + e);
                 driver.quit();
             }
