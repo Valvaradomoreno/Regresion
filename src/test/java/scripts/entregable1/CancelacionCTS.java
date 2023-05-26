@@ -161,7 +161,8 @@ public class CancelacionCTS {
 
 
 				driver.manage().window().maximize();
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[6]/td/table/tbody/tr/td[1]/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[2]/a/img")));
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr[1]/td/table/tbody/tr[10]/td/table/tbody/tr[1]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[3]/td[1]")));
+				String mount = driver.findElement(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr[1]/td/table/tbody/tr[10]/td/table/tbody/tr[1]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[3]/td[1]")).getText();
 
 				String screenshotPath1 = getScreenShot(driver, "");
 
@@ -254,7 +255,7 @@ public class CancelacionCTS {
 
 				driver.findElement(By.xpath("//img[@alt='Transacciones CTS']")).click();
 
-				driver.findElement(By.xpath("//a[contains(text(),'Buscar Cuenta CTS ')]")).click();
+				driver.findElement(By.xpath("//a[contains(text(),'Cancelación de cuenta CTS Soles ')]")).click();
 				driver.switchTo().parentFrame();
 
 				String MainWindow4=driver.getWindowHandle();
@@ -272,51 +273,24 @@ public class CancelacionCTS {
 				}
 
 				Thread.sleep(3000);
-				driver.findElement(By.id("value:1:1:1")).clear();
-				Thread.sleep(200);
-				driver.findElement(By.id("value:2:1:1")).clear();
-				Thread.sleep(200);
-				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
-				driver.findElement(By.id(attr1)).sendKeys(cuenta.get(i));
-				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
-				Thread.sleep(500);
-
-				wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Overview']"))).click();
-
-				String MainWindow5=driver.getWindowHandle();
-				Set<String> s5=driver.getWindowHandles();
-				Iterator<String> i5=s5.iterator();
-
-				while(i5.hasNext())
-				{
-					String ChildWindow=i5.next();
-
-					if(!MainWindow5.equalsIgnoreCase(ChildWindow))
-					{
-						driver.switchTo().window(ChildWindow);
-					}
-				}
-				driver.manage().window().maximize();
+				driver.findElement(By.xpath("//img[@alt='New Deal']")).click();
+				Thread.sleep(1000);
+				driver.findElement(By.id("fieldName:ACCOUNT.1:1")).sendKeys(cuenta.get(i));
+				double m = Double.parseDouble(mount);
+				double mountConf = Math.ceil(m);
+				driver.findElement(By.id("fieldName:AMOUNT.LOCAL.1:1")).sendKeys(""+mountConf);
 				Thread.sleep(5000);
 
-				String screenshotPath3 = getScreenShot(driver, "");
+				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
+				Thread.sleep(80000);
 
-				wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Select Drilldown']"))).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
+				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 
-				String MainWindow6=driver.getWindowHandle();
-				Set<String> s6=driver.getWindowHandles();
-				Iterator<String> i6=s6.iterator();
 
-				while(i6.hasNext())
-				{
-					String ChildWindow=i6.next();
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
 
-					if(!MainWindow6.equalsIgnoreCase(ChildWindow))
-					{
-						driver.switchTo().window(ChildWindow);
-					}
-				}
-				wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Authorises a deal']"))).click();
+				driver.findElement(By.id("errorImg")).click();
 				Thread.sleep(3000);
 
 
@@ -325,8 +299,6 @@ public class CancelacionCTS {
 				logger.log(Status.PASS,"Autorizado", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath1).build());
 				logger.log(Status.PASS, MarkupHelper.createLabel("Motivo Cierre", ExtentColor.GREEN));
 				logger.log(Status.PASS,"Motivo Cierre", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
-				logger.log(Status.PASS, MarkupHelper.createLabel("Closed", ExtentColor.GREEN));
-				logger.log(Status.PASS,"Closed", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath3).build());
 				logger.log(Status.PASS, MarkupHelper.createLabel("Fin del caso", ExtentColor.GREEN));
 				logger.log(Status.PASS,"Fin del caso", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath4).build());
 

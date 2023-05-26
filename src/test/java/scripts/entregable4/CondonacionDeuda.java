@@ -129,7 +129,7 @@ public class CondonacionDeuda {
 
 				driver.findElement(By.xpath("//img[@alt='Operaciones Minoristas']")).click();
 
-				driver.findElement(By.xpath("//a[contains(text(),'Buscar Depósito ')]")).click();
+				driver.findElement(By.xpath("//a[contains(text(),'Buscar Préstamo ')]")).click();
 				driver.switchTo().parentFrame();
 
 				String MainWindow=driver.getWindowHandle();

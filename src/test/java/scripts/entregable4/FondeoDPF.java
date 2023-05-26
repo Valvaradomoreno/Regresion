@@ -78,6 +78,7 @@ public class FondeoDPF {
 		ArrayList<String> ejecutivo =readExcelData(3);
 		ArrayList<String> monto =readExcelData(4);
 		ArrayList<String> plazo =readExcelData(5);
+		ArrayList<String> cuenta =readExcelData(6);
 
 		int filas=usuario.size();
   		for(int i=0;i<usuario.size();i++) {
@@ -147,7 +148,7 @@ public class FondeoDPF {
 				driver.manage().window().maximize();
 				WebElement iframe2 = driver.findElement(By.xpath("/html/frameset/frameset[2]/frameset[1]/frame[2]"));
 				driver.switchTo().frame(iframe2);
-				driver.findElement(By.id("treestop5")).click();
+				driver.findElement(By.id("treestop1")).click();
 				driver.findElement(By.xpath("//*[@id='r5']/td[4]/a/img")).click();
 				driver.switchTo().parentFrame();
 
@@ -178,8 +179,8 @@ public class FondeoDPF {
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:PRIMARY.OFFICER")));
 				driver.findElement(By.id("fieldName:PRIMARY.OFFICER")).sendKeys(ejecutivo.get(i));
-				driver.findElement(By.xpath("/html/body/div[5]/fieldset[3]/div/div/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr[8]/td[3]/table/tbody/tr/td[2]/input")).click();
-				driver.findElement(By.xpath("/html/body/div[5]/fieldset[3]/div/div/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr[12]/td[3]/table/tbody/tr/td[1]/input")).click();
+				//driver.findElement(By.xpath("/html/body/div[5]/fieldset[3]/div/div/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr[8]/td[3]/table/tbody/tr/td[2]/input")).click();
+				//driver.findElement(By.xpath("/html/body/div[5]/fieldset[3]/div/div/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr[12]/td[3]/table/tbody/tr/td[1]/input")).click();
 
 
 				String cod = driver.findElement(By.id("disabled_ACCOUNT.REFERENCE")).getText();
@@ -189,6 +190,7 @@ public class FondeoDPF {
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:AMOUNT")));
 				driver.findElement(By.id("fieldName:AMOUNT")).sendKeys(monto.get(i));
+				driver.findElement(By.id("fieldName:CHANGE.PERIOD")).clear();
 				driver.findElement(By.id("fieldName:CHANGE.PERIOD")).sendKeys(plazo.get(i));
 				Select selectProducto = new Select(driver.findElement(By.id("fieldName:PAYIN.SETTLEMENT:1")));
 				selectProducto.selectByVisibleText("NO");
@@ -206,24 +208,85 @@ public class FondeoDPF {
 				Select selectProducto1 = new Select(driver.findElement(By.xpath("/html/body/div[3]/div/div[2]/form[1]/div[3]/table/tbody/tr[2]/td/table/tbody/tr/td[3]/select")));
 				selectProducto1.selectByVisibleText("RECEIVED");
 				driver.findElement(By.id("errorImg")).click();
+				Thread.sleep(3000);
+
+
+				////// FONDEO ******************
+				driver.manage().window().maximize();
+				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
+
+
+				Thread.sleep(2000);
+
+				driver.findElement(By.id("signOnName")).sendKeys(usuario.get(i));
+				driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
+				driver.findElement(By.id("sign-in")).click();
+
+				WebElement iframe0 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
+				driver.switchTo().frame(iframe0);
+				Assert.assertEquals(exp_message, actual);
+				System.out.println("assert complete");
+				driver.switchTo().parentFrame();
+
+				Thread.sleep(1000);
+				WebElement iframe10 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
+				driver.switchTo().frame(iframe10);
+
+				driver.findElement(By.id("imgError")).click();
+
+				driver.findElement(By.xpath("//img[@alt='Operaciones Minoristas']")).click();
+				driver.findElement(By.xpath("//img[@alt='Transacciones de Depósito']")).click();
+				driver.findElement(By.xpath("//img[@alt='Actividades de Contrato (TT)']")).click();
+
+				driver.findElement(By.xpath("//a[contains(text(),'AA Depósito - Fondo (LCY) ')]")).click();
+				driver.switchTo().parentFrame();
+
+				String MainWindow4=driver.getWindowHandle();
+				Set<String> s4=driver.getWindowHandles();
+				Iterator<String> i4=s4.iterator();
+
+				while(i4.hasNext())
+				{
+					String ChildWindow=i4.next();
+
+					if(!MainWindow4.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+				Thread.sleep(2000);
+
+				driver.findElement(By.id("fieldName:AMOUNT.LOCAL.1:1")).sendKeys(monto.get(i));
+				driver.findElement(By.id("fieldName:ACCOUNT.2")).sendKeys(cod);
+
+				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
+
+
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
+				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
+				Thread.sleep(2000);
+
+				driver.findElement(By.id("errorImg")).click();
+				Thread.sleep(3000);
+
 
 				//String cod = driver.findElement(By.id("transactionId")).getCssValue("value");
 				String cod1 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String sSubCadena = cod1.substring(22,39);
 				System.out.println(sSubCadena);
-				write(i+1, 7, sSubCadena);
+				write(i+1, 8, sSubCadena);
 
 
 
 				String screenshotPath = getScreenShot(driver, "Fin del Caso");
 				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
 				extent.flush();
-				write(i+1, 6, "PASSED");
+				write(i+1, 7, "PASSED");
 
 				DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				String fecha = dateFormat.format(new Date());
 				System.out.println(fecha);
-				write(i+1, 8, fecha);
+				write(i+1, 9, fecha);
 					driver.quit();
 
 				}
@@ -233,13 +296,13 @@ public class FondeoDPF {
 				  String screenshotPath = getScreenShot(driver, "Error");
 				  logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
 				  extent.flush();
-				  write(i+1, 6, "FAILED");
-				  write(i+1, 7, "");
+				  write(i+1, 7, "FAILED");
+				  write(i+1, 8, "");
 
 				  DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
-				  write(i+1, 8, fecha);
+				  write(i+1, 9, fecha);
 				  System.out.println("Error: " + e);
 				driver.quit();
 

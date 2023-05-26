@@ -188,7 +188,8 @@ public class CancelacionAnticipadaDPF {
 					}
 				}
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("radio:tab1:CASH.CANCEL"))).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("radio:tab1:CASH.CANCEL")));
+				driver.findElement(By.xpath("/html/body/div[3]/div[2]/form[1]/div[4]/table/tbody/tr[2]/td/table/tbody/tr[9]/td[3]/table/tbody/tr/td[2]/input")).click();
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();

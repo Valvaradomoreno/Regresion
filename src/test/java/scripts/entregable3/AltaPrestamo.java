@@ -217,8 +217,8 @@ public class AltaPrestamo {
                     //El usuario captura la cuenta prestamo
                     String cod = driver.findElement(By.id("disabled_ACCOUNT.REFERENCE")).getText();
                     System.out.println("CUENTA : " +cod);
-                    write(i+1, 10, cod);
-                    write(i+1, 8, cod);
+                    write(i+1, 13, cod);
+                    write(i+1, 9, cod);
 
                     String arreglo = driver.findElement(By.id("disabled_ARRANGEMENT")).getText();
                     System.out.println("ARREGLO : " +arreglo);
