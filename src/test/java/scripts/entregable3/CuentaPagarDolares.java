@@ -57,7 +57,7 @@ public class CuentaPagarDolares {
 
 
     @Test
-    public void CuentaPagarSoles()throws IOException, InterruptedException, AWTException {
+    public void CuentaPagarDolares()throws IOException, InterruptedException, AWTException {
 
         extent = new ExtentReports();
         spark = new ExtentSparkReporter(System.getProperty("user.dir") + "/test-output/reports3/CuentaPagarDolares/Report.html");

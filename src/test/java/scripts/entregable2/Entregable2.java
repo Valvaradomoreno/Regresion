@@ -19,10 +19,13 @@ import java.util.Iterator;
 public class Entregable2 {
 
 	AltaClienteSinBiometria altaCliente= new AltaClienteSinBiometria();
+	AltaClienteControlDual altaClienteControlDual = new AltaClienteControlDual();
 	ModificarCliente modificarCliente= new ModificarCliente();
 	ModificarClienteCorporativo modificarClienteCorporativo = new ModificarClienteCorporativo();
 	PagoMasivoPrestamo pagoMasivoPrestamo = new PagoMasivoPrestamo();
+	PagoTCyReversa pagoTCyReversa = new PagoTCyReversa();
 	ProcesoAbonoMasivoCTS procesoAbonoMasivoCTS = new ProcesoAbonoMasivoCTS();
+	ProcesoActualizacionDatosMasivos procesoActualizacionDatosMasivos = new ProcesoActualizacionDatosMasivos();
     WebDriver driver;
 
 	@BeforeTest
@@ -38,7 +41,7 @@ public class Entregable2 {
 
 	
 	@Test
-	public void entregable1()throws IOException, InterruptedException, AWTException {
+	public void entregable2()throws IOException, InterruptedException, AWTException {
 
 		ArrayList<String> caso=readExcelData(0);
 		ArrayList<String> ejecutar =readExcelData(1);
@@ -51,18 +54,27 @@ public class Entregable2 {
 				if((caso.get(i).equals("Alta Cliente")) && (ejecutar.get(i).equals("Si"))) {
 					System.out.println("Alta Cliente");
 					altaCliente.AltaClienteSinBiometria();
-				}else if((caso.get(i).equals("ModificarCliente")) && (ejecutar.get(i).equals("Si"))) {
+				}if((caso.get(i).equals("Alta Cliente Control Dual")) && (ejecutar.get(i).equals("Si"))) {
+					System.out.println("Alta Cliente Control Dual");
+					altaClienteControlDual.AltaClienteControlDual();
+				}else if((caso.get(i).equals("Modificar Cliente")) && (ejecutar.get(i).equals("Si"))) {
 					System.out.println("ModificarCliente");
 					modificarCliente.ModificarCliente();
-				} else if((caso.get(i).equals("ModificarClienteCorporativo")) && (ejecutar.get(i).equals("Si"))) {
+				} else if((caso.get(i).equals("Modificar Cliente Corporativo")) && (ejecutar.get(i).equals("Si"))) {
 					System.out.println("ModificarClienteCorporativo");
 					modificarClienteCorporativo.ModificarClienteCorporativo();
-				} else if((caso.get(i).equals("PagoMasivoPrestamo")) && (ejecutar.get(i).equals("Si"))) {
+				} else if((caso.get(i).equals("Pago Masivo Prestamo")) && (ejecutar.get(i).equals("Si"))) {
 					System.out.println("PagoMasivoPrestamo");
 					pagoMasivoPrestamo.PagoMasivoPrestamo();
-				}else if((caso.get(i).equals("ProcesoAbonoMasivoCTS")) && (ejecutar.get(i).equals("Si"))) {
+				}else if((caso.get(i).equals("Pago TC Reversa")) && (ejecutar.get(i).equals("Si"))) {
+					System.out.println("PagoTCyReversa");
+					pagoTCyReversa.PagoTCyReversa();
+				}else if((caso.get(i).equals("Proceso Abono Masivo CTS")) && (ejecutar.get(i).equals("Si"))) {
 					System.out.println("ProcesoAbonoMasivoCTS");
 					procesoAbonoMasivoCTS.ProcesoAbonoMasivoCTS();
+				}else if((caso.get(i).equals("Proceso Actualizacion Datos Masivos")) && (ejecutar.get(i).equals("Si"))) {
+					System.out.println("ProcesoActualizacionDatosMasivos");
+					procesoActualizacionDatosMasivos.ProcesoActualizacionDatosMasivos();
 				}
 				else{
 					System.out.println("NO SE EJECUTA");
