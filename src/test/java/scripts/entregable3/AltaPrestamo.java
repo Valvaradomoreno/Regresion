@@ -83,8 +83,6 @@ public class AltaPrestamo {
         ArrayList<String> fechamaduracion =readExcelData(6);
         ArrayList<String> tarifa1 =readExcelData(7);
         ArrayList<String> usuario2= readExcelData(8);
-        ArrayList<String> cuenta= readExcelData(9);
-
 
         int filas=usuario.size();
         for(int i=0;i<usuario.size();i++) {
@@ -217,8 +215,7 @@ public class AltaPrestamo {
                     //El usuario captura la cuenta prestamo
                     String cod = driver.findElement(By.id("disabled_ACCOUNT.REFERENCE")).getText();
                     System.out.println("CUENTA : " +cod);
-                    write(i+1, 13, cod);
-                    write(i+1, 9, cod);
+                    write(i+1, 12, cod);
 
                     String arreglo = driver.findElement(By.id("disabled_ARRANGEMENT")).getText();
                     System.out.println("ARREGLO : " +arreglo);
@@ -258,7 +255,7 @@ public class AltaPrestamo {
                     String cod2 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
                     String sSubCadena = cod2.substring(22,39);
                     System.out.println(sSubCadena);
-                    write(i+1, 11, sSubCadena);
+                    write(i+1, 10, sSubCadena);
 
 
                     ////// DESEMBOLSO ******************
@@ -334,12 +331,12 @@ public class AltaPrestamo {
                     logger.log(Status.PASS,"Alta creada", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath4).build());
 
                     extent.flush();
-                    write(i+1, 10, "PASSED");
+                    write(i+1, 9, "PASSED");
 
                     DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
                     String fecha = dateFormat.format(new Date());
                     System.out.println(fecha);
-                    write(i+1, 12, fecha);
+                    write(i+1, 11, fecha);
 
                     driver.quit();
                 }
@@ -348,13 +345,13 @@ public class AltaPrestamo {
                 String screenshotPath = getScreenShot(driver, "Error");
                 logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
                 extent.flush();
-                write(i+1, 10, "FAILED");
-                write(i+1, 11, "");
+                write(i+1, 9, "FAILED");
+                write(i+1, 10, "");
 
                 DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
                 String fecha = dateFormat.format(new Date());
                 System.out.println(fecha);
-                write(i+1, 12, fecha);
+                write(i+1, 11, fecha);
                 System.out.println("Error: " + e);
                 driver.quit();
             }
