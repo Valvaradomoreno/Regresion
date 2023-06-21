@@ -100,8 +100,7 @@ public class AltaCuentaAhorro {
 
 					driver = new ChromeDriver();
 					driver.manage().window().maximize();
-					// qa driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
-					driver.get("https://10.167.11.10:7480/BrowserWebSAD/servlet/BrowserServlet?");
+					driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
 
 
 					Thread.sleep(1000);

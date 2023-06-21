@@ -44,7 +44,7 @@ import java.time.Duration;
 
 public class AltaDPF {
 
-    WebDriver driver;
+    WebDriver driver = ThreadLocalDriver.getTLWebDriver();
 	public ExtentSparkReporter spark;
 	public ExtentReports extent;
 	public ExtentTest logger;
