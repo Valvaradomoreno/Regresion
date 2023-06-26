@@ -82,6 +82,7 @@ public class AltaDPF {
 		ArrayList<String> monto =readExcelData(4);
 		ArrayList<String> plazo =readExcelData(5);
 		ArrayList<String> cuenta =readExcelData(6);
+		ArrayList<String> fecha =readExcelData(7);
 
 		int filas=usuario.size();
   		for(int i=0;i<usuario.size();i++) {
@@ -202,7 +203,7 @@ public class AltaDPF {
 				driver.findElement(By.id("fieldName:CHANGE.PERIOD")).sendKeys(plazo.get(i));
 
 				String screenshotPath3 = getScreenShot(driver, "");
-				driver.findElement(By.id("fieldName:START.DATE:1:1")).sendKeys("R_RENEWAL +");
+				driver.findElement(By.id("fieldName:START.DATE:1:1")).sendKeys(fecha.get(i));
 
 
 				Select selectProducto = new Select(driver.findElement(By.id("fieldName:PAYIN.SETTLEMENT:1")));
@@ -233,7 +234,7 @@ public class AltaDPF {
 				String cod1 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String sSubCadena = cod1.substring(22,39);
 				System.out.println(sSubCadena);
-				write(i+1, 8, sSubCadena);
+				write(i+1, 9, sSubCadena);
 
 				String screenshotPath5 = getScreenShot(driver, "");
 
@@ -249,12 +250,12 @@ public class AltaDPF {
 				logger.log(Status.PASS, MarkupHelper.createLabel("Alta creada", ExtentColor.GREEN));
 				logger.log(Status.PASS,"Alta creada", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath5).build());
 				extent.flush();
-				write(i+1, 7, "PASSED");
+				write(i+1, 8, "PASSED");
 
 				DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
-				String fecha = dateFormat.format(new Date());
-				System.out.println(fecha);
-				write(i+1, 9, fecha);
+				String datefecha = dateFormat.format(new Date());
+				System.out.println(datefecha);
+				write(i+1, 10, datefecha);
 					driver.quit();
 
 				}
@@ -264,13 +265,13 @@ public class AltaDPF {
 				  String screenshotPath = getScreenShot(driver, "Error");
 				  logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
 				  extent.flush();
-				  write(i+1, 7, "FAILED");
-				  write(i+1, 8, "");
+				  write(i+1, 8, "FAILED");
+				  write(i+1, 9, "");
 
 				  DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
-				  String fecha = dateFormat.format(new Date());
-				  System.out.println(fecha);
-				  write(i+1, 9, fecha);
+				  String datefecha = dateFormat.format(new Date());
+				  System.out.println(datefecha);
+				  write(i+1, 10, datefecha);
 				  System.out.println("Error: " + e);
 				driver.quit();
 

@@ -103,7 +103,7 @@ public class AltaClienteControlDual {
 
 
 
-                    //                 CONTROL DUAL **********************
+                    //  CONTROL DUAL **********************
 
                     driver = new ChromeDriver();
                     driver.manage().window().maximize();
