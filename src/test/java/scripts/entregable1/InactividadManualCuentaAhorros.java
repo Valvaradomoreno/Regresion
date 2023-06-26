@@ -183,8 +183,8 @@ public class InactividadManualCuentaAhorros {
 					}
 				}
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='r27']//img[@alt='Do Activity Today']")));
-				driver.findElement(By.xpath("//tr[@id='r27']//img[@alt='Do Activity Today']")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='r29']//img[@alt='Do Activity Today']")));
+				driver.findElement(By.xpath("//tr[@id='r29']//img[@alt='Do Activity Today']")).click();
 
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='tab1']/tbody/tr[2]/td[3]/a[1]/img"))).click();

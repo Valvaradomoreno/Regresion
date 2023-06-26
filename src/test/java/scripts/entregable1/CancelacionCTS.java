@@ -210,20 +210,6 @@ public class CancelacionCTS {
 				write(i+1, 6, sSubCadena);
 
 				Thread.sleep(30000);
-				String MainWindow7=driver.getWindowHandle();
-				Set<String> s7=driver.getWindowHandles();
-				Iterator<String> i7=s7.iterator();
-
-				while(i7.hasNext())
-				{
-					String ChildWindow=i7.next();
-
-					if(!MainWindow7.equalsIgnoreCase(ChildWindow))
-					{
-						driver.switchTo().window(ChildWindow);
-						driver.close();
-					}
-				}
 
 				////// APROBACION ******************
 

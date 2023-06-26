@@ -195,7 +195,11 @@ public class CancelacionAhorros {
 					}
 				}
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[53]/td[3]/a/img"))).click();
+				//CIERRE CONTRATO
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[51]/td[3]/a/img"))).click();
+//				String extra = driver.findElement(By.xpath("//tr/td//td[contains(text(),'Cierre de contrato')]")).getTagName().get;
+//				System.out.println("ES" +extra);
+//				Thread.sleep(80000);
 
 				driver.manage().window().maximize();
 				Thread.sleep(2000);

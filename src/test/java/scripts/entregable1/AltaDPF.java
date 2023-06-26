@@ -202,6 +202,8 @@ public class AltaDPF {
 				driver.findElement(By.id("fieldName:CHANGE.PERIOD")).sendKeys(plazo.get(i));
 
 				String screenshotPath3 = getScreenShot(driver, "");
+				driver.findElement(By.id("fieldName:START.DATE:1:1")).sendKeys("R_RENEWAL +");
+
 
 				Select selectProducto = new Select(driver.findElement(By.id("fieldName:PAYIN.SETTLEMENT:1")));
 				selectProducto.selectByVisibleText("YES");
