@@ -64,7 +64,7 @@ public class AjusteBILL {
 	public void AjusteBill()throws IOException, InterruptedException, AWTException {
 
 		extent = new ExtentReports();
-		spark = new ExtentSparkReporter(System.getProperty("user.dir") + "/test-output/reports3/CancelacionPrestamo/Report.html");
+		spark = new ExtentSparkReporter(System.getProperty("user.dir") + "/test-output/reports3/AjusteBill/Report.html");
 		extent.attachReporter(spark);
 		extent.setSystemInfo("Host Name", "SoftwareTestingMaterial");
 		extent.setSystemInfo("Environment", "Production");
@@ -191,8 +191,7 @@ public class AjusteBILL {
 					}
 				}
 
-				//String attr2 = driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[1]")).getAttribute("id");
-				//System.out.println("att: "+attr2);
+
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='r8']//img[@alt='Do Activity Today']")));
 				driver.findElement(By.xpath("//tr[@id='r8']//img[@alt='Do Activity Today']")).click();
 

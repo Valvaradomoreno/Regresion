@@ -110,20 +110,17 @@ public class CancelacionAhorros {
 				driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
 				driver.findElement(By.id("sign-in")).click();
 
-				//WebDriverWait wait = new WebDriverWait(driver, 30);
-				//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Sign Off')]")));
-
 				WebElement iframe = driver.findElement(By.xpath("/html/frameset/frame[1]"));
 				driver.switchTo().frame(iframe);
 
-				Thread.sleep(2000);
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Sign Off')]")));
 				String exp_message = "Sign Off";
 				String actual = driver.findElement(By.xpath("//a[contains(text(),'Sign Off')]")).getText();
 				Assert.assertEquals(exp_message, actual);
 				System.out.println("assert complete");
 				driver.switchTo().parentFrame();
 
-				Thread.sleep(1000);
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/frameset/frame[2]")));
 				WebElement iframe1 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
 				driver.switchTo().frame(iframe1);
 
@@ -196,13 +193,13 @@ public class CancelacionAhorros {
 				}
 
 				//CIERRE CONTRATO
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[51]/td[3]/a/img"))).click();
-//				String extra = driver.findElement(By.xpath("//tr/td//td[contains(text(),'Cierre de contrato')]")).getTagName().get;
-//				System.out.println("ES" +extra);
-//				Thread.sleep(80000);
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[53]/td[3]/a/img"))).click();
+				//String extra = driver.findElement(By.xpath(".//tr/td[contains(text(),'Cierre de contrato')]")).getAttribute("id");
+				//System.out.println("ES" +extra);
+				//Thread.sleep(80000);
 
 				driver.manage().window().maximize();
-				Thread.sleep(2000);
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:CLOSURE.REASON")));
 				Select selectProducto2 = new Select(driver.findElement(By.id("fieldName:CLOSURE.REASON")));
 				selectProducto2.selectByVisibleText(razon.get(i));
 
@@ -211,16 +208,14 @@ public class CancelacionAhorros {
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
-
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
 				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 
-
-				//wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
-				//driver.findElement(By.id("errorImg")).click();
-
-				Thread.sleep(3000);
-
+//				Thread.sleep(1000);
+//				if(driver.findElement(By.id("errorImg")).isDisplayed()){
+//					driver.findElement(By.id("errorImg")).click();
+//				}
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")));
 
 				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String sSubCadena = cod.substring(22,39);
@@ -233,8 +228,6 @@ public class CancelacionAhorros {
 
 				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
-				Thread.sleep(1000);
-
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
 
@@ -245,14 +238,14 @@ public class CancelacionAhorros {
 				WebElement iframe2 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
 				driver.switchTo().frame(iframe2);
 
-				Thread.sleep(2000);
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Sign Off')]")));
 				String exp_message1 = "Sign Off";
 				String actual1 = driver.findElement(By.xpath("//a[contains(text(),'Sign Off')]")).getText();
 				Assert.assertEquals(exp_message, actual1);
 				System.out.println("assert complete");
 				driver.switchTo().parentFrame();
 
-				Thread.sleep(1000);
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/frameset/frame[2]")));
 				WebElement iframe3 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
 				driver.switchTo().frame(iframe3);
 
@@ -282,7 +275,6 @@ public class CancelacionAhorros {
 				driver.findElement(By.id(attr1)).clear();
 				driver.findElement(By.id(attr1)).sendKeys(cuenta.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
-				Thread.sleep(1000);
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Overview']"))).click();
 
@@ -300,12 +292,10 @@ public class CancelacionAhorros {
 					}
 				}
 
-				Thread.sleep(5000);
 				driver.manage().window().maximize();
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Select Drilldown']"))).click();
 
 				String screenshotPath3 = getScreenShot(driver, "");
-
 
 				String MainWindow6=driver.getWindowHandle();
 				Set<String> s6=driver.getWindowHandles();

@@ -78,7 +78,6 @@ public class PagoCuotaPrestamo {
         ArrayList<String> contraseña =readExcelData(1);
         ArrayList<String> cuenta =readExcelData(2);
         ArrayList<String> monto =readExcelData(3);
-        ArrayList<String> usuario2= readExcelData(4);
 
 
         int filas=usuario.size();
@@ -180,7 +179,7 @@ public class PagoCuotaPrestamo {
                     String cod2 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
                     String sSubCadena = cod2.substring(22,39);
                     System.out.println(sSubCadena);
-                    write(i+1, 5, sSubCadena);
+                    write(i+1, 4, sSubCadena);
 
                      Thread.sleep(3000);
 
@@ -188,12 +187,12 @@ public class PagoCuotaPrestamo {
                     String screenshotPath = getScreenShot(driver, "Fin del Caso");
                     logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
                     extent.flush();
-                    write(i+1, 4, "PASSED");
+                    write(i+1, 3, "PASSED");
 
                     DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
                     String fecha = dateFormat.format(new Date());
                     System.out.println(fecha);
-                    write(i+1, 6, fecha);
+                    write(i+1, 5, fecha);
 
                     driver.quit();
                 }
@@ -202,13 +201,13 @@ public class PagoCuotaPrestamo {
                 String screenshotPath = getScreenShot(driver, "Error");
                 logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
                 extent.flush();
-                write(i+1, 4, "FAILED");
-                write(i+1, 5, "");
+                write(i+1, 3, "FAILED");
+                write(i+1, 4, "");
 
                 DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
                 String fecha = dateFormat.format(new Date());
                 System.out.println(fecha);
-                write(i+1, 6, fecha);
+                write(i+1, 5, fecha);
                 System.out.println("Error: " + e);
                 driver.quit();
             }

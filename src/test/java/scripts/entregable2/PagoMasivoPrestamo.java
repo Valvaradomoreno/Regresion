@@ -156,7 +156,7 @@ public class PagoMasivoPrestamo {
                     WebElement iframe4 = driver.findElement(By.xpath("/html/body/div[3]/div[2]/form[1]/div[4]/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/iframe"));
                     driver.switchTo().frame(iframe4);
                     Thread.sleep(2000);
-                    driver.findElement(By.xpath("//input[@type='file']")).sendKeys(archivo.get(i));
+                    driver.findElement(By.xpath("//input[@type='file']")).sendKeys(System.getProperty("user.dir") +archivo.get(i));
                     driver.findElement(By.xpath("//img[@title='Upload']")).click();
                     Thread.sleep(1000);
                     driver.switchTo().parentFrame();

@@ -86,6 +86,8 @@ public class AltaCuentaAhorro {
 		ArrayList<String> contraseña =readExcelData(1);
 		ArrayList<String> documento =readExcelData(2);
 		ArrayList<String> ejecutivo =readExcelData(3);
+		ArrayList<String> moneda =readExcelData(4);
+		ArrayList<String> cuenta =readExcelData(5);
 
 		int filas=usuario.size();
   		for(int i=0;i<usuario.size();i++) {
@@ -116,14 +118,14 @@ public class AltaCuentaAhorro {
 					WebElement iframe = driver.findElement(By.xpath("/html/frameset/frame[1]"));
 					driver.switchTo().frame(iframe);
 
-					Thread.sleep(2000);
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Sign Off')]")));
 					String exp_message = "Sign Off";
 					String actual = driver.findElement(By.xpath("//a[contains(text(),'Sign Off')]")).getText();
 					Assert.assertEquals(exp_message, actual);
 					System.out.println("assert complete");
 					driver.switchTo().parentFrame();
 
-					Thread.sleep(1000);
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/frameset/frame[2]")));
 					WebElement iframe2 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
 					driver.switchTo().frame(iframe2);
 					driver.findElement(By.id("imgError")).click();
@@ -151,7 +153,14 @@ public class AltaCuentaAhorro {
 
 					WebElement iframe4 = driver.findElement(By.xpath("/html/frameset/frameset[2]/frameset[2]/frame[2]"));
 					driver.switchTo().frame(iframe4);
-					driver.findElement(By.xpath("//*[@id='r1']/td[3]/a/img")).click();
+					if(cuenta.get(i).equals("Ahorro Plus")){
+						driver.findElement(By.xpath("//*[@id='r1']/td[3]/a/img")).click();
+					}else if(cuenta.get(i).equals("Cuenta Simple")){
+						driver.findElement(By.xpath("//*[@id='r4']/td[3]/a/img")).click();
+						System.out.println("Cick C. simple");
+					}else{
+
+					}
 					driver.switchTo().parentFrame();
 
 					String MainWindow2 = driver.getWindowHandle();
@@ -170,10 +179,10 @@ public class AltaCuentaAhorro {
 
 					String screenshotPath2 = getScreenShot(driver, "CUENTA CREADA");
 
-
+					Thread.sleep(80000);
 					driver.findElement(By.id("fieldName:CUSTOMER:1")).sendKeys(documento.get(i));
 					System.out.println("doc : " + documento.get(i));
-					driver.findElement(By.id("fieldName:CURRENCY")).sendKeys("PEN");
+					driver.findElement(By.id("fieldName:CURRENCY")).sendKeys(moneda.get(i));
 
 
 					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Validate a deal']")));
@@ -193,14 +202,7 @@ public class AltaCuentaAhorro {
 					String cod = driver.findElement(By.id("disabled_ACCOUNT.REFERENCE")).getText();
 					System.out.println("CUENTA : " + cod);
 					System.out.println("pase2 : " );
-					write(i+1, 7, cod);
-					//Thread.sleep(5000);
-
-					//String arreglo = driver.findElement(By.id("disabled_ARRANGEMENT")).getText();
-					//System.out.println("ARREGLO : " + arreglo);
-					//writeArreglo(i+1, 2, arreglo);
-					System.out.println("aqui : " );
-
+					write(i+1, 9, cod);
 					String screenshotPath = getScreenShot(driver, "Datos agregados");
 
 					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Validate a deal']")));
@@ -222,12 +224,12 @@ public class AltaCuentaAhorro {
 					String sSubCadena = cod2.substring(22,41);
 					System.out.println(sSubCadena);
 
-					write(i+1, 5, sSubCadena);
+					write(i+1, 7, sSubCadena);
 
 					DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 					String date = dateFormat.format(new Date());
 					System.out.println(date);
-					write(i+1, 6, date);
+					write(i+1, 8, date);
 
 				logger.log(Status.PASS, MarkupHelper.createLabel("Datos Agregados", ExtentColor.GREEN));
 				logger.log(Status.PASS,"Datos Agregados", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
@@ -237,7 +239,7 @@ public class AltaCuentaAhorro {
 				logger.log(Status.PASS,"Cuenta creada", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
 
 				extent.flush();
-					write(i+1, 4, "PASSED");
+					write(i+1, 6, "PASSED");
 					driver.quit();
 				}
 
@@ -247,13 +249,13 @@ public class AltaCuentaAhorro {
 				String screenshotPath = getScreenShot(driver, "ERROR");
 				logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Test Case FAIL: " +e, ExtentColor.RED));
 				extent.flush();
-				write(i+1, 5, "");
-				write(i+1, 4, "FAILED");
 				write(i+1, 7, "");
+				write(i+1, 6, "FAILED");
+				write(i+1, 9, "");
 
 				DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				String date = dateFormat.format(new Date());
-				write(i+1, 6, date);
+				write(i+1, 8, date);
 				driver.quit();
 			}
   		}

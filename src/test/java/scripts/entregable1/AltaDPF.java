@@ -193,7 +193,7 @@ public class AltaDPF {
 				System.out.println("CUENTA : " +cod);
 				String arreglo = driver.findElement(By.id("disabled_ARRANGEMENT")).getText();
 				System.out.println("ARREGLO : " +arreglo);
-				write(i+1, 10, cod);
+				write(i+1, 11, cod);
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:AMOUNT")));
 				driver.findElement(By.id("fieldName:AMOUNT")).sendKeys(monto.get(i));

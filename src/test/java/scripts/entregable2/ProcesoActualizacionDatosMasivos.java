@@ -195,6 +195,7 @@ public class ProcesoActualizacionDatosMasivos {
 					wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:USER")));
 					wait.until(ExpectedConditions.elementToBeClickable(By.id("radio:mainTab:SERVICE.CONTROL"))).click();
 					wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:FREQUENCY"))).clear();
+					wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:USER"))).clear();
 					wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:USER"))).sendKeys(frecuencia.get(i));
 
 					//El usuario hace commit

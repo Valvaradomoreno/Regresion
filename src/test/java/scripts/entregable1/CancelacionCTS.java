@@ -109,20 +109,17 @@ public class CancelacionCTS {
 				driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
 				driver.findElement(By.id("sign-in")).click();
 
-				//WebDriverWait wait = new WebDriverWait(driver, 30);
-				//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Sign Off')]")));
-
 				WebElement iframe = driver.findElement(By.xpath("/html/frameset/frame[1]"));
 				driver.switchTo().frame(iframe);
 
-				Thread.sleep(2000);
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Sign Off')]")));
 				String exp_message = "Sign Off";
 				String actual = driver.findElement(By.xpath("//a[contains(text(),'Sign Off')]")).getText();
 				Assert.assertEquals(exp_message, actual);
 				System.out.println("assert complete");
 				driver.switchTo().parentFrame();
 
-				Thread.sleep(1000);
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/frameset/frame[2]")));
 				WebElement iframe1 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
 				driver.switchTo().frame(iframe1);
 
@@ -201,16 +198,14 @@ public class CancelacionCTS {
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
 
 				driver.findElement(By.id("errorImg")).click();
-				Thread.sleep(3000);
 
-				//String cod = driver.findElement(By.id("transactionId")).getCssValue("value");
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")));
 				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String sSubCadena = cod.substring(22,39);
 				System.out.println(sSubCadena);
 				write(i+1, 6, sSubCadena);
 
-				Thread.sleep(30000);
-
+				Thread.sleep(25000);
 				////// APROBACION ******************
 
 				driver = new ChromeDriver();

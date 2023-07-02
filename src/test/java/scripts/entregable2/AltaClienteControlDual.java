@@ -163,7 +163,6 @@ public class AltaClienteControlDual {
                     wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
                     driver.findElement(By.id("errorImg")).click();
 
-                    Thread.sleep(80000);
 
 
                     //Se muestra el codigo de alta
