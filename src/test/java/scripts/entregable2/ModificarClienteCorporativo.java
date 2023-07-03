@@ -19,6 +19,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -110,8 +111,8 @@ public class ModificarClienteCorporativo {
 					WebElement iframe = driver.findElement(By.xpath("/html/frameset/frame[1]"));
 					driver.switchTo().frame(iframe);
 
-				// Then Redirecciona al Home Page
-					Thread.sleep(2000);
+					// Then Redirecciona al Home Page
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Sign Off')]")));
 					String exp_message = "Sign Off";
 					String actual = driver.findElement(By.xpath("//a[contains(text(),'Sign Off')]")).getText();
 					Assert.assertEquals(exp_message, actual);
@@ -119,7 +120,7 @@ public class ModificarClienteCorporativo {
 					driver.switchTo().parentFrame();
 
 					// When El usuario da click en Menu
-					Thread.sleep(1000);
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/frameset/frame[2]")));
 					WebElement iframe2 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
 					driver.switchTo().frame(iframe2);
 					driver.findElement(By.id("imgError")).click();
@@ -148,20 +149,19 @@ public class ModificarClienteCorporativo {
 					driver.findElement(By.id("value:2:1:1")).clear();
 					driver.findElement(By.id(attr1)).sendKeys(RUC.get(i));
 
-					Thread.sleep(2000);
 
 					//And El usuario da clikc en Find
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@alt='Run Selection']")));
 					driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
 					//And El usuario ingresa a editar cliente
 					driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[6]/a/img")).click();
 
-					Thread.sleep(5000);
-
 					//And El usuario modifica al cliente y RUC
-
+					wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:SHORT.NAME:1")));
 					driver.findElement(By.id("fieldName:SHORT.NAME:1")).clear();
 					driver.findElement(By.id("fieldName:SHORT.NAME:1")).sendKeys("CopitoSAC");
-
+					Select selectTip = new Select(driver.findElement(By.id("fieldName:LEGAL.DOC.NAME:1")));
+					selectTip.selectByVisibleText("REGISTRO UNICO CONTRIBUYENTE");
 					driver.findElement(By.id("fieldName:LEGAL.ID:1")).clear();
 					driver.findElement(By.id("fieldName:LEGAL.ID:1")).sendKeys(RUCmod.get(i));
 
@@ -172,6 +172,7 @@ public class ModificarClienteCorporativo {
 					Thread.sleep(60000);
 
 					//And El usuario guarda la modificacion
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div[2]/form[1]/div[2]/table[2]/thead/tr[1]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/div/table/tbody/tr/td[1]/a/img")));
 					driver.findElement(By.xpath("/html/body/div[3]/div[2]/form[1]/div[2]/table[2]/thead/tr[1]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/div/table/tbody/tr/td[1]/a/img")).click();
 
 					String cod = driver.findElement(By.xpath("//*[@id=\"messages\"]/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();

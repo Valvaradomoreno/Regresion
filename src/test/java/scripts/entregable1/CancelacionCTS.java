@@ -196,7 +196,6 @@ public class CancelacionCTS {
 
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
-
 				driver.findElement(By.id("errorImg")).click();
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")));
@@ -205,41 +204,10 @@ public class CancelacionCTS {
 				System.out.println(sSubCadena);
 				write(i+1, 6, sSubCadena);
 
-				Thread.sleep(25000);
+				Thread.sleep(15000);
 
 
 				////// APROBACION ******************
-
-				driver = new ChromeDriver();
-				driver.manage().window().maximize();
-				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
-				WebDriverWait wait2 = new WebDriverWait(driver, 60);
-
-				Thread.sleep(1000);
-				driver.findElement(By.id("details-button")).click();
-				driver.findElement(By.id("proceed-link")).click();
-				Thread.sleep(2000);
-
-				driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
-				driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
-				driver.findElement(By.id("sign-in")).click();
-
-				WebElement iframe0 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
-				driver.switchTo().frame(iframe0);
-				Assert.assertEquals(exp_message, actual);
-				System.out.println("assert complete");
-				driver.switchTo().parentFrame();
-
-				Thread.sleep(1000);
-				WebElement iframe10 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
-				driver.switchTo().frame(iframe10);
-
-				driver.findElement(By.id("imgError")).click();
-
-				driver.findElement(By.xpath("//img[@alt='Transacciones CTS']")).click();
-
-				driver.findElement(By.xpath("//a[contains(text(),'Cancelación de cuenta CTS Soles ')]")).click();
-				driver.switchTo().parentFrame();
 
 				String MainWindow4=driver.getWindowHandle();
 				Set<String> s4=driver.getWindowHandles();
@@ -255,26 +223,26 @@ public class CancelacionCTS {
 					}
 				}
 
-				Thread.sleep(3000);
-				driver.findElement(By.xpath("//img[@alt='New Deal']")).click();
-				Thread.sleep(1000);
-				driver.findElement(By.id("fieldName:ACCOUNT.1:1")).sendKeys(cuenta.get(i));
-				double m = Double.parseDouble(mount);
-				double mountConf = Math.ceil(m);
-				driver.findElement(By.id("fieldName:AMOUNT.LOCAL.1:1")).sendKeys(""+mountConf);
-				Thread.sleep(5000);
+				driver.findElement(By.xpath("//img[@alt='Details']")).click();
+				driver.manage().window().maximize();
+				Thread.sleep(2000);
 
-				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
-				Thread.sleep(80000);
+				WebElement iframe0 = driver.findElement(By.xpath("/html/frameset/frameset[1]/frame"));
+				driver.switchTo().frame(iframe0);
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Continue with Closure']"))).click();
+				driver.switchTo().parentFrame();
+
+				WebElement iframe2 = driver.findElement(By.xpath("/html/frameset/frameset[2]/frame"));
+				driver.switchTo().frame(iframe2);
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Settle by Cash Payment local Currency')]"))).click();
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
 				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")));
 
-				driver.findElement(By.id("errorImg")).click();
-				Thread.sleep(3000);
+				driver.switchTo().parentFrame();
 
 
 				String screenshotPath4 = getScreenShot(driver, "Fin del Caso");

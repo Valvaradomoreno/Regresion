@@ -119,7 +119,7 @@ public class ModificarCliente {
 					driver.switchTo().frame(iframe);
 
 				// Then Redirecciona al Home Page
-					Thread.sleep(2000);
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Sign Off')]")));
 					String exp_message = "Sign Off";
 					String actual = driver.findElement(By.xpath("//a[contains(text(),'Sign Off')]")).getText();
 					Assert.assertEquals(exp_message, actual);
@@ -127,7 +127,7 @@ public class ModificarCliente {
 					driver.switchTo().parentFrame();
 
 					// When El usuario da click en Menu
-					Thread.sleep(1000);
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/frameset/frame[2]")));
 					WebElement iframe2 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
 					driver.switchTo().frame(iframe2);
 					driver.findElement(By.id("imgError")).click();
@@ -163,39 +163,56 @@ public class ModificarCliente {
 					driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[6]/a/img")).click();
 
 
-					Thread.sleep(2000);
+					wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:LEGAL.ID:1")));
 					//And El usuario modifica al cliente
 
 					if(dni.get(i)!=""){
 						driver.findElement(By.id("fieldName:LEGAL.ID:1")).clear();
 						driver.findElement(By.id("fieldName:LEGAL.ID:1")).sendKeys(dni.get(i));
-					}else if(apaterno.get(i)!=""){
+					}else{
+						System.out.println("campo vacio");
+					}
+					if(apaterno.get(i)!=""){
 						driver.findElement(By.id("fieldName:FAMILY.NAME")).clear();
 						driver.findElement(By.id("fieldName:FAMILY.NAME")).sendKeys(apaterno.get(i));
-					}else if(amaterno.get(i)!=""){
+					}else{
+						System.out.println("campo vacio");
+					}
+					if(amaterno.get(i)!=""){
 						driver.findElement(By.id("fieldName:NAME.2:1")).clear();
 						driver.findElement(By.id("fieldName:NAME.2:1")).sendKeys(amaterno.get(i));
-					}else if(pnombre.get(i)!=""){
+					}else{
+						System.out.println("campo vacio");
+					}
+					if(pnombre.get(i)!=""){
 						driver.findElement(By.id("fieldName:NAME.1:1")).clear();
 						driver.findElement(By.id("fieldName:NAME.1:1")).sendKeys(pnombre.get(i));
-					}else if(ncompleto.get(i)!=""){
+					}else{
+						System.out.println("campo vacio");
+					}
+					if(ncompleto.get(i)!=""){
 						driver.findElement(By.id("fieldName:SHORT.NAME:1")).clear();
 						driver.findElement(By.id("fieldName:SHORT.NAME:1")).sendKeys(ncompleto.get(i));
-					}else if(ecivil.get(i)!=""){
+					}else{
+						System.out.println("campo vacio");
+					}
+					if(ecivil.get(i)!=""){
 						Select selectGenero = new Select(driver.findElement(By.id("fieldName:MARITAL.STATUS")));
 						selectGenero.selectByVisibleText(ecivil.get(i));
-					}else if(ecivil.get(i)!=""){
-						Select selectCivil = new Select(driver.findElement(By.id("fieldName:MARITAL.STATUS")));
-						selectCivil.selectByVisibleText(ecivil.get(i));
 					}else if(genero.get(i)!=""){
-						if(genero.get(i)=="Femenino"){
+						if(genero.get(i).equals("Femenino")){
 							driver.findElement(By.xpath("/html/body/div[3]/div[2]/form[1]/div[4]/table/tbody/tr[1]/td/table/tbody/tr[17]/td[3]/table/tbody/tr/td[1]/input")).click();
 						}else{
 							driver.findElement(By.xpath("/html/body/div[3]/div[2]/form[1]/div[4]/table/tbody/tr[1]/td/table/tbody/tr[17]/td[3]/table/tbody/tr/td[2]/input")).click();
 						}
-					}else if(direccion.get(i)!=""){
+					}else{
+						System.out.println("campo vacio");
+					}
+					if(direccion.get(i)!=""){
 						driver.findElement(By.id("fieldName:ADDRESS:1:1")).clear();
 						driver.findElement(By.id("fieldName:ADDRESS:1:1")).sendKeys(direccion.get(i));
+					}else{
+						System.out.println("campo vacio");
 					}
 
 					String screenshotPath1 = getScreenShot(driver, "Fin del Caso");
@@ -205,7 +222,7 @@ public class ModificarCliente {
 					driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
 					//And El usuario guarda la modificacion
-					Thread.sleep(2000);
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div[2]/form[1]/div[2]/table[2]/thead/tr[1]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/div/table/tbody/tr/td[1]/a/img")));
 					driver.findElement(By.xpath("/html/body/div[3]/div[2]/form[1]/div[2]/table[2]/thead/tr[1]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/div/table/tbody/tr/td[1]/a/img")).click();
 
 					String cod = driver.findElement(By.xpath("//*[@id=\"messages\"]/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
