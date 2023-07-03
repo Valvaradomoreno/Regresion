@@ -206,6 +206,8 @@ public class CancelacionCTS {
 				write(i+1, 6, sSubCadena);
 
 				Thread.sleep(25000);
+
+
 				////// APROBACION ******************
 
 				driver = new ChromeDriver();

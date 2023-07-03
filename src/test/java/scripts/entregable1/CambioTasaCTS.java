@@ -156,12 +156,25 @@ public class CambioTasaCTS {
 				Thread.sleep(200);
 				driver.findElement(By.id("value:2:1:1")).clear();
 				Thread.sleep(200);
-				String attr = driver.findElement(By.xpath("//label[contains(text(),'ID de Arreglo')]")).getAttribute("for");
+				String attr = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
 				driver.findElement(By.id(attr)).sendKeys(cuenta.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Overview']"))).click();
 
+				String MainWindow11=driver.getWindowHandle();
+				Set<String> s11=driver.getWindowHandles();
+				Iterator<String> i11=s11.iterator();
+
+				while(i11.hasNext())
+				{
+					String ChildWindow=i11.next();
+
+					if(!MainWindow.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Nueva Actividad')]"))).click();
 				driver.findElement(By.xpath("//a[contains(text(),'Nueva Actividad')]")).click();
