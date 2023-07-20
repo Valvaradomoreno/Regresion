@@ -76,7 +76,6 @@ public class PagoAnticipadoValor {
 		ArrayList<String> usuario=readExcelData(0);
 		ArrayList<String> contraseña =readExcelData(1);
 		ArrayList<String> cuenta =readExcelData(2);
-		ArrayList<String> cuentadeposito =readExcelData(3);
 
 
 		int filas=usuario.size();
@@ -126,14 +125,10 @@ public class PagoAnticipadoValor {
 
 				driver.findElement(By.xpath("//img[@alt='Operaciones Minoristas']")).click();
 
-				// ORDEN DE PAGO
-				driver.findElement(By.xpath("//span[contains(text(),'Orden de Pago')]")).click();
-
-				// Input Payment Order
-				driver.findElement(By.xpath("//span[contains(text(),'Input Payment Order')]")).click();
-
-				// Pago Prestamo
-				driver.findElement(By.xpath("//a[contains(text(),'Pago prestamo con cargo a cuenta ')]")).click();
+				driver.findElement(By.xpath("//span[contains(text(),'Transacciones de Préstamo')]")).click();
+				Thread.sleep(2000);
+				driver.findElement(By.xpath("//*[@id=\"pane_\"]/ul/li/ul/li[4]/ul/li[7]/ul/li/span")).click();
+				driver.findElement(By.xpath("//a[contains(text(),'Pago de Cuota de Prestamo ')]")).click();
 
 				driver.switchTo().parentFrame();
 
@@ -155,7 +150,8 @@ public class PagoAnticipadoValor {
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("value:1:1:1")));
 				driver.findElement(By.id("value:1:1:1")).clear();
 				Thread.sleep(200);
-				driver.findElement(By.id("value:1:1:1")).sendKeys(cuenta.get(i));
+				String attr = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
+				driver.findElement(By.id(attr)).sendKeys(cuenta.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
 
 				Thread.sleep(2500);
@@ -167,19 +163,14 @@ public class PagoAnticipadoValor {
 
 				driver.findElement(By.xpath("//*[@id=\"r1\"]/td[11]/table/tbody/tr/td[2]/a/img")).click();
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:DEBIT.ACCOUNT")));
-				driver.findElement(By.id("fieldName:DEBIT.ACCOUNT")).sendKeys(cuentadeposito.get(i));
-
-
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
 				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
-
-				driver.findElement(By.id("errorImg")).click();
+//				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
+//				driver.findElement(By.id("errorImg")).click();
 
 				Thread.sleep(3000);
 
@@ -187,17 +178,17 @@ public class PagoAnticipadoValor {
 				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String sSubCadena = cod.substring(22,39);
 				System.out.println(sSubCadena);
-				write(i+1, 5, sSubCadena);
+				write(i+1, 4, sSubCadena);
 
 				String screenshotPath = getScreenShot(driver, "Fin del Caso");
 				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
 				extent.flush();
-				write(i+1, 4, "PASSED");
+				write(i+1, 3, "PASSED");
 
 				DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				String fecha = dateFormat.format(new Date());
 				System.out.println(fecha);
-				write(i+1, 6, fecha);
+				write(i+1, 5, fecha);
 					driver.quit();
 
 				}
@@ -207,13 +198,13 @@ public class PagoAnticipadoValor {
 				  String screenshotPath = getScreenShot(driver, "Error");
 				  logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
 				  extent.flush();
-				  write(i+1, 4, "FAILED");
-				  write(i+1, 5, "");
+				  write(i+1, 3, "FAILED");
+				  write(i+1, 4, "");
 
 				  DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
-				  write(i+1, 6, fecha);
+				  write(i+1, 5, fecha);
 				  System.out.println("Error: " + e);
 				driver.quit();
 

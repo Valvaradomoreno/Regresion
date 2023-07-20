@@ -76,8 +76,6 @@ public class PagoAnticipadoPlazo {
 		ArrayList<String> usuario=readExcelData(0);
 		ArrayList<String> contraseña =readExcelData(1);
 		ArrayList<String> cuenta =readExcelData(2);
-		ArrayList<String> cuentadeposito =readExcelData(3);
-		ArrayList<String> usuario2=readExcelData(4);
 
 
 		int filas=usuario.size();
@@ -126,14 +124,10 @@ public class PagoAnticipadoPlazo {
 
 				driver.findElement(By.xpath("//img[@alt='Operaciones Minoristas']")).click();
 
-				// ORDEN DE PAGO
-				driver.findElement(By.xpath("//span[contains(text(),'Orden de Pago')]")).click();
-
-				// Input Payment Order
-				driver.findElement(By.xpath("//span[contains(text(),'Input Payment Order')]")).click();
-
-				// Pago Prestamo
-				driver.findElement(By.xpath("//a[contains(text(),'Pago prestamo con cargo a cuenta ')]")).click();
+				driver.findElement(By.xpath("//span[contains(text(),'Transacciones de Préstamo')]")).click();
+				Thread.sleep(2000);
+				driver.findElement(By.xpath("//*[@id=\"pane_\"]/ul/li/ul/li[4]/ul/li[7]/ul/li/span")).click();
+				driver.findElement(By.xpath("//a[contains(text(),'Pago de Cuota de Prestamo ')]")).click();
 
 				driver.switchTo().parentFrame();
 
@@ -155,20 +149,23 @@ public class PagoAnticipadoPlazo {
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("value:1:1:1")));
 				driver.findElement(By.id("value:1:1:1")).clear();
 				Thread.sleep(200);
-				driver.findElement(By.id("value:1:1:1")).sendKeys(cuenta.get(i));
+				String attr = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
+				driver.findElement(By.id(attr)).sendKeys(cuenta.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
 
 				Thread.sleep(2500);
 
 				driver.manage().window().maximize();
 
+				String monto = 	driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[10]")).getText();
+
 				Select selectProducto = new Select(driver.findElement(By.id("drillbox:1_1")));
 				selectProducto.selectByVisibleText("Pago anticipado con reduccion de plazo");
 
 				driver.findElement(By.xpath("//*[@id=\"r1\"]/td[11]/table/tbody/tr/td[2]/a/img")).click();
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:DEBIT.ACCOUNT")));
-				driver.findElement(By.id("fieldName:DEBIT.ACCOUNT")).sendKeys(cuentadeposito.get(i));
+				//wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:DEBIT.ACCOUNT")));
+				//driver.findElement(By.id("fieldName:DEBIT.ACCOUNT")).sendKeys(cuentadeposito.get(i));
 
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
@@ -178,7 +175,6 @@ public class PagoAnticipadoPlazo {
 				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
-
 				driver.findElement(By.id("errorImg")).click();
 
 				Thread.sleep(3000);
@@ -187,90 +183,18 @@ public class PagoAnticipadoPlazo {
 				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String sSubCadena = cod.substring(22,39);
 				System.out.println(sSubCadena);
-				write(i+1, 6, sSubCadena);
-
-
-				////// APROBACION ******************
-
-
-				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
-
-				Thread.sleep(3000);
-
-				driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
-				driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
-				driver.findElement(By.id("sign-in")).click();
-
-				WebElement iframe0 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
-				driver.switchTo().frame(iframe0);
-				Assert.assertEquals(exp_message, actual);
-				System.out.println("assert complete");
-				driver.switchTo().parentFrame();
-
-				Thread.sleep(1000);
-				WebElement iframe10 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
-				driver.switchTo().frame(iframe10);
-
-				driver.findElement(By.id("imgError")).click();
-
-				driver.findElement(By.xpath("//img[@alt='Operaciones Minoristas']")).click();
-
-				// ORDEN DE PAGO
-				driver.findElement(By.xpath("//span[contains(text(),'Orden de Pago')]")).click();
-
-				// Input Payment Order
-				driver.findElement(By.xpath("//span[contains(text(),'Input Payment Order')]")).click();
-
-				// Pago Prestamo
-				driver.findElement(By.xpath("//a[contains(text(),'Pago prestamo con cargo a cuenta ')]")).click();
-				driver.switchTo().parentFrame();
-
-				String MainWindow4=driver.getWindowHandle();
-				Set<String> s4=driver.getWindowHandles();
-				Iterator<String> i4=s4.iterator();
-
-				while(i4.hasNext())
-				{
-					String ChildWindow=i4.next();
-
-					if(!MainWindow4.equalsIgnoreCase(ChildWindow))
-					{
-						driver.switchTo().window(ChildWindow);
-					}
-				}
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("value:1:1:1")));
-				driver.findElement(By.id("value:1:1:1")).clear();
-				Thread.sleep(200);
-				driver.findElement(By.id("value:1:1:1")).sendKeys(cuenta.get(i));
-				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
-
-				Thread.sleep(2000);
-
-
-				driver.manage().window().maximize();
-				Thread.sleep(1000);
-
-				String screenshotPath3 = getScreenShot(driver, "");
-
-				driver.findElement(By.xpath("//img[@alt='Select Drilldown']")).click();
-				Thread.sleep(2000);
-
-
-				driver.findElement(By.xpath("//img[@alt='Authorises a deal']")).click();
-				Thread.sleep(3000);
-
+				write(i+1, 4, sSubCadena);
 
 
 				String screenshotPath = getScreenShot(driver, "Fin del Caso");
 				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
 				extent.flush();
-				write(i+1, 5, "PASSED");
+				write(i+1, 3, "PASSED");
 
 				DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				String fecha = dateFormat.format(new Date());
 				System.out.println(fecha);
-				write(i+1, 7, fecha);
+				write(i+1, 5, fecha);
 					driver.quit();
 
 				}
@@ -280,13 +204,13 @@ public class PagoAnticipadoPlazo {
 				  String screenshotPath = getScreenShot(driver, "Error");
 				  logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
 				  extent.flush();
-				  write(i+1, 5, "FAILED");
-				  write(i+1, 6, "");
+				  write(i+1, 3, "FAILED");
+				  write(i+1, 4, "");
 
 				  DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
-				  write(i+1, 7, fecha);
+				  write(i+1, 5, fecha);
 				  System.out.println("Error: " + e);
 				driver.quit();
 

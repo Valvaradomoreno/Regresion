@@ -189,6 +189,7 @@ public class CambioFechaPago {
 					}
 				}
 
+				// CAMBIO FECHA PAGO
 				String attr2 = driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[29]")).getAttribute("id");
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='"+attr2+"']//img[@alt='Do Activity Today']")));
@@ -201,9 +202,10 @@ public class CambioFechaPago {
 				// CAMBIAR DIAS
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"tab1\"]/tbody/tr[3]/td[5]/a/img")));
 				driver.findElement(By.xpath("//*[@id=\"tab1\"]/tbody/tr[3]/td[5]/a/img")).click();
-				Thread.sleep(1000);
+				Thread.sleep(3000);
 
-				driver.findElement(By.id("Recurrance:M:On")).click();
+				//driver.findElement(By.id("Recurrance:M:On")).click();
+				driver.findElement(By.id("M:dayOfMonth:day")).clear();
 				driver.findElement(By.id("M:dayOfMonth:day")).sendKeys(dia.get(i));
 				String screenshotPath2 = getScreenShot(driver, "");
 				driver.findElement(By.xpath("//*[@id=\"toolbar_icons\"]/table/tbody/tr/td[2]/a[1]/img")).click();
@@ -356,7 +358,7 @@ public class CambioFechaPago {
 				  System.out.println(fecha);
 				  write(i+1, 7, fecha);
 				  System.out.println("Error: " + e);
-				driver.quit();
+				 driver.quit();
 
 			}
   		}

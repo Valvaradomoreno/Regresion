@@ -278,9 +278,9 @@ public class DepositoLocalEfectico {
 				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 
 				Thread.sleep(5000);
-				if(driver.findElement(By.id("errorImg")).isDisplayed()){
-					driver.findElement(By.id("errorImg")).click();
-				}
+//				if(driver.findElement(By.id("errorImg")).isDisplayed()){
+//					driver.findElement(By.id("errorImg")).click();
+//				}
 				//wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg"))).isDisplayed();
 				//driver.findElement(By.id("errorImg")).click();
 

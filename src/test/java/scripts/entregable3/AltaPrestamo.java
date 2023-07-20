@@ -316,6 +316,14 @@ public class AltaPrestamo {
                     wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
                     driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 
+                    WebElement element = driver.findElement(By.id("errorImg"));
+                    if(element.isDisplayed()){
+                        driver.findElement(By.id("errorImg")).click();
+                    }else{
+                        System.out.println("No hay overide");
+
+                    }
+
                     wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
 
 

@@ -77,7 +77,6 @@ public class PagoCuotaPrestamo {
         ArrayList<String> usuario= readExcelData(0);
         ArrayList<String> contraseña =readExcelData(1);
         ArrayList<String> cuenta =readExcelData(2);
-        ArrayList<String> monto =readExcelData(3);
 
 
         int filas=usuario.size();
@@ -128,9 +127,10 @@ public class PagoCuotaPrestamo {
 
                     //El usuario da click Pago de cuota de prestamo
                     Thread.sleep(1000);
-                    driver.findElement(By.xpath("//span[contains(text(),'Operaciones Minoristas')]")).click();
+                    driver.findElement(By.xpath("//img[@alt='Operaciones Minoristas']")).click();
                     driver.findElement(By.xpath("//span[contains(text(),'Transacciones de Préstamo')]")).click();
-                    driver.findElement(By.xpath("/html/body/div[3]/ul/li/ul/li[4]/ul/li[7]/ul/li/span/img")).click();
+                    Thread.sleep(2000);
+                    driver.findElement(By.xpath("//*[@id=\"pane_\"]/ul/li/ul/li[4]/ul/li[7]/ul/li/span")).click();
                     driver.findElement(By.xpath("//a[contains(text(),'Pago de Cuota de Prestamo ')]")).click();
                     driver.switchTo().parentFrame();
 
@@ -154,13 +154,12 @@ public class PagoCuotaPrestamo {
                     driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
 
                     //El hace click en pago de cuota
+                    Thread.sleep(2500);
                     driver.manage().window().maximize();
-                    Thread.sleep(2000);
-                    driver.findElement(By.xpath("//img[@alt='Select Drilldown']")).click();
-                    Thread.sleep(2000);
+                    Select selectProducto = new Select(driver.findElement(By.id("drillbox:1_1")));
+                    selectProducto.selectByVisibleText("Pago de cuota");
+                    driver.findElement(By.xpath("//*[@id=\"r1\"]/td[11]/table/tbody/tr/td[2]/a/img")).click();
 
-                    //El usuario digita monto a pagar
-                    driver.findElement(By.id("fieldName:AMOUNT.LOCAL.1:1")).sendKeys(monto.get(i));
 
                     //El usuario prevalida
                     driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
@@ -169,11 +168,8 @@ public class PagoCuotaPrestamo {
                     //El usuario hace commit
                     wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
                     driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
-                    Thread.sleep(2000);
-                    Select selectProducto = new Select(driver.findElement(By.id("warningChooser:CALIFICA COMO PAGO ANTICIPADO, DEBE SALIR Y ELEGIR TRANSACCION")));
-                    selectProducto.selectByVisibleText("APPROVE");
-                    driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
-                    Thread.sleep(2000);
+                    Thread.sleep(3000);
+
 
                     //Se muestra el codigo de transacción de alta prestamo
                     String cod2 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();

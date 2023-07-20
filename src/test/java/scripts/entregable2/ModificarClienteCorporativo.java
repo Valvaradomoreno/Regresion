@@ -169,8 +169,6 @@ public class ModificarClienteCorporativo {
 					//And El usuario prevalida
 					driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
-					Thread.sleep(60000);
-
 					//And El usuario guarda la modificacion
 					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div[2]/form[1]/div[2]/table[2]/thead/tr[1]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/div/table/tbody/tr/td[1]/a/img")));
 					driver.findElement(By.xpath("/html/body/div[3]/div[2]/form[1]/div[2]/table[2]/thead/tr[1]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/div/table/tbody/tr/td[1]/a/img")).click();
