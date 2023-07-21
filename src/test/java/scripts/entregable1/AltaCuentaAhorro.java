@@ -179,7 +179,7 @@ public class AltaCuentaAhorro {
 
 					String screenshotPath2 = getScreenShot(driver, "CUENTA CREADA");
 
-					Thread.sleep(80000);
+					wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:CUSTOMER:1")));
 					driver.findElement(By.id("fieldName:CUSTOMER:1")).sendKeys(documento.get(i));
 					System.out.println("doc : " + documento.get(i));
 					driver.findElement(By.id("fieldName:CURRENCY")).sendKeys(moneda.get(i));
@@ -197,7 +197,6 @@ public class AltaCuentaAhorro {
 					driver.findElement(By.xpath("/html/body/div[5]/fieldset[4]/div/div/form[1]/div[3]/table/tbody/tr[3]/td/table[1]/tbody/tr[12]/td[3]/table/tbody/tr/td[2]/input")).click();
 
 					System.out.println("pase : " );
-					//Thread.sleep(8000);
 
 					String cod = driver.findElement(By.id("disabled_ACCOUNT.REFERENCE")).getText();
 					System.out.println("CUENTA : " + cod);
