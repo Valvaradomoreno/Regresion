@@ -179,6 +179,7 @@ public class AltaCuentaCTS {
 				}
 
 				driver.manage().window().maximize();
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:CUSTOMER:1")));
 				driver.findElement(By.id("fieldName:CUSTOMER:1")).sendKeys(documento.get(i));
 				driver.findElement(By.id("fieldName:CURRENCY")).sendKeys("PEN");
 
