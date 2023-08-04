@@ -61,7 +61,6 @@ public class AltaClienteControlDual {
     @Test
     public void AltaClienteControlDual()throws IOException, InterruptedException, AWTException {
 
-        altaClienteSinBiometria.AltaClienteSinBiometria();
 
         extent = new ExtentReports();
         spark = new ExtentSparkReporter(System.getProperty("user.dir") + "/test-output/reports2/AltaClienteControlDual/Report.html");
@@ -88,7 +87,11 @@ public class AltaClienteControlDual {
         ArrayList<String> nacimiento =readExcelData(9);
         ArrayList<String> gbdirec =readExcelData(10);
         ArrayList<String> empresa =readExcelData(11);
-        ArrayList<String> usuario2= readExcelData(12);
+        ArrayList<String> profesion =readExcelData(12);
+        ArrayList<String> ubigeo =readExcelData(13);
+        ArrayList<String> celular =readExcelData(14);
+        ArrayList<String> correo =readExcelData(15);
+        ArrayList<String> usuario2= readExcelData(16);
 
 
         int filas=usuario.size();
@@ -122,7 +125,7 @@ public class AltaClienteControlDual {
                     WebDriverWait wait = new WebDriverWait(driver, 40);
 
                     wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
-                    driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
+                    driver.findElement(By.id("signOnName")).sendKeys(usuario.get(i));
                     driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
                     driver.findElement(By.id("sign-in")).click();
 
@@ -130,6 +133,109 @@ public class AltaClienteControlDual {
                     Thread.sleep(2000);
                     //Assert.assertEquals(exp_message, actual);
                     System.out.println("assert complete");
+
+                    WebElement iframe0 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
+                    driver.switchTo().frame(iframe0);
+                    driver.findElement(By.id("commandValue")).sendKeys("CUSTOMER,INPUT.BRANCH.PE.BIOMETRY");
+                    driver.findElement(By.id("cmdline_img")).click();
+                    driver.switchTo().parentFrame();
+
+                    String MainWindow0=driver.getWindowHandle();
+                    Set<String> s0=driver.getWindowHandles();
+                    Iterator<String> i0=s0.iterator();
+
+                    while(i0.hasNext())
+                    {
+                        String ChildWindow=i0.next();
+
+                        if(!MainWindow0.equalsIgnoreCase(ChildWindow))
+                        {
+                            driver.switchTo().window(ChildWindow);
+                        }
+                    }
+
+                    driver.findElement(By.xpath("//img[@alt='New Deal']")).click();
+
+                    wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:MNEMONIC")));
+                    driver.findElement(By.id("fieldName:MNEMONIC")).sendKeys(mnemocino.get(i));
+                    Thread.sleep(1000);
+                    driver.findElement(By.id("fieldName:LEGAL.ID:1")).sendKeys(dni.get(i));
+                    driver.findElement(By.id("fieldName:FAMILY.NAME")).click();
+                    Thread.sleep(4000);
+                    driver.findElement(By.id("fieldName:FAMILY.NAME")).sendKeys(apaterno.get(i));
+                    driver.findElement(By.id("fieldName:NAME.2:1")).sendKeys(amaterno.get(i));
+                    driver.findElement(By.id("fieldName:NAME.1:1")).sendKeys(nombre.get(i));
+                    driver.findElement(By.id("fieldName:SHORT.NAME:1")).sendKeys(ncompleto.get(i));
+                    Select selectProducto = new Select(driver.findElement(By.id("fieldName:MARITAL.STATUS")));
+                    selectProducto.selectByVisibleText(estadocivil.get(i));
+                    driver.findElement(By.id("radio:mainTab:GENDER")).click();
+                    driver.findElement(By.id("fieldName:DATE.OF.BIRTH")).sendKeys(nacimiento.get(i));
+
+                    driver.findElement(By.xpath("//img[@dropfield='fieldName:OCCUPATION:1']")).click();
+                    Thread.sleep(2500);
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//td[contains(text(),'ABOGADO')]")));
+                    driver.findElement(By.xpath("//td[contains(text(),'"+profesion.get(i)+"')]")).click();
+
+                    driver.findElement(By.xpath("//img[@dropfield='fieldName:STREET:1']")).click();
+                    Thread.sleep(3000);
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//td[contains(text(),'"+ubigeo.get(i)+"')]")));
+                    driver.findElement(By.xpath("//td[contains(text(),'"+ubigeo.get(i)+"')]")).click();
+
+                    driver.findElement(By.id("fieldName:ADDRESS:1:1")).sendKeys(gbdirec.get(i));
+
+                    driver.findElement(By.xpath("//img[@dropfield='fieldName:PHONE.1:1']")).click();
+                    Thread.sleep(2500);
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//td[contains(text(),'PERSONAL')]")));
+                    driver.findElement(By.xpath("//td[contains(text(),'PERSONAL')]")).click();
+                    driver.findElement(By.id("fieldName:SMS.1:1")).sendKeys(""+celular.get(i)+"");
+                    driver.findElement(By.id("fieldName:EMAIL.1:1")).sendKeys(""+correo.get(i)+"");
+
+                    String screenshotPath1 = getScreenShot(driver, "Fin del Caso");
+
+                    driver.findElement(By.xpath("//span[contains(text(),'Datos Laborales')]")).click();
+                    Thread.sleep(1000);
+
+                    driver.findElement(By.id("fieldName:EMPLOYERS.NAME:1")).sendKeys(empresa.get(i));
+
+                    driver.findElement(By.xpath("//span[contains(text(),'Proteccion de Datos')]")).click();
+                    driver.findElement(By.id("radio:tab3:CONFID.TXT")).click();
+
+                    driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
+
+                    Thread.sleep(5000);
+
+                    driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
+                    Thread.sleep(3000);
+                    driver.findElement(By.xpath("//a[contains(text(),'Autenticacion Biometrica')]")).click();
+                    Thread.sleep(3000);
+                    driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
+                    Thread.sleep(3000);
+
+
+                    driver.switchTo().window(MainWindow0);
+                    WebElement iframe01 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
+                    driver.switchTo().frame(iframe01);
+                    driver.findElement(By.id("commandValue")).sendKeys("ENQ BRIP.ENQ.DUAL.CONTROL");
+                    driver.findElement(By.id("cmdline_img")).click();
+                    driver.switchTo().parentFrame();
+
+
+                    String MainWindow1=driver.getWindowHandle();
+                    Set<String> s1=driver.getWindowHandles();
+                    Iterator<String> i1=s1.iterator();
+
+                    while(i1.hasNext())
+                    {
+                        String ChildWindow=i1.next();
+
+                        if(!MainWindow1.equalsIgnoreCase(ChildWindow))
+                        {
+                            driver.switchTo().window(ChildWindow);
+                        }
+                    }
+
+
+
 
                     WebElement iframe2 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
                     driver.switchTo().frame(iframe2);
@@ -173,18 +279,18 @@ public class AltaClienteControlDual {
                     String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
                     String sSubCadena = cod.substring(22,39);
                     System.out.println(sSubCadena);
-                    write(i+1, 14, sSubCadena);
+                    write(i+1, 18, sSubCadena);
 
 
                     String screenshotPath = getScreenShot(driver, "Fin del Caso");
                     logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
                     extent.flush();
-                    write(i+1, 13, "PASSED");
+                    write(i+1, 17, "PASSED");
 
                     DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
                     String fecha = dateFormat.format(new Date());
                     System.out.println(fecha);
-                    write(i+1, 15, fecha);
+                    write(i+1, 19, fecha);
 
                     driver.quit();
                 }
@@ -193,13 +299,13 @@ public class AltaClienteControlDual {
                 String screenshotPath = getScreenShot(driver, "Error");
                 logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
                 extent.flush();
-                write(i+1, 13, "FAILED");
-                write(i+1, 14, "");
+                write(i+1, 17, "FAILED");
+                write(i+1, 18, "");
 
                 DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
                 String fecha = dateFormat.format(new Date());
                 System.out.println(fecha);
-                write(i+1, 15, fecha);
+                write(i+1, 19, fecha);
                 System.out.println("Error: " + e);
                 driver.quit();
             }

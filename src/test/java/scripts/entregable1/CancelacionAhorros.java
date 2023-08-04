@@ -211,7 +211,7 @@ public class CancelacionAhorros {
 				System.out.println(sSubCadena);
 				write(i+1, 6, sSubCadena);
 
-				Thread.sleep(25000);
+				Thread.sleep(45000);
 
 
 				String MainWindow8=driver.getWindowHandle();
