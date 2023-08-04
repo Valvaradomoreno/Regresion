@@ -78,8 +78,9 @@ public class CancelacionAhorros {
 		ArrayList<String> usuario=readExcelData(0);
 		ArrayList<String> contraseña =readExcelData(1);
 		ArrayList<String> cuenta =readExcelData(2);
-		ArrayList<String> razon =readExcelData(3);
-		ArrayList<String> usuario2=readExcelData(4);
+		ArrayList<String> moneda =readExcelData(3);
+		ArrayList<String> razon =readExcelData(4);
+		ArrayList<String> usuario2=readExcelData(5);
 
 
 		int filas=usuario.size();
@@ -209,7 +210,7 @@ public class CancelacionAhorros {
 				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String sSubCadena = cod.substring(22,39);
 				System.out.println(sSubCadena);
-				write(i+1, 6, sSubCadena);
+				write(i+1, 7, sSubCadena);
 
 				Thread.sleep(45000);
 
@@ -273,8 +274,11 @@ public class CancelacionAhorros {
 				driver.findElement(By.xpath("//span[contains(text(),'Cajero')]")).click();
 				driver.findElement(By.xpath("//img[@alt='Operaciones de Cajero']")).click();
 				driver.findElement(By.xpath("//span[contains(text(),'Efectivo de Cajero')]")).click();
-				driver.findElement(By.xpath("//a[contains(text(),'Cancelación de cuenta de ahorro en soles ')]")).click();
-
+				if(moneda.get(i).equals("soles")) {
+					driver.findElement(By.xpath("//a[contains(text(),'Cancelación de cuenta de ahorro en soles ')]")).click();
+				}else{
+					driver.findElement(By.xpath("//a[contains(text(),'Cancelación de cuenta de ahorro en Dolares ')]")).click();
+				}
 				driver.switchTo().parentFrame();
 
 				String MainWindow4=driver.getWindowHandle();
@@ -299,8 +303,14 @@ public class CancelacionAhorros {
 
 				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 				Thread.sleep(6000);
-				driver.findElement(By.id("errorImg")).click();
-				Thread.sleep(5000);
+
+				if(driver.findElement(By.id("errorImg")).isDisplayed()){
+					driver.findElement(By.id("errorImg")).click();
+				}else{
+					driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
+				}
+
+					Thread.sleep(5000);
 				}
 
 
@@ -315,12 +325,12 @@ public class CancelacionAhorros {
 				logger.log(Status.PASS,"Fin del caso", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath4).build());
 
 				extent.flush();
-				write(i+1, 5, "PASSED");
+				write(i+1, 6, "PASSED");
 
 				DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				String fecha = dateFormat.format(new Date());
 				System.out.println(fecha);
-				write(i+1, 7, fecha);
+				write(i+1, 8, fecha);
 					driver.quit();
 
 				}
@@ -330,13 +340,13 @@ public class CancelacionAhorros {
 				  String screenshotPath = getScreenShot(driver, "Error");
 				  logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
 				  extent.flush();
-				  write(i+1, 5, "FAILED");
-				  write(i+1, 6, "");
+				  write(i+1, 6, "FAILED");
+				  write(i+1, 7, "");
 
 				  DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
-				  write(i+1, 7, fecha);
+				  write(i+1, 8, fecha);
 				  System.out.println("Error: " + e);
 				driver.quit();
 

@@ -363,7 +363,11 @@ public class CancelacionCTS {
 
 				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 				Thread.sleep(6000);
-				driver.findElement(By.id("errorImg")).click();
+					if(driver.findElement(By.id("errorImg")).isDisplayed()){
+						driver.findElement(By.id("errorImg")).click();
+					}else{
+						driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
+					}
 				Thread.sleep(5000);
 
 				}

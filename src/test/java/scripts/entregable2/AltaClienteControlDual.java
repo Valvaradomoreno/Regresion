@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class AltaClienteControlDual {
 
@@ -212,7 +213,18 @@ public class AltaClienteControlDual {
                     Thread.sleep(3000);
 
 
-                    driver.switchTo().window(MainWindow0);
+                    // CONTROL DUAL
+
+                    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+                    driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
+
+                    wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
+
+                    driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
+                    driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
+                    driver.findElement(By.id("sign-in")).click();
+                    Thread.sleep(1000);
+
                     WebElement iframe01 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
                     driver.switchTo().frame(iframe01);
                     driver.findElement(By.id("commandValue")).sendKeys("ENQ BRIP.ENQ.DUAL.CONTROL");
@@ -235,29 +247,6 @@ public class AltaClienteControlDual {
                     }
 
 
-
-
-                    WebElement iframe2 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
-                    driver.switchTo().frame(iframe2);
-                    driver.findElement(By.id("imgError")).click();
-                    driver.findElement(By.xpath("//img[@alt='Cliente']")).click();
-                    driver.findElement(By.xpath("//a[contains(text(),'Control dual Biometria ')]")).click();
-
-                    String MainWindow2=driver.getWindowHandle();
-                    Set<String> s2=driver.getWindowHandles();
-                    Iterator<String> i2=s2.iterator();
-
-                    while(i2.hasNext())
-                    {
-                        String ChildWindow=i2.next();
-
-                        if(!MainWindow2.equalsIgnoreCase(ChildWindow))
-                        {
-                            driver.switchTo().window(ChildWindow);
-                        }
-                    }
-                    Thread.sleep(2000);
-
                     wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//label[contains(text(),'Número de Identificación')]")));
                     String attr1 = driver.findElement(By.xpath("//label[contains(text(),'Número de Identificación')]")).getAttribute("for");
                     driver.findElement(By.id(attr1)).clear();
@@ -269,11 +258,13 @@ public class AltaClienteControlDual {
                     Thread.sleep(2000);
 
                     driver.findElement(By.xpath("//img[@alt='Authorises a deal']")).click();
+                    Thread.sleep(2000);
 
-                    wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
-                    driver.findElement(By.id("errorImg")).click();
-
-
+                    if(driver.findElement(By.id("errorImg")).isDisplayed()){
+                        driver.findElement(By.id("errorImg")).click();
+                    }else{
+                        System.out.println("no hay");
+                    }
 
                     //Se muestra el codigo de alta
                     String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
