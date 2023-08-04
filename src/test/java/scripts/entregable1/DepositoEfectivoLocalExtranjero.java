@@ -281,8 +281,9 @@ public class DepositoEfectivoLocalExtranjero {
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
 				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
 
+
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
 				driver.findElement(By.id("errorImg")).click();
 				Thread.sleep(8000);
 

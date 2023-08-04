@@ -44,6 +44,8 @@ public class AltaClienteControlDual {
     public ExtentSparkReporter spark;
     public ExtentReports extent;
     public ExtentTest logger;
+
+    AltaClienteSinBiometria altaClienteSinBiometria = new AltaClienteSinBiometria();
     @BeforeTest
     public void startTest() {
 
@@ -58,6 +60,8 @@ public class AltaClienteControlDual {
 
     @Test
     public void AltaClienteControlDual()throws IOException, InterruptedException, AWTException {
+
+        altaClienteSinBiometria.AltaClienteSinBiometria();
 
         extent = new ExtentReports();
         spark = new ExtentSparkReporter(System.getProperty("user.dir") + "/test-output/reports2/AltaClienteControlDual/Report.html");

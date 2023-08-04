@@ -155,11 +155,10 @@ public class AltaCuentaCTS {
 				WebElement iframe3 = driver.findElement(By.xpath("/html/frameset/frameset[2]/frameset[2]/frame[2]"));
 				driver.switchTo().frame(iframe3);
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='r1']/td[3]/a/img")));
 				if(cuenta.get(i).equals("CTS CLIENTES")){
-					driver.findElement(By.xpath("//*[@id='r1']/td[3]/a/img")).click();
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='r1']/td[3]/a/img"))).click();
 				}else if(cuenta.get(i).equals("CTS BANCO RIPLEY")){
-					driver.findElement(By.xpath("//*[@id='r2']/td[3]/a/img")).click();
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='r2']/td[3]/a/img"))).click();
 					System.out.println("Cick C.");
 				}else{
 

@@ -171,6 +171,12 @@ public class CancelacionCTS {
 				}
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Locked Funds')]"))).click();
+				Thread.sleep(3000);
+
+				WebElement found = driver.findElement(By.xpath("//td[contains(text(),'No Locked Funds available')]"));
+				if (found.isDisplayed()){
+					System.out.println("no found");
+				}else{
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Reverse']"))).click();
 
 				String MainWindow4=driver.getWindowHandle();
@@ -191,7 +197,7 @@ public class CancelacionCTS {
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")));
 
 
-
+				}
 
 
 				// CIERRE DE CUENTA
@@ -199,7 +205,6 @@ public class CancelacionCTS {
 				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
 				Thread.sleep(1000);
-
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
 
@@ -254,9 +259,6 @@ public class CancelacionCTS {
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Overview']"))).click();
 
-
-
-
 				driver.manage().window().maximize();
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr[1]/td/table/tbody/tr[10]/td/table/tbody/tr[1]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[3]/td[1]")));
 
@@ -303,10 +305,8 @@ public class CancelacionCTS {
 				System.out.println(sSubCadena);
 				write(i+1, 6, sSubCadena);
 
-				Thread.sleep(55000);
+				Thread.sleep(25000);
 
-
-				////// APROBACION ******************
 
 				String MainWindow8=driver.getWindowHandle();
 				Set<String> s8=driver.getWindowHandles();
@@ -324,25 +324,49 @@ public class CancelacionCTS {
 
 				driver.findElement(By.xpath("//img[@alt='Details']")).click();
 				driver.manage().window().maximize();
-				Thread.sleep(2000);
 
+				Thread.sleep(2000);
 				WebElement iframe0 = driver.findElement(By.xpath("/html/frameset/frameset[1]/frame"));
 				driver.switchTo().frame(iframe0);
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Continue with Closure']"))).click();
+				String monto =	driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[2]/td[2]")).getText();
+				if(monto.equals("0.00")){
+					System.out.println("cierre");
+				}else{
+
 				driver.switchTo().parentFrame();
 
-				WebElement iframe12 = driver.findElement(By.xpath("/html/frameset/frameset[2]/frame"));
-				driver.switchTo().frame(iframe12);
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Settle by Cash Payment local Currency')]"))).click();
+				driver.switchTo().window(MainWindow5);
+				driver.switchTo().frame(iframe3);
+				driver.findElement(By.xpath("//a[contains(text(),'Cancelación de cuenta CTS Soles ')]")).click();
+				driver.switchTo().parentFrame();
+				Thread.sleep(1000);
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
+				String MainWindow9=driver.getWindowHandle();
+				Set<String> s9=driver.getWindowHandles();
+				Iterator<String> i9=s9.iterator();
+
+				while(i9.hasNext())
+				{
+					String ChildWindow=i9.next();
+
+					if(!MainWindow9.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+
+				driver.findElement(By.xpath("//img[@alt='New Deal']")).click();
+				Thread.sleep(1000);
+
+				driver.findElement(By.id("fieldName:ACCOUNT.1:1")).sendKeys(cuenta.get(i));
+				driver.findElement(By.id("fieldName:AMOUNT.LOCAL.1:1")).sendKeys(monto);
+
 				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
+				Thread.sleep(6000);
+				driver.findElement(By.id("errorImg")).click();
+				Thread.sleep(5000);
 
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")));
-
-				driver.switchTo().parentFrame();
-
+				}
 
 				String screenshotPath4 = getScreenShot(driver, "Fin del Caso");
 				logger.log(Status.PASS, MarkupHelper.createLabel("Autorizado", ExtentColor.GREEN));

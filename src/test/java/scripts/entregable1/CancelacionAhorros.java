@@ -171,12 +171,10 @@ public class CancelacionAhorros {
 						driver.switchTo().window(ChildWindow);
 					}
 				}
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Nueva Actividad')]")));
-
+				driver.manage().window().maximize();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Run']")));
 				String screenshotPath1 = getScreenShot(driver, "");
-
-				driver.findElement(By.xpath("//a[contains(text(),'Nueva Actividad')]")).click();
+				driver.findElement(By.xpath("//img[@alt='Run']")).click();
 
 				String MainWindow3=driver.getWindowHandle();
 				Set<String> s3=driver.getWindowHandles();
@@ -193,11 +191,6 @@ public class CancelacionAhorros {
 				}
 
 				//CIERRE CONTRATO
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[53]/td[3]/a/img"))).click();
-				//String extra = driver.findElement(By.xpath(".//tr/td[contains(text(),'Cierre de contrato')]")).getAttribute("id");
-				//System.out.println("ES" +extra);
-				//Thread.sleep(80000);
-
 				driver.manage().window().maximize();
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:CLOSURE.REASON")));
 				Select selectProducto2 = new Select(driver.findElement(By.id("fieldName:CLOSURE.REASON")));
@@ -211,10 +204,6 @@ public class CancelacionAhorros {
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
 				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 
-//				Thread.sleep(1000);
-//				if(driver.findElement(By.id("errorImg")).isDisplayed()){
-//					driver.findElement(By.id("errorImg")).click();
-//				}
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")));
 
 				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
@@ -222,6 +211,33 @@ public class CancelacionAhorros {
 				System.out.println(sSubCadena);
 				write(i+1, 6, sSubCadena);
 
+				Thread.sleep(25000);
+
+
+				String MainWindow8=driver.getWindowHandle();
+				Set<String> s8=driver.getWindowHandles();
+				Iterator<String> i8=s8.iterator();
+
+				while(i8.hasNext())
+				{
+					String ChildWindow=i8.next();
+
+					if(!MainWindow8.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+
+				driver.findElement(By.xpath("//img[@alt='Details']")).click();
+				driver.manage().window().maximize();
+
+				Thread.sleep(2000);
+				WebElement iframe0 = driver.findElement(By.xpath("/html/frameset/frameset[1]/frame"));
+				driver.switchTo().frame(iframe0);
+				String monto =	driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[2]/td[2]")).getText();
+				if(monto.equals("0.00")){
+					System.out.println("cierre");
+				}else{
 
 				////// APROBACION ******************
 
@@ -253,7 +269,12 @@ public class CancelacionAhorros {
 
 				driver.findElement(By.xpath("//img[@alt='Operaciones Minoristas']")).click();
 
-				driver.findElement(By.xpath("//a[contains(text(),'Buscar Cuenta ')]")).click();
+				driver.findElement(By.xpath("//span[contains(text(),'Transacciones de Cuenta')]")).click();
+				driver.findElement(By.xpath("//span[contains(text(),'Cajero')]")).click();
+				driver.findElement(By.xpath("//img[@alt='Operaciones de Cajero']")).click();
+				driver.findElement(By.xpath("//span[contains(text(),'Efectivo de Cajero')]")).click();
+				driver.findElement(By.xpath("//a[contains(text(),'Cancelación de cuenta de ahorro en soles ')]")).click();
+
 				driver.switchTo().parentFrame();
 
 				String MainWindow4=driver.getWindowHandle();
@@ -270,49 +291,17 @@ public class CancelacionAhorros {
 					}
 				}
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//label[contains(text(),'Número de cuenta')]")));
-				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
-				driver.findElement(By.id(attr1)).clear();
-				driver.findElement(By.id(attr1)).sendKeys(cuenta.get(i));
-				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
+				driver.findElement(By.xpath("//img[@alt='New Deal']")).click();
+				Thread.sleep(1000);
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Overview']"))).click();
+				driver.findElement(By.id("fieldName:ACCOUNT.1:1")).sendKeys(cuenta.get(i));
+				driver.findElement(By.id("fieldName:AMOUNT.LOCAL.1:1")).sendKeys(monto);
 
-				String MainWindow5=driver.getWindowHandle();
-				Set<String> s5=driver.getWindowHandles();
-				Iterator<String> i5=s5.iterator();
-
-				while(i5.hasNext())
-				{
-					String ChildWindow=i5.next();
-
-					if(!MainWindow5.equalsIgnoreCase(ChildWindow))
-					{
-						driver.switchTo().window(ChildWindow);
-					}
+				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
+				Thread.sleep(6000);
+				driver.findElement(By.id("errorImg")).click();
+				Thread.sleep(5000);
 				}
-
-				driver.manage().window().maximize();
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Select Drilldown']"))).click();
-
-				String screenshotPath3 = getScreenShot(driver, "");
-
-				String MainWindow6=driver.getWindowHandle();
-				Set<String> s6=driver.getWindowHandles();
-				Iterator<String> i6=s6.iterator();
-
-				while(i6.hasNext())
-				{
-					String ChildWindow=i6.next();
-
-					if(!MainWindow6.equalsIgnoreCase(ChildWindow))
-					{
-						driver.switchTo().window(ChildWindow);
-					}
-				}
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Authorises a deal']"))).click();
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
 
 
 				String screenshotPath4 = getScreenShot(driver, "Fin del Caso");
@@ -321,7 +310,7 @@ public class CancelacionAhorros {
 				logger.log(Status.PASS, MarkupHelper.createLabel("Motivo Cierre", ExtentColor.GREEN));
 				logger.log(Status.PASS,"Motivo Cierre", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
 				logger.log(Status.PASS, MarkupHelper.createLabel("Estado Close", ExtentColor.GREEN));
-				logger.log(Status.PASS,"Estado Close", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath3).build());
+				//logger.log(Status.PASS,"Estado Close", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath3).build());
 				logger.log(Status.PASS, MarkupHelper.createLabel("Fin del caso", ExtentColor.GREEN));
 				logger.log(Status.PASS,"Fin del caso", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath4).build());
 

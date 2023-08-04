@@ -142,7 +142,7 @@ public class AltaClienteSinBiometria {
                     driver.findElement(By.xpath("//img[@alt='Cliente']")).click();
 
                     //El usuario da click en Individual Customer
-                    driver.findElement(By.xpath("//a[contains(text(),'Individual Customer ')]")).click();
+                    driver.findElement(By.xpath("//a[contains(text(),'Cliente individual ')]")).click();
                     driver.switchTo().parentFrame();
 
                     //El usuario ingresa datos de cliente
