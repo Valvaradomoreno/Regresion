@@ -198,7 +198,7 @@ public class RetiroEfectivoSinTarjeta {
 				String sSubCadena = cod.substring(22,39);
 				System.out.println(sSubCadena);
 				System.out.println("ess");
-				write(i+1, 5, sSubCadena);
+				write(i+1, 6, sSubCadena);
 				Thread.sleep(5000);
 				driver.switchTo().window(MainWindow);
 
@@ -300,12 +300,12 @@ public class RetiroEfectivoSinTarjeta {
 				String screenshotPath = getScreenShot(driver, "Fin del Caso");
 				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
 				extent.flush();
-				write(i+1, 4, "PASSED");
+				write(i+1, 5, "PASSED");
 
 				DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				String fecha = dateFormat.format(new Date());
 				System.out.println(fecha);
-				write(i+1, 6, fecha);
+				write(i+1, 7, fecha);
 
 					driver.quit();
 
@@ -316,13 +316,13 @@ public class RetiroEfectivoSinTarjeta {
 				  String screenshotPath = getScreenShot(driver, "Error");
 				  logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
 				  extent.flush();
-				  write(i+1, 4, "FAILED");
-				  write(i+1, 5, "");
+				  write(i+1, 5, "FAILED");
+				  write(i+1, 6, "");
 
 				  DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
-				  write(i+1, 6, fecha);
+				  write(i+1, 7, fecha);
 				  System.out.println("Error: " + e);
 				driver.quit();
 
