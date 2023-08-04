@@ -173,9 +173,9 @@ public class CancelacionCTS {
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Locked Funds')]"))).click();
 				Thread.sleep(3000);
 
-				if (driver.findElement(By.xpath("//td[contains(text(),'No Locked Funds available')]")).isDisplayed()){
-					System.out.println("no found");
-				}else{
+//				if (driver.findElement(By.xpath("//td[contains(text(),'No Locked Funds available')]")).isDisplayed()){
+//					System.out.println("no found");
+//				}else{
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Reverse']"))).click();
 
 				String MainWindow4=driver.getWindowHandle();
@@ -204,6 +204,7 @@ public class CancelacionCTS {
 				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
 				Thread.sleep(1000);
+				WebDriverWait wait = new WebDriverWait(driver, 60);
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
 
@@ -369,7 +370,7 @@ public class CancelacionCTS {
 					}
 				Thread.sleep(5000);
 
-				}
+			//	}
 
 				String screenshotPath4 = getScreenShot(driver, "Fin del Caso");
 				logger.log(Status.PASS, MarkupHelper.createLabel("Autorizado", ExtentColor.GREEN));

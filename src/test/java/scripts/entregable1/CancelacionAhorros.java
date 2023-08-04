@@ -299,16 +299,21 @@ public class CancelacionAhorros {
 				Thread.sleep(1000);
 
 				driver.findElement(By.id("fieldName:ACCOUNT.1:1")).sendKeys(cuenta.get(i));
-				driver.findElement(By.id("fieldName:AMOUNT.LOCAL.1:1")).sendKeys(monto);
+					if(moneda.get(i).equals("soles")) {
+						driver.findElement(By.id("fieldName:AMOUNT.LOCAL.1:1")).sendKeys(monto);
+					}else{
+						driver.findElement(By.id("fieldName:AMOUNT.FCY.1:1")).sendKeys(monto);
+					}
 
 				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 				Thread.sleep(6000);
+				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 
-				if(driver.findElement(By.id("errorImg")).isDisplayed()){
-					driver.findElement(By.id("errorImg")).click();
-				}else{
-					driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
-				}
+//				if(driver.findElement(By.id("errorImg")).isSelected()){
+//					driver.findElement(By.id("errorImg")).click();
+//				}else{
+//					driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
+//				}
 
 					Thread.sleep(5000);
 				}

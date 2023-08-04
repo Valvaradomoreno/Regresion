@@ -81,10 +81,11 @@ public class ModificarCliente {
 		ArrayList<String> apaterno =readExcelData(3);
 		ArrayList<String> amaterno =readExcelData(4);
 		ArrayList<String> pnombre =readExcelData(5);
-		ArrayList<String> ncompleto =readExcelData(6);
-		ArrayList<String> ecivil =readExcelData(7);
-		ArrayList<String> genero =readExcelData(8);
-		ArrayList<String> direccion =readExcelData(9);
+		ArrayList<String> snombre =readExcelData(6);
+		ArrayList<String> ncompleto =readExcelData(7);
+		ArrayList<String> ecivil =readExcelData(8);
+		ArrayList<String> genero =readExcelData(9);
+		ArrayList<String> direccion =readExcelData(10);
 
 		int filas=usuario.size();
   		for(int i=0;i<usuario.size();i++) {
@@ -188,7 +189,12 @@ public class ModificarCliente {
 						driver.findElement(By.id("fieldName:NAME.1:1")).clear();
 						driver.findElement(By.id("fieldName:NAME.1:1")).sendKeys(pnombre.get(i));
 					}else{
-						System.out.println("campo vacio");
+					if(snombre.get(i)!=""){
+						driver.findElement(By.id("fieldName:GIVEN.NAMES")).clear();
+						driver.findElement(By.id("fieldName:GIVEN.NAMES")).sendKeys(snombre.get(i));
+					}else{
+							System.out.println("campo vacio");
+					}
 					}
 					if(ncompleto.get(i)!=""){
 						driver.findElement(By.id("fieldName:SHORT.NAME:1")).clear();
@@ -228,7 +234,7 @@ public class ModificarCliente {
 					String cod = driver.findElement(By.xpath("//*[@id=\"messages\"]/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 					String sSubCadena = cod.substring(22,39);
 					System.out.println(sSubCadena);
-					write(i+1, 11, sSubCadena);
+					write(i+1, 12, sSubCadena);
 
 					String screenshotPath2 = getScreenShot(driver, "Fin del Caso");
 					logger.log(Status.PASS, MarkupHelper.createLabel("Datos Modificados", ExtentColor.GREEN));
@@ -236,12 +242,12 @@ public class ModificarCliente {
 					logger.log(Status.PASS, MarkupHelper.createLabel("Fin del Caso", ExtentColor.GREEN));
 					logger.log(Status.PASS,"Fin del Caso", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
 					extent.flush();
-					write(i+1, 10, "PASSED");
+					write(i+1, 11, "PASSED");
 
 					DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 					String fecha = dateFormat.format(new Date());
 					System.out.println(fecha);
-					write(i+1, 12, fecha);
+					write(i+1, 13, fecha);
 
 					driver.quit();
 				}
@@ -250,13 +256,13 @@ public class ModificarCliente {
 				String screenshotPath = getScreenShot(driver, "Error");
 				logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
 				extent.flush();
-				write(i+1, 10, "FAILED");
-				write(i+1, 11, "");
+				write(i+1, 11, "FAILED");
+				write(i+1, 12, "");
 
 				DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				String fecha = dateFormat.format(new Date());
 				System.out.println(fecha);
-				write(i+1, 12, fecha);
+				write(i+1, 13, fecha);
 				System.out.println("Error: " + e);
 				driver.quit();
 			}
