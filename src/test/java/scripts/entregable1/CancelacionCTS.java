@@ -173,8 +173,7 @@ public class CancelacionCTS {
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Locked Funds')]"))).click();
 				Thread.sleep(3000);
 
-				WebElement found = driver.findElement(By.xpath("//td[contains(text(),'No Locked Funds available')]"));
-				if (found.isDisplayed()){
+				if (driver.findElement(By.xpath("//td[contains(text(),'No Locked Funds available')]")).isDisplayed()){
 					System.out.println("no found");
 				}else{
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Reverse']"))).click();
