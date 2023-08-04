@@ -196,7 +196,34 @@ public class PagoMasivoPrestamo {
                     }
 
                     driver.manage().window().maximize();
-                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@value='START']"))).click();
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'START')]"))).click();
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
+                    driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
+                    Thread.sleep(30000);
+
+                    // STOP *****
+                    driver.switchTo().window(MainWindow);
+                    driver.switchTo().frame(iframe2);
+                    driver.findElement(By.xpath("//a[contains(text(),'Establecer Servicio TSA T24.UPLOAD.PROCESS ')]")).click();
+                    driver.switchTo().parentFrame();
+
+                    String MainWindow21=driver.getWindowHandle();
+                    Set<String> s21=driver.getWindowHandles();
+                    Iterator<String> i21=s21.iterator();
+
+                    while(i21.hasNext())
+                    {
+                        String ChildWindow=i21.next();
+
+                        if(!MainWindow21.equalsIgnoreCase(ChildWindow))
+                        {
+                            driver.switchTo().window(ChildWindow);
+                        }
+                    }
+
+
+                    driver.manage().window().maximize();
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'STOP')]"))).click();
                     wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
                     driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
                     Thread.sleep(3000);

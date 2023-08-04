@@ -192,8 +192,8 @@ public class AjusteBILL {
 				}
 
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='r8']//img[@alt='Do Activity Today']")));
-				driver.findElement(By.xpath("//tr[@id='r8']//img[@alt='Do Activity Today']")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='r6']//img[@alt='Do Activity Today']")));
+				driver.findElement(By.xpath("//tr[@id='r6']//img[@alt='Do Activity Today']")).click();
 
 
 //				String MainWindow4=driver.getWindowHandle();
@@ -283,7 +283,7 @@ public class AjusteBILL {
 					}
 				}
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//label[contains(text(),'Número de cuenta')]")));
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//label[contains(text(),'ID de Arreglo')]")));
 				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'ID de Arreglo')]")).getAttribute("for");
 				driver.findElement(By.id(attr1)).clear();
 				driver.findElement(By.id(attr1)).sendKeys(arreglo.get(i));

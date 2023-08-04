@@ -135,10 +135,21 @@ public class AltaClienteControlDual {
                     //Assert.assertEquals(exp_message, actual);
                     System.out.println("assert complete");
 
-                    WebElement iframe0 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
-                    driver.switchTo().frame(iframe0);
-                    driver.findElement(By.id("commandValue")).sendKeys("CUSTOMER,INPUT.BRANCH.PE.BIOMETRY");
-                    driver.findElement(By.id("cmdline_img")).click();
+//                    WebElement iframe0 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
+//                    driver.switchTo().frame(iframe0);
+//                    driver.findElement(By.id("commandValue")).sendKeys("CUSTOMER,INPUT.BRANCH.PE.BIOMETRY");
+//                    driver.findElement(By.id("cmdline_img")).click();
+//                    driver.switchTo().parentFrame();
+
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/frameset/frame[2]")));
+                    WebElement iframe1 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
+                    driver.switchTo().frame(iframe1);
+
+                    driver.findElement(By.id("imgError")).click();
+
+                    driver.findElement(By.xpath("//img[@alt='Cliente']")).click();
+
+                    driver.findElement(By.xpath("//a[contains(text(),'Alta con Biometría ')]")).click();
                     driver.switchTo().parentFrame();
 
                     String MainWindow0=driver.getWindowHandle();
@@ -155,7 +166,7 @@ public class AltaClienteControlDual {
                         }
                     }
 
-                    driver.findElement(By.xpath("//img[@alt='New Deal']")).click();
+                    //driver.findElement(By.xpath("//img[@alt='New Deal']")).click();
 
                     wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:MNEMONIC")));
                     driver.findElement(By.id("fieldName:MNEMONIC")).sendKeys(mnemocino.get(i));
