@@ -191,7 +191,6 @@ public class AjusteBILL {
 					}
 				}
 
-				Thread.sleep(80000);
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='r8']//img[@alt='Do Activity Today']")));
 				driver.findElement(By.xpath("//tr[@id='r8']//img[@alt='Do Activity Today']")).click();
 
