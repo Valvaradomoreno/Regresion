@@ -190,9 +190,8 @@ public class CambioTasa {
 						driver.switchTo().window(ChildWindow);
 					}
 				}
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[23]/td[3]/a/img")));
-				driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[23]/td[3]/a/img")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[24]/td[3]/a/img")));
+				driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[24]/td[3]/a/img")).click();
 
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();

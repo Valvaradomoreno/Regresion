@@ -154,7 +154,7 @@ public class AjusteBILL {
 				Thread.sleep(200);
 				driver.findElement(By.id("value:2:1:1")).clear();
 				Thread.sleep(200);
-				String attr = driver.findElement(By.xpath("//label[contains(text(),'ID de Arreglo')]")).getAttribute("for");
+				String attr = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
 				driver.findElement(By.id(attr)).sendKeys(arreglo.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
 
@@ -191,9 +191,9 @@ public class AjusteBILL {
 					}
 				}
 
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='r6']//img[@alt='Do Activity Today']")));
-				driver.findElement(By.xpath("//tr[@id='r6']//img[@alt='Do Activity Today']")).click();
+				Thread.sleep(80000);
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='r8']//img[@alt='Do Activity Today']")));
+				driver.findElement(By.xpath("//tr[@id='r8']//img[@alt='Do Activity Today']")).click();
 
 
 //				String MainWindow4=driver.getWindowHandle();
@@ -284,7 +284,7 @@ public class AjusteBILL {
 				}
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//label[contains(text(),'ID de Arreglo')]")));
-				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'ID de Arreglo')]")).getAttribute("for");
+				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
 				driver.findElement(By.id(attr1)).clear();
 				driver.findElement(By.id(attr1)).sendKeys(arreglo.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
