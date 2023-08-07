@@ -222,8 +222,8 @@ public class AjusteBILL {
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
 				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
-				driver.findElement(By.id("errorImg")).click();
+//				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
+//				driver.findElement(By.id("errorImg")).click();
 
 				Thread.sleep(3000);
 
