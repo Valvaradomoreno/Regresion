@@ -236,10 +236,13 @@ public class AltaClienteControlDual {
                     driver.findElement(By.id("sign-in")).click();
                     Thread.sleep(1000);
 
-                    WebElement iframe01 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
-                    driver.switchTo().frame(iframe01);
-                    driver.findElement(By.id("commandValue")).sendKeys("ENQ BRIP.ENQ.DUAL.CONTROL");
-                    driver.findElement(By.id("cmdline_img")).click();
+                    WebElement iframe2 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
+                    driver.switchTo().frame(iframe2);
+                    driver.findElement(By.id("imgError")).click();
+
+                    //El usuario da click en Buscar Cuenta CTS
+                    driver.findElement(By.xpath("//img[@alt='Cliente']")).click();
+                    driver.findElement(By.xpath("//a[contains(text(),'Control dual Biometria ')]")).click();
                     driver.switchTo().parentFrame();
 
 
