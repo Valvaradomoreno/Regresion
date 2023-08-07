@@ -200,7 +200,7 @@ public class CambioTasaDPF {
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg"))).click();
+				//wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg"))).click();
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
 

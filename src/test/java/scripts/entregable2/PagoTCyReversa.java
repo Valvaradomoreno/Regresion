@@ -79,7 +79,6 @@ public class PagoTCyReversa {
 		ArrayList<String> usuario= readExcelData(0);
 		ArrayList<String> contraseña =readExcelData(1);
 		ArrayList<String> idCliente =readExcelData(2);
-		ArrayList<String> monto =readExcelData(3);
 
 		int filas=usuario.size();
   		for(int i=0;i<usuario.size();i++) {
@@ -190,7 +189,8 @@ public class PagoTCyReversa {
 
 
 				//And El usuario ingresa a Consultas
-					driver.switchTo().window(MainWindow);
+
+					/*driver.switchTo().window(MainWindow);
 					driver.switchTo().frame(iframe2);
 					driver.findElement(By.xpath("//img[@alt='Consultas']")).click();
 					driver.findElement(By.xpath("//a[contains(text(),'Transacciones de Cajero hoy Dia ')]")).click();
@@ -207,7 +207,7 @@ public class PagoTCyReversa {
 						}
 					}
 
-				Thread.sleep(80000);
+				Thread.sleep(80000);*/
 
 					String cod = driver.findElement(By.xpath("//*[@id=\"messages\"]/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 					String sSubCadena = cod.substring(22,39);

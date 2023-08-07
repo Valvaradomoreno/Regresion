@@ -168,11 +168,10 @@ public class CuotaComodin {
                             driver.switchTo().window(ChildWindow);
                         }
                     }
-                    Thread.sleep(2500);
-
+                    driver.manage().window().maximize();
 
                     // SOLICITA VACACIONES
-                    driver.findElement(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr[7]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[3]/td[2]/a/img")).click();
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/table/tbody/tr/td[1]/table/tbody/tr[7]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[3]/td[2]/a/img"))).click();
 
                     String MainWindow3=driver.getWindowHandle();
                     Set<String> s3=driver.getWindowHandles();
@@ -188,14 +187,20 @@ public class CuotaComodin {
                         }
                     }
                     driver.manage().window().maximize();
-
-                    driver.findElement(By.xpath("//img[@alt='Skip Payment']")).click();
                     Thread.sleep(2500);
+
+                    WebElement iframe11 = driver.findElement(By.xpath("/html/frameset/frameset[1]/frame"));
+                    driver.switchTo().frame(iframe11);
+
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Skip Payment']"))).click();
+                    Thread.sleep(2500);
+                    driver.switchTo().parentFrame();
 
                     DateFormat dateFormat = new SimpleDateFormat("yyyy,mm,dd");
                     String fechahoy = dateFormat.format(Calendar.getInstance().getTime());
 
-
+                    WebElement iframe12 = driver.findElement(By.xpath("/html/frameset/frameset[2]/frame"));
+                    driver.switchTo().frame(iframe12);
                     driver.findElement(By.id("fieldName:EFFECTIVE.DATE")).sendKeys(fechahoy);
 
                     driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
