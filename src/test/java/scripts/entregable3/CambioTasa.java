@@ -196,7 +196,7 @@ public class CambioTasa {
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
-
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:FIXED.RATE:1"))).clear();
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:FIXED.RATE:1"))).sendKeys(fijo.get(i));
 				String screenshotPath2 = getScreenShot(driver, "");
 

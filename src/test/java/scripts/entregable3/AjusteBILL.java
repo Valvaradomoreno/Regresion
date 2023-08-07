@@ -194,7 +194,6 @@ public class AjusteBILL {
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='r8']//img[@alt='Do Activity Today']")));
 				driver.findElement(By.xpath("//tr[@id='r8']//img[@alt='Do Activity Today']")).click();
 
-
 //				String MainWindow4=driver.getWindowHandle();
 //				Set<String> s4=driver.getWindowHandles();
 //				Iterator<String> i4=s4.iterator();
@@ -211,9 +210,10 @@ public class AjusteBILL {
 
 				driver.manage().window().maximize();
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:NEW.BAL.AMT.UNC")));
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:NEW.PROP.AMT:1:1")));
 				String screenshotPath1 = getScreenShot(driver, "");
-				driver.findElement(By.id("fieldName:NEW.BAL.AMT.UNC")).sendKeys(monto.get(i));
+				//driver.findElement(By.id("fieldName:NEW.BAL.AMT.UNC")).sendKeys(monto.get(i));
+				driver.findElement(By.id("fieldName:NEW.PROP.AMT:1:1")).sendKeys(monto.get(i));
 				String screenshotPath2 = getScreenShot(driver, "");
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
@@ -222,6 +222,8 @@ public class AjusteBILL {
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
 				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
+				driver.findElement(By.id("errorImg")).click();
 
 				Thread.sleep(3000);
 
