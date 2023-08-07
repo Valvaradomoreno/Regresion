@@ -271,17 +271,17 @@ public class AltaClienteControlDual {
                     driver.findElement(By.xpath("//img[@alt='Authorises a deal']")).click();
                     Thread.sleep(2000);
 
-//                    if(driver.findElement(By.id("errorImg")).isDisplayed()){
-//                        driver.findElement(By.id("errorImg")).click();
-//                    }else{
-//                        System.out.println("no hay");
-//                    }
+                    if(driver.findElement(By.id("errorImg")).isDisplayed()){
+                        driver.findElement(By.id("errorImg")).click();
+                    }else{
+                        System.out.println("no hay");
+                    }
 
                     //Se muestra el codigo de alta
-                    String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
-                    String sSubCadena = cod.substring(22,39);
-                    System.out.println(sSubCadena);
-                    write(i+1, 18, sSubCadena);
+//                    String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
+//                    String sSubCadena = cod.substring(22,39);
+//                    System.out.println(sSubCadena);
+//                    write(i+1, 18, sSubCadena);
 
 
                     String screenshotPath = getScreenShot(driver, "Fin del Caso");

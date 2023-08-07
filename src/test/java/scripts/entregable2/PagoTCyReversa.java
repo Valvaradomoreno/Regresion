@@ -181,9 +181,9 @@ public class PagoTCyReversa {
 					driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 					Thread.sleep(1000);
 
-					Select selectProducto = new Select(driver.findElement(By.id("warningChooser:CREDIT TILL CLOSING BALANCE")));
-					selectProducto.selectByVisibleText("YES");
-					driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
+					//Select selectProducto = new Select(driver.findElement(By.id("warningChooser:CREDIT TILL CLOSING BALANCE")));
+					//selectProducto.selectByVisibleText("YES");
+					//driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 
 					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"messages\"]/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")));
 
