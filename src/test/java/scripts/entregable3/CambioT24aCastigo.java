@@ -189,7 +189,7 @@ public class CambioT24aCastigo {
 					}
 				}
 
-
+				Thread.sleep(80000);
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[3]/div/table[1]/tbody/tr[1]/td[3]/a/img")));
 
 				System.out.println("GOO");
