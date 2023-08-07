@@ -284,7 +284,7 @@ public class AjusteBILL {
 					}
 				}
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//label[contains(text(),'ID de Arreglo')]")));
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//label[contains(text(),'Número de cuenta')]")));
 				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
 				driver.findElement(By.id(attr1)).clear();
 				driver.findElement(By.id(attr1)).sendKeys(arreglo.get(i));
