@@ -73,6 +73,7 @@ public class CuotaComodin {
         ArrayList<String> contraseña =readExcelData(1);
         ArrayList<String> cuenta =readExcelData(2);
         ArrayList<String> usuario2= readExcelData(3);
+        ArrayList<String> fecmad= readExcelData(4);
 
 
         int filas=usuario.size();
@@ -409,9 +410,19 @@ public class CuotaComodin {
                     WebDriverWait wait2 = new WebDriverWait(driver, 40);
 
                     wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"r36\"]/td[3]/a/img"))).click();
-                    wait2.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:MATURITY.DATE"))).sendKeys("20240505");
-                    wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Validate a deal']")));
-                    wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
+                    wait2.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:MATURITY.DATE"))).clear();
+                    wait2.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:MATURITY.DATE"))).sendKeys(fecmad.get(i));
+                    wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Validate a deal']"))).click();
+                    wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
+                    wait2.until(ExpectedConditions.elementToBeClickable(By.id("errorImg"))).click();
+
+//                    Thread.sleep(3000);
+//                    Boolean isPresent2 = driver.findElements(By.id("errorImg")).size() > 0;
+//                    if (isPresent2){
+//                        driver.findElement(By.id("errorImg")).click();
+//                    }else{
+//                        System.out.println("no hay");
+//                    }
                     wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
 
 

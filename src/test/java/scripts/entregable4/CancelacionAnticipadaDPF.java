@@ -194,6 +194,7 @@ public class CancelacionAnticipadaDPF {
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
+				Thread.sleep(5000);
 
 				Boolean isPresent = driver.findElements(By.id("errorImg")).size() > 0;
 				if (isPresent){
@@ -237,6 +238,7 @@ public class CancelacionAnticipadaDPF {
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
+				Thread.sleep(5000);
 
 				if (isPresent){
 					driver.findElement(By.id("errorImg")).click();
@@ -282,6 +284,7 @@ public class CancelacionAnticipadaDPF {
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
+				Thread.sleep(5000);
 				if (isPresent){
 					driver.findElement(By.id("errorImg")).click();
 				}else{
