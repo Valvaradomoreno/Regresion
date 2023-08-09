@@ -197,12 +197,13 @@ public class PagoMasivoPrestamo {
 
                     driver.manage().window().maximize();
                     wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'START')]"))).click();
+                    driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
                     wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
                     driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
                     Thread.sleep(30000);
 
                     // STOP *****
-                    driver.switchTo().window(MainWindow);
+                   /* driver.switchTo().window(MainWindow);
                     driver.switchTo().frame(iframe2);
                     driver.findElement(By.xpath("//a[contains(text(),'Establecer Servicio TSA T24.UPLOAD.PROCESS ')]")).click();
                     driver.switchTo().parentFrame();
@@ -226,7 +227,7 @@ public class PagoMasivoPrestamo {
                     wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'STOP')]"))).click();
                     wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
                     driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
-                    Thread.sleep(3000);
+                    Thread.sleep(3000);*/
 
                     // VALIDAR ****
 
@@ -386,6 +387,7 @@ public class PagoMasivoPrestamo {
 
                     driver.manage().window().maximize();
                     wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@value='START']"))).click();
+                    driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
                     wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
                     driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
                     Thread.sleep(3000);
