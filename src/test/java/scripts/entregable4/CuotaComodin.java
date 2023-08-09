@@ -149,7 +149,7 @@ public class CuotaComodin {
                     Thread.sleep(200);
                     driver.findElement(By.id("value:2:1:1")).clear();
                     Thread.sleep(200);
-                    String attr = driver.findElement(By.xpath("//label[contains(text(),'ID de Arreglo')]")).getAttribute("for");
+                    String attr = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
                     driver.findElement(By.id(attr)).sendKeys(arreglo.get(i));
                     driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
 
@@ -196,12 +196,13 @@ public class CuotaComodin {
                     Thread.sleep(2500);
                     driver.switchTo().parentFrame();
 
-                    DateFormat dateFormat = new SimpleDateFormat("yyyy,mm,dd");
+                    DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
                     String fechahoy = dateFormat.format(Calendar.getInstance().getTime());
 
                     WebElement iframe12 = driver.findElement(By.xpath("/html/frameset/frameset[2]/frame"));
                     driver.switchTo().frame(iframe12);
                     driver.findElement(By.id("fieldName:EFFECTIVE.DATE")).sendKeys(fechahoy);
+                    //Thread.sleep(80000);
 
                     driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 

@@ -194,8 +194,13 @@ public class CancelacionAnticipadaDPF {
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg"))).click();
 
+				Boolean isPresent = driver.findElements(By.id("errorImg")).size() > 0;
+				if (isPresent){
+					driver.findElement(By.id("errorImg")).click();
+				}else{
+					System.out.println("no hay");
+				}
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
 				String cod1 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String sSubCadena = cod1.substring(22,39);
@@ -229,16 +234,60 @@ public class CancelacionAnticipadaDPF {
 				String datef = dateFormat2.format(new Date());
 				System.out.println(datef);
 
-//				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:EFFECTIVE.DATE"))).sendKeys(datef);
-//				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:TXN.AMOUNT"))).sendKeys(datef);
-
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg"))).click();
 
-				Thread.sleep(25000);
+				if (isPresent){
+					driver.findElement(By.id("errorImg")).click();
+				}else{
+					System.out.println("no hay");
+				}
+				//Thread.sleep(5000);
 
+				String MainWindow8=driver.getWindowHandle();
+				Set<String> s8=driver.getWindowHandles();
+				Iterator<String> i8=s8.iterator();
+
+				while(i8.hasNext())
+				{
+					String ChildWindow=i8.next();
+
+					if(!MainWindow8.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+				Thread.sleep(22000);
+
+				driver.findElement(By.xpath("//img[@alt='Details']")).click();
+				driver.manage().window().maximize();
+				Thread.sleep(2000);
+
+				WebElement iframe0 = driver.findElement(By.xpath("/html/frameset/frameset[1]/frame"));
+				driver.switchTo().frame(iframe0);
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Detalle de liquidacion')]"))).click();
+				driver.switchTo().parentFrame();
+				Thread.sleep(2000);
+
+				WebElement iframe01 = driver.findElement(By.xpath("/html/frameset/frameset[1]/frameset/frame"));
+				driver.switchTo().frame(iframe01);
+				driver.findElement(By.xpath("//a[contains(text(),'Ejecutar')]")).click();
+				driver.switchTo().parentFrame();
+
+				WebElement iframe02 = driver.findElement(By.xpath("/html/frameset/frameset[2]/frame"));
+				driver.switchTo().frame(iframe02);
+				Select selectProducto3 = new Select(driver.findElement(By.id("fieldName:CLOSURE.REASON")));
+				selectProducto3.selectByVisibleText(razon.get(i));
+
+				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
+				if (isPresent){
+					driver.findElement(By.id("errorImg")).click();
+				}else{
+					System.out.println("no hay");
+				}
+				driver.switchTo().parentFrame();
 
 				String screenshotPath = getScreenShot(driver, "");
 

@@ -167,9 +167,6 @@ public class RetiroCuentaCTS {
 
 				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
 
-				Thread.sleep(1000);
-				driver.findElement(By.id("details-button")).click();
-				driver.findElement(By.id("proceed-link")).click();
 				Thread.sleep(3000);
 
 				driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
@@ -188,9 +185,9 @@ public class RetiroCuentaCTS {
 
 				driver.findElement(By.id("imgError")).click();
 
-				driver.findElement(By.xpath("//img[@alt='Operaciones Minoristas']")).click();
+				driver.findElement(By.xpath("//img[@alt='Transacciones CTS']")).click();
 
-				driver.findElement(By.xpath("//a[contains(text(),'Buscar Préstamo ')]")).click();
+				driver.findElement(By.xpath("//a[contains(text(),'Buscar Cuenta CTS ')]")).click();
 				driver.switchTo().parentFrame();
 
 				String MainWindow4=driver.getWindowHandle();
@@ -212,7 +209,7 @@ public class RetiroCuentaCTS {
 				Thread.sleep(200);
 				driver.findElement(By.id("value:2:1:1")).clear();
 				Thread.sleep(200);
-				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'ID de Arreglo')]")).getAttribute("for");
+				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
 				driver.findElement(By.id(attr1)).sendKeys(cuenta.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
 				Thread.sleep(500);
@@ -261,19 +258,19 @@ public class RetiroCuentaCTS {
 				String cod1 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String sSubCadena = cod1.substring(22,39);
 				System.out.println(sSubCadena);
-				write(i+1, 5, sSubCadena);
+				write(i+1, 6, sSubCadena);
 
 				String screenshotPath = getScreenShot(driver, "");
 				logger.log(Status.PASS, MarkupHelper.createLabel("Final", ExtentColor.GREEN));
 				logger.log(Status.PASS,"Final", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
 
 				extent.flush();
-				write(i+1, 4, "PASSED");
+				write(i+1, 5, "PASSED");
 
 				DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				String fecha = dateFormat.format(new Date());
 				System.out.println(fecha);
-				write(i+1, 6, fecha);
+				write(i+1, 7, fecha);
 
 
 					driver.quit();
@@ -284,13 +281,13 @@ public class RetiroCuentaCTS {
 				  String screenshotPath = getScreenShot(driver, "Error");
 				  logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
 				  extent.flush();
-				  write(i+1, 4, "FAILED");
-				  write(i+1, 5, "");
+				  write(i+1, 5, "FAILED");
+				  write(i+1, 6, "");
 
 				  DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
-				  write(i+1, 6, fecha);
+				  write(i+1, 7, fecha);
 				  System.out.println("Error: " + e);
 				driver.quit();
 
