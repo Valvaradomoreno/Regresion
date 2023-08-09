@@ -204,6 +204,7 @@ public class CancelacionAnticipadaDPF {
 
 				driver.switchTo().window(MainWindow3);
 				driver.navigate().refresh();
+				Thread.sleep(5000);
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Run']"))).click();
 
@@ -224,12 +225,19 @@ public class CancelacionAnticipadaDPF {
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:CLOSURE.REASON"))).click();
 				Select selectProducto2 = new Select(driver.findElement(By.id("fieldName:CLOSURE.REASON")));
 				selectProducto2.selectByVisibleText(razon.get(i));
+				DateFormat dateFormat2 = new SimpleDateFormat("yyyyMMdd");
+				String datef = dateFormat2.format(new Date());
+				System.out.println(datef);
+
+//				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:EFFECTIVE.DATE"))).sendKeys(datef);
+//				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:TXN.AMOUNT"))).sendKeys(datef);
+
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg"))).click();
 
-				Thread.sleep(15000);
+				Thread.sleep(25000);
 
 
 				String screenshotPath = getScreenShot(driver, "");

@@ -287,8 +287,8 @@ public class CondonacionDeuda {
 
 				String screenshotPath3 = getScreenShot(driver, "");
 
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Select Drilldown']"))).click();
 
-				driver.findElement(By.xpath("//img[@alt='Select Drilldown']")).click();
 
 				String MainWindow6=driver.getWindowHandle();
 				Set<String> s6=driver.getWindowHandles();
