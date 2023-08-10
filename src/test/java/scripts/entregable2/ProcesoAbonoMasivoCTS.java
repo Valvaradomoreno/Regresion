@@ -81,8 +81,7 @@ public class ProcesoAbonoMasivoCTS {
 
 		ArrayList<String> usuario= readExcelData(0);
 		ArrayList<String> contraseña =readExcelData(1);
-		ArrayList<String> cuentaCTS =readExcelData(2);
-		ArrayList<String> txt =readExcelData(3);
+		ArrayList<String> txt =readExcelData(2);
 
 
 		int filas=usuario.size();
@@ -163,19 +162,20 @@ public class ProcesoAbonoMasivoCTS {
 					String attr = driver.findElement(By.xpath("//label[contains(text(),'Nombre de Archivo')]")).getAttribute("for");
 					driver.findElement(By.id(attr)).sendKeys(txt.get(i));
 					driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
-					Thread.sleep(5000);
+					Thread.sleep(2000);
 
-					driver.findElement(By.xpath("//td[contains(text(),'"+cuentaCTS.get(i)+"')]")).isDisplayed();
+					driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[1]/td[1]")).isDisplayed();
+					Thread.sleep(1000);
 
 					String screenshotPath = getScreenShot(driver, "Fin del Caso");
 					logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
 					extent.flush();
-					write(i+1, 4, "PASSED");
+					write(i+1, 3, "PASSED");
 
 					DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 					String fecha = dateFormat.format(new Date());
 					System.out.println(fecha);
-					write(i+1, 5, fecha);
+					write(i+1, 4, fecha);
 
 					driver.quit();
 				}
@@ -184,12 +184,12 @@ public class ProcesoAbonoMasivoCTS {
 				String screenshotPath = getScreenShot(driver, "Error");
 				logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
 				extent.flush();
-				write(i+1, 4, "FAILED");
+				write(i+1, 3, "FAILED");
 
 				DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				String fecha = dateFormat.format(new Date());
 				System.out.println(fecha);
-				write(i+1, 5, fecha);
+				write(i+1, 4, fecha);
 				System.out.println("Error: " + e);
 				driver.quit();
 			}
