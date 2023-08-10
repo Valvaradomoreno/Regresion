@@ -165,7 +165,7 @@ public class ProcesoAbonoMasivoCTS {
 					driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
 					Thread.sleep(5000);
 
-					driver.findElement(By.xpath("//td[contains(text(),'1001615738')]")).isDisplayed();
+					driver.findElement(By.xpath("//td[contains(text(),'"+cuentaCTS.get(i)+"')]")).isDisplayed();
 
 					String screenshotPath = getScreenShot(driver, "Fin del Caso");
 					logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
