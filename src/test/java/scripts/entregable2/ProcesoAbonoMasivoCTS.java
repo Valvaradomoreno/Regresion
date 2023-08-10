@@ -57,8 +57,7 @@ public class ProcesoAbonoMasivoCTS {
         
 	@BeforeMethod
     public void openApplication() {
-    	//System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/main/resources/drivers/chromedriver");
-		System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/src/main/resources/drivers/firefox");
+    	System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/main/resources/drivers/chromedriver");
 
 	}
 

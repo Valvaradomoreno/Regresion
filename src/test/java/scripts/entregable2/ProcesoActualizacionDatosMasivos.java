@@ -51,8 +51,7 @@ public class ProcesoActualizacionDatosMasivos {
         
 	@BeforeMethod
     public void openApplication() {
-    	//System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/main/resources/drivers/chromedriver");
-		System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/src/main/resources/drivers/firefox");
+    	System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/main/resources/drivers/chromedriver");
 
 	}
 
@@ -92,10 +91,8 @@ public class ProcesoActualizacionDatosMasivos {
 
 					// ** DESDE AQUI EMPIEZA EL TEST
 
-				//  Given El usuario ingresa al Login Page
+					//  Given El usuario ingresa al Login Page
 					driver = new ChromeDriver();
-
-					//driver = new FirefoxDriver();
 
 					driver.manage().window().maximize();
 					driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
@@ -122,7 +119,39 @@ public class ProcesoActualizacionDatosMasivos {
 					System.out.println("assert complete");
 
 
-					// When El usuario ingresa codigo menu
+					// When El usuario da click en Menu
+					Thread.sleep(1000);
+					WebElement iframe2 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
+					driver.switchTo().frame(iframe2);
+					driver.findElement(By.id("imgError")).click();
+
+					driver.findElement(By.xpath("//img[@alt='Servicios de Pagos']")).click();
+					driver.findElement(By.xpath("//img[@alt='Pagos Masivos']")).click();
+					driver.findElement(By.xpath("//img[@alt='Creación de FT Masivo Master']")).click();
+
+					driver.findElement(By.xpath("//a[contains(text(),'Carga de Archivo Masivo ')]")).click();
+					driver.switchTo().parentFrame();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				// When El usuario ingresa codigo menu
 					driver.findElement(By.id("commandValue")).sendKeys("?BRIP.RQ.MASS.UPD.CUS");
 					driver.findElement(By.id("cmdline_img")).click();
 					driver.switchTo().parentFrame();
