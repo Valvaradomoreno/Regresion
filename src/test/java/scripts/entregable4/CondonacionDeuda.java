@@ -200,9 +200,9 @@ public class CondonacionDeuda {
 
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:NEW.BAL.AMT:2:1")));
-				//driver.findElement(By.id("fieldName:NEW.BAL.AMT:2:1")).sendKeys(monto.get(i));
-				driver.findElement(By.id("fieldName:NEW.BAL.AMT:1:1")).sendKeys(monto.get(i));
-				driver.findElement(By.id("fieldName:ADJ.BAL.AMT:2:1")).sendKeys(monto.get(i));
+				driver.findElement(By.id("fieldName:NEW.BAL.AMT:2:1")).sendKeys(monto.get(i));
+				//driver.findElement(By.id("fieldName:NEW.BAL.AMT:1:1")).sendKeys(monto.get(i));
+				//driver.findElement(By.id("fieldName:ADJ.BAL.AMT:2:1")).sendKeys(monto.get(i));
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 
