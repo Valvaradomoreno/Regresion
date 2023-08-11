@@ -246,7 +246,7 @@ public class ProcesoActualizacionDatosMasivos {
 					Thread.sleep(3000);
 					String screenshotPath = getScreenShot(driver, "Fin del Caso");
 
-					Thread.sleep(65000);
+					Thread.sleep(60000);
 
 
 
@@ -296,6 +296,7 @@ public class ProcesoActualizacionDatosMasivos {
 					driver.switchTo().parentFrame();
 					driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
+					Thread.sleep(180000);
 
 
 
