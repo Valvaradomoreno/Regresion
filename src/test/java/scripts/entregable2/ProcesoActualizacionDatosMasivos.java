@@ -125,39 +125,11 @@ public class ProcesoActualizacionDatosMasivos {
 					driver.switchTo().frame(iframe2);
 					driver.findElement(By.id("imgError")).click();
 
-					driver.findElement(By.xpath("//img[@alt='Servicios de Pagos']")).click();
-					driver.findElement(By.xpath("//img[@alt='Pagos Masivos']")).click();
-					driver.findElement(By.xpath("//img[@alt='Creación de FT Masivo Master']")).click();
-
-					driver.findElement(By.xpath("//a[contains(text(),'Carga de Archivo Masivo ')]")).click();
+					driver.findElement(By.xpath("//img[@alt='Cliente - Actualización Masiva']")).click();
+					driver.findElement(By.xpath("//img[@alt='Persona Natural']")).click();
+					driver.findElement(By.xpath("//a[contains(text(),'Carga de Archivos Pre-Validacion PN ')]")).click();
 					driver.switchTo().parentFrame();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				// When El usuario ingresa codigo menu
-					driver.findElement(By.id("commandValue")).sendKeys("?BRIP.RQ.MASS.UPD.CUS");
-					driver.findElement(By.id("cmdline_img")).click();
-					driver.switchTo().parentFrame();
-
-
-					//El usuario Ingresa a la actualización
 					String MainWindow=driver.getWindowHandle();
 					Set<String> s1=driver.getWindowHandles();
 					Iterator<String> i1=s1.iterator();
@@ -172,8 +144,18 @@ public class ProcesoActualizacionDatosMasivos {
 						}
 					}
 
-					//El usuario Ingresa a Cargar Archivo
-					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Carga de Archivos Actualizacion ')]"))).click();
+					Thread.sleep(3000);
+					driver.findElement(By.xpath("//input[@type='file']")).sendKeys(System.getProperty("user.dir") + ""+archivo.get(i)+"");
+				    driver.findElement(By.xpath("//img[@title='Upload']")).click();
+					Thread.sleep(2000);
+					driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
+
+					driver.switchTo().window(MainWindow);
+
+					driver.switchTo().frame(iframe2);
+					driver.findElement(By.xpath("//a[contains(text(),'Carga de Archivos Actualizacion PN ')]")).click();
+					driver.switchTo().parentFrame();
 
 					String MainWindow2=driver.getWindowHandle();
 					Set<String> s2=driver.getWindowHandles();
@@ -188,6 +170,41 @@ public class ProcesoActualizacionDatosMasivos {
 							driver.switchTo().window(ChildWindow);
 						}
 					}
+
+					Thread.sleep(3000);
+					driver.findElement(By.xpath("//input[@type='file']")).sendKeys(System.getProperty("user.dir") + ""+archivo.get(i)+"");
+					driver.findElement(By.xpath("//img[@title='Upload']")).click();
+					Thread.sleep(2000);
+					driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					// When El usuario ingresa codigo menu
+					driver.findElement(By.id("commandValue")).sendKeys("?BRIP.RQ.MASS.UPD.CUS");
+					driver.findElement(By.id("cmdline_img")).click();
+					driver.switchTo().parentFrame();
+
+
+					//El usuario Ingresa a la actualización
+
+
+					//El usuario Ingresa a Cargar Archivo
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Carga de Archivos Actualizacion ')]"))).click();
+
+
 					wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:DESCRIPTION"))).sendKeys("Descripcion 1");
 					WebElement iframe1 = driver.findElement(By.xpath("/html/body/div[3]/div[2]/form[1]/div[4]/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/iframe"));
 					driver.switchTo().frame(iframe1);

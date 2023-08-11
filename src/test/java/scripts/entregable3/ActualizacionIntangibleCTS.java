@@ -164,8 +164,23 @@ public class ActualizacionIntangibleCTS {
 
 				Thread.sleep(3000);
 
-				driver.findElement(By.xpath("//a[contains(text(),'Nueva Actividad')]")).click();
 
+
+				String MainWindow2=driver.getWindowHandle();
+				Set<String> s2=driver.getWindowHandles();
+				Iterator<String> i2=s2.iterator();
+
+				while(i2.hasNext())
+				{
+					String ChildWindow=i2.next();
+
+					if(!MainWindow2.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+
+				driver.findElement(By.xpath("//a[contains(text(),'Nueva Actividad')]")).click();
 
 				String MainWindow3=driver.getWindowHandle();
 				Set<String> s3=driver.getWindowHandles();
@@ -181,7 +196,7 @@ public class ActualizacionIntangibleCTS {
 					}
 				}
 
-				driver.findElement(By.xpath("//*[@id='r1']/td[3]/a/img")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='r1']/td[3]/a/img"))).click();
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:NARRATIVE:1")));
 
@@ -199,6 +214,7 @@ public class ActualizacionIntangibleCTS {
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
 				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")));
 
 				//ESTO ES PARA EL CODIGO DE TRANSACCION
 				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
@@ -277,7 +293,7 @@ public class ActualizacionIntangibleCTS {
 				driver.manage().window().maximize();
 				Thread.sleep(5000);
 
-				driver.findElement(By.xpath("//img[@alt='Select Drilldown']")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Select Drilldown']"))).click();
 
 				String MainWindow6=driver.getWindowHandle();
 				Set<String> s6=driver.getWindowHandles();

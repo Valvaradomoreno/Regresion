@@ -148,6 +148,7 @@ public class PagoMasivoPrestamo {
                             driver.switchTo().window(ChildWindow);
                         }
                     }
+
                     Thread.sleep(3000);
                     WebElement iframe3 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
                     driver.switchTo().frame(iframe3);
@@ -196,11 +197,11 @@ public class PagoMasivoPrestamo {
                     }
 
                     driver.manage().window().maximize();
-                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'START')]"))).click();
-                    driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@value='START']"))).click();
+                    //driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
                     wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
                     driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
-                    Thread.sleep(30000);
+                    Thread.sleep(5000);
 
                     // STOP *****
                    /* driver.switchTo().window(MainWindow);
