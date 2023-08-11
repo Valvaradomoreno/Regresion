@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 
 public class ProcesoActualizacionDatosMasivos {
@@ -75,7 +76,7 @@ public class ProcesoActualizacionDatosMasivos {
 		ArrayList<String> usuario= readExcelData(0);
 		ArrayList<String> contraseña =readExcelData(1);
 		ArrayList<String> archivo =readExcelData(2);
-		ArrayList<String> frecuencia =readExcelData(3);
+		ArrayList<String> usuario2 =readExcelData(3);
 
 
 		int filas=usuario.size();
@@ -117,10 +118,12 @@ public class ProcesoActualizacionDatosMasivos {
 					String actual = driver.findElement(By.xpath("//a[contains(text(),'Sign Off')]")).getText();
 					Assert.assertEquals(exp_message, actual);
 					System.out.println("assert complete");
+					driver.switchTo().parentFrame();
 
+					// PRIMERA CARGA *************************
 
 					// When El usuario da click en Menu
-					Thread.sleep(1000);
+					Thread.sleep(2000);
 					WebElement iframe2 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
 					driver.switchTo().frame(iframe2);
 					driver.findElement(By.id("imgError")).click();
@@ -130,31 +133,144 @@ public class ProcesoActualizacionDatosMasivos {
 					driver.findElement(By.xpath("//a[contains(text(),'Carga de Archivos Pre-Validacion PN ')]")).click();
 					driver.switchTo().parentFrame();
 
-					String MainWindow=driver.getWindowHandle();
-					Set<String> s1=driver.getWindowHandles();
-					Iterator<String> i1=s1.iterator();
+					String MainWindow = driver.getWindowHandle();
+					Set<String> s1 = driver.getWindowHandles();
+					Iterator<String> i1 = s1.iterator();
 
-					while(i1.hasNext())
+					while (i1.hasNext()) {
+						String ChildWindow = i1.next();
+
+						if (!MainWindow.equalsIgnoreCase(ChildWindow)) {
+							driver.switchTo().window(ChildWindow);
+						}
+					}
+					WebElement iframe21 = driver.findElement(By.xpath("/html/body/div[3]/div[2]/form[1]/div[4]/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/iframe"));
+					driver.switchTo().frame(iframe21);
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@type='file']")));
+					Thread.sleep(5000);
+					driver.findElement(By.xpath("//input[@type='file']")).sendKeys(System.getProperty("user.dir") + ""+archivo.get(i)+"");
+				    driver.findElement(By.xpath("//img[@title='Upload']")).click();
+					Thread.sleep(2000);
+					driver.switchTo().parentFrame();
+					driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
+
+
+					// PRIMER SERVICIO *************************
+
+					driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+					driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
+					Thread.sleep(1000);
+
+					wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
+
+					driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
+					driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
+					driver.findElement(By.id("sign-in")).click();
+					driver.manage().window().maximize();
+
+					Thread.sleep(2000);
+					WebElement iframe3 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
+					driver.switchTo().frame(iframe3);
+					driver.findElement(By.id("commandValue")).sendKeys("TSA.SERVICE,");
+					driver.findElement(By.id("cmdline_img")).click();
+					driver.switchTo().parentFrame();
+
+					String MainWindow3=driver.getWindowHandle();
+					Set<String> s3=driver.getWindowHandles();
+					Iterator<String> i3=s3.iterator();
+
+					while(i3.hasNext())
 					{
-						String ChildWindow=i1.next();
+						String ChildWindow=i3.next();
 
-						if(!MainWindow.equalsIgnoreCase(ChildWindow))
+						if(!MainWindow3.equalsIgnoreCase(ChildWindow))
 						{
 							driver.switchTo().window(ChildWindow);
 						}
 					}
-
+					//Thread.sleep(3000);
+					//driver.findElement(By.id("transactionId")).sendKeys("BNK/BRIP.RQ.MASSIVE.PRE.NAT");
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div[2]/form[1]/div[2]/table/thead/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr/td[2]/input[1]"))).sendKeys("BNK/BRIP.RQ.MASSIVE.PRE.NAT");
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Edit a contract']"))).click();
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@value='START']"))).click();
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
 					Thread.sleep(3000);
-					driver.findElement(By.xpath("//input[@type='file']")).sendKeys(System.getProperty("user.dir") + ""+archivo.get(i)+"");
-				    driver.findElement(By.xpath("//img[@title='Upload']")).click();
+
+					Thread.sleep(300000);
+
+
+					// SEGUNDO SERVICIO *************************
+
+					driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+					driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
+					Thread.sleep(1000);
+
+					wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
+
+					driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
+					driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
+					driver.findElement(By.id("sign-in")).click();
+					driver.manage().window().maximize();
+
 					Thread.sleep(2000);
-					driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
-					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
+					WebElement iframe31= driver.findElement(By.xpath("/html/frameset/frame[1]"));
+					driver.switchTo().frame(iframe31);
 
-					driver.switchTo().window(MainWindow);
+					driver.findElement(By.id("commandValue")).sendKeys("TSA.SERVICE,");
+					driver.findElement(By.id("cmdline_img")).click();
+					driver.switchTo().parentFrame();
 
-					driver.switchTo().frame(iframe2);
-					driver.findElement(By.xpath("//a[contains(text(),'Carga de Archivos Actualizacion PN ')]")).click();
+					String MainWindow31=driver.getWindowHandle();
+					Set<String> s31=driver.getWindowHandles();
+					Iterator<String> i31=s31.iterator();
+
+					while(i31.hasNext())
+					{
+						String ChildWindow=i31.next();
+
+						if(!MainWindow31.equalsIgnoreCase(ChildWindow))
+						{
+							driver.switchTo().window(ChildWindow);
+						}
+					}
+					DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd HH:mm");
+					String frecuen = dateFormat.format(new Date());
+					System.out.println(frecuen);
+
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div[2]/form[1]/div[2]/table/thead/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr/td[2]/input[1]"))).sendKeys("BNK/BRIP.RQ.MASSIVE.UPD.NAT");
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Edit a contract']"))).click();
+					wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:FREQUENCY"))).clear();
+					wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:FREQUENCY"))).sendKeys(frecuen+" 1D");
+					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
+					Thread.sleep(3000);
+
+					Thread.sleep(65000);
+
+
+
+					// SEGUNDA CARGA *************************
+
+					driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+					driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
+					Thread.sleep(1000);
+
+					wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
+
+					driver.findElement(By.id("signOnName")).sendKeys(usuario.get(i));
+					driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
+					driver.findElement(By.id("sign-in")).click();
+					driver.manage().window().maximize();
+
+
+					Thread.sleep(1000);
+					WebElement iframe22 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
+					driver.switchTo().frame(iframe22);
+					driver.findElement(By.id("imgError")).click();
+
+					driver.findElement(By.xpath("//img[@alt='Cliente - Actualización Masiva']")).click();
+					driver.findElement(By.xpath("//img[@alt='Persona Natural']")).click();
+					driver.findElement(By.xpath("//a[contains(text(),'Carga de Archivos Pre-Validacion PN ')]")).click();
 					driver.switchTo().parentFrame();
 
 					String MainWindow2=driver.getWindowHandle();
@@ -170,11 +286,13 @@ public class ProcesoActualizacionDatosMasivos {
 							driver.switchTo().window(ChildWindow);
 						}
 					}
-
+					WebElement iframe23 = driver.findElement(By.xpath("/html/body/div[3]/div[2]/form[1]/div[4]/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/iframe"));
+					driver.switchTo().frame(iframe23);
 					Thread.sleep(3000);
 					driver.findElement(By.xpath("//input[@type='file']")).sendKeys(System.getProperty("user.dir") + ""+archivo.get(i)+"");
 					driver.findElement(By.xpath("//img[@title='Upload']")).click();
 					Thread.sleep(2000);
+					driver.switchTo().parentFrame();
 					driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
 
@@ -184,80 +302,13 @@ public class ProcesoActualizacionDatosMasivos {
 
 
 
-
-
-
-
-
-
-
-
-					// When El usuario ingresa codigo menu
-					driver.findElement(By.id("commandValue")).sendKeys("?BRIP.RQ.MASS.UPD.CUS");
-					driver.findElement(By.id("cmdline_img")).click();
-					driver.switchTo().parentFrame();
-
-
-					//El usuario Ingresa a la actualización
-
-
-					//El usuario Ingresa a Cargar Archivo
-					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Carga de Archivos Actualizacion ')]"))).click();
-
-
-					wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:DESCRIPTION"))).sendKeys("Descripcion 1");
-					WebElement iframe1 = driver.findElement(By.xpath("/html/body/div[3]/div[2]/form[1]/div[4]/table/tbody/tr[3]/td/table[1]/tbody/tr[3]/td[3]/iframe"));
-					driver.switchTo().frame(iframe1);
-					driver.findElement(By.xpath("//input[@type='file']")).sendKeys(System.getProperty("user.dir") + "/src/Excel/entregable2/Mod_Masiva_Clientes_PN_18.csv");
-					driver.findElement(By.xpath("//img[@title='Upload']")).click();
-					Thread.sleep(3000);
-					driver.switchTo().parentFrame();
-
-
-					driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
-					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")));
-					driver.close();
-					driver.switchTo().window(MainWindow2);
-
-					//El usuario Ingresa a Servicio actualizacion
-					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Servicio de Actualizacion ')]"))).click();
-
-
-					//El usuario Ingresa a la detalle actualización
-					String MainWindow3=driver.getWindowHandle();
-					Set<String> s3=driver.getWindowHandles();
-					Iterator<String> i3=s3.iterator();
-
-					while(i3.hasNext())
-					{
-						String ChildWindow=i3.next();
-
-						if(!MainWindow3.equalsIgnoreCase(ChildWindow))
-						{
-							driver.switchTo().window(ChildWindow);
-						}
-					}
-
-
-					wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:USER")));
-					wait.until(ExpectedConditions.elementToBeClickable(By.id("radio:mainTab:SERVICE.CONTROL"))).click();
-					wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:FREQUENCY"))).clear();
-					wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:USER"))).clear();
-					wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:USER"))).sendKeys(frecuencia.get(i));
-
-					//El usuario hace commit
-					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
-					driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
-					Thread.sleep(5000);
-
-
 					String screenshotPath = getScreenShot(driver, "Fin del Caso");
 					logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
 					extent.flush();
 					write(i+1, 4, "PASSED");
 
-					DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
-					String fecha = dateFormat.format(new Date());
+					DateFormat dateFormat2 = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
+					String fecha = dateFormat2.format(new Date());
 					System.out.println(fecha);
 					write(i+1, 5, fecha);
 
