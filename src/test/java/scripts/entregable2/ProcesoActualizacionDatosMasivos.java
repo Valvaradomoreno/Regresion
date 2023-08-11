@@ -244,6 +244,7 @@ public class ProcesoActualizacionDatosMasivos {
 					wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:FREQUENCY"))).sendKeys(frecuen+" 1D");
 					wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
 					Thread.sleep(3000);
+					String screenshotPath = getScreenShot(driver, "Fin del Caso");
 
 					Thread.sleep(65000);
 
@@ -270,7 +271,7 @@ public class ProcesoActualizacionDatosMasivos {
 
 					driver.findElement(By.xpath("//img[@alt='Cliente - Actualización Masiva']")).click();
 					driver.findElement(By.xpath("//img[@alt='Persona Natural']")).click();
-					driver.findElement(By.xpath("//a[contains(text(),'Carga de Archivos Pre-Validacion PN ')]")).click();
+					driver.findElement(By.xpath("//a[contains(text(),'Carga de Archivos Actualizacion PN ')]")).click();
 					driver.switchTo().parentFrame();
 
 					String MainWindow2=driver.getWindowHandle();
@@ -298,11 +299,6 @@ public class ProcesoActualizacionDatosMasivos {
 
 
 
-
-
-
-
-					String screenshotPath = getScreenShot(driver, "Fin del Caso");
 					logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
 					extent.flush();
 					write(i+1, 4, "PASSED");

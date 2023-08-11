@@ -203,37 +203,30 @@ public class PagoMasivoPrestamo {
                     driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
                     Thread.sleep(5000);
 
-                    // STOP *****
-                   /* driver.switchTo().window(MainWindow);
-                    driver.switchTo().frame(iframe2);
-                    driver.findElement(By.xpath("//a[contains(text(),'Establecer Servicio TSA T24.UPLOAD.PROCESS ')]")).click();
-                    driver.switchTo().parentFrame();
+                    Thread.sleep(300000);
 
-                    String MainWindow21=driver.getWindowHandle();
-                    Set<String> s21=driver.getWindowHandles();
-                    Iterator<String> i21=s21.iterator();
-
-                    while(i21.hasNext())
-                    {
-                        String ChildWindow=i21.next();
-
-                        if(!MainWindow21.equalsIgnoreCase(ChildWindow))
-                        {
-                            driver.switchTo().window(ChildWindow);
-                        }
-                    }
-
-
-                    driver.manage().window().maximize();
-                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'STOP')]"))).click();
-                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
-                    driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
-                    Thread.sleep(3000);*/
 
                     // VALIDAR ****
+                    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+                    driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
+                    Thread.sleep(1000);
 
-                    driver.switchTo().window(MainWindow);
-                    driver.switchTo().frame(iframe2 );
+                    wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
+
+                    driver.findElement(By.id("signOnName")).sendKeys(usuario.get(i));
+                    driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
+                    driver.findElement(By.id("sign-in")).click();
+                    driver.manage().window().maximize();
+
+                    Thread.sleep(1000);
+                    WebElement iframe21 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
+                    driver.switchTo().frame(iframe21);
+                    driver.findElement(By.id("imgError")).click();
+
+                    driver.findElement(By.xpath("//img[@alt='Servicios de Pagos']")).click();
+                    driver.findElement(By.xpath("//img[@alt='Pagos Masivos']")).click();
+                    driver.findElement(By.xpath("//img[@alt='Creación de FT Masivo Master']")).click();
+
                     driver.findElement(By.xpath("//a[contains(text(),'Ingresar/Validar Masivo Maestro ')] ")).click();
                     driver.switchTo().parentFrame();
 
