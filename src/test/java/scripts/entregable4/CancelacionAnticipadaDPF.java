@@ -210,7 +210,7 @@ public class CancelacionAnticipadaDPF {
 
 				driver.switchTo().window(MainWindow3);
 				driver.navigate().refresh();
-				Thread.sleep(15000);
+				Thread.sleep(12000);
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Run']"))).click();
 
@@ -240,12 +240,12 @@ public class CancelacionAnticipadaDPF {
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
 				Thread.sleep(5000);
 
-				if (isPresent){
-					driver.findElement(By.id("errorImg")).click();
-				}else{
-					System.out.println("no hay");
-				}
-				Thread.sleep(5000);
+//				if (isPresent){
+//					driver.findElement(By.id("errorImg")).click();
+//				}else{
+//					System.out.println("no hay");
+//				}
+//				Thread.sleep(5000);
 
 				String MainWindow8=driver.getWindowHandle();
 				Set<String> s8=driver.getWindowHandles();
