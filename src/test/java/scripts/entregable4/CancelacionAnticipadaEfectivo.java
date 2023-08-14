@@ -38,10 +38,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 
-public class CancelacionAnticipadaDPF {
+public class CancelacionAnticipadaEfectivo {
 
     WebDriver driver;
 	public ExtentSparkReporter spark;
@@ -63,7 +62,7 @@ public class CancelacionAnticipadaDPF {
 	public void CancelacionAnticipadaDPF()throws IOException, InterruptedException, AWTException {
 
 		extent = new ExtentReports();
-		spark = new ExtentSparkReporter(System.getProperty("user.dir") + "/test-output/reports4/CancelacionAnticipadaDPF/Report.html");
+		spark = new ExtentSparkReporter(System.getProperty("user.dir") + "/test-output/reports4/CancelacionAnticipadaEfectivo/Report.html");
 		extent.attachReporter(spark);
 		extent.setSystemInfo("Host Name", "SoftwareTestingMaterial");
 		extent.setSystemInfo("Environment", "Production");
@@ -78,6 +77,7 @@ public class CancelacionAnticipadaDPF {
 		ArrayList<String> contraseña =readExcelData(1);
 		ArrayList<String> cuenta =readExcelData(2);
 		ArrayList<String> razon =readExcelData(3);
+		ArrayList<String> usuario2=readExcelData(4);
 
 		int filas=usuario.size();
   		for(int i=0;i<usuario.size();i++) {
@@ -185,8 +185,9 @@ public class CancelacionAnticipadaDPF {
 					}
 				}
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("radio:tab1:CASH.CANCEL")));
-				driver.findElement(By.xpath("/html/body/div[3]/div[2]/form[1]/div[4]/table/tbody/tr[2]/td/table/tbody/tr[9]/td[3]/table/tbody/tr/td[2]/input")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("radio:tab1:CASH.CANCEL"))).click();
+				driver.findElement(By.xpath("//img[@title='Dropdown List']")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//b[contains(text(),'3003')]"))).click();
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
@@ -200,13 +201,13 @@ public class CancelacionAnticipadaDPF {
 				}
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
 				String cod1 = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
-				String sSubCadena = cod1.substring(22,39);
+				String sSubCadena = cod1.substring(22,35);
 				System.out.println(sSubCadena);
-				write(i+1, 5, sSubCadena);
+				write(i+1, 6, sSubCadena);
 
 				driver.switchTo().window(MainWindow3);
 				driver.navigate().refresh();
-				Thread.sleep(12000);
+				Thread.sleep(10000);
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Run']"))).click();
 
@@ -273,26 +274,77 @@ public class CancelacionAnticipadaDPF {
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
-				Thread.sleep(5000);
-				if (isPresent){
-					driver.findElement(By.id("errorImg")).click();
-				}else{
-					System.out.println("no hay");
-				}
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg"))).click();
+
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
 				driver.switchTo().parentFrame();
 
 				String screenshotPath = getScreenShot(driver, "");
 
 
+				////// USUARIO 2 ******************
+
+
+				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
+
+				Thread.sleep(3000);
+
+				driver.findElement(By.id("signOnName")).sendKeys(usuario2.get(i));
+				driver.findElement(By.id("password")).sendKeys(contraseña.get(i));
+				driver.findElement(By.id("sign-in")).click();
+
+				WebElement iframe03 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
+				driver.switchTo().frame(iframe03);
+				Assert.assertEquals(exp_message, actual);
+				System.out.println("assert complete");
+				driver.switchTo().parentFrame();
+
+				Thread.sleep(1000);
+				WebElement iframe10 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
+				driver.switchTo().frame(iframe10);
+
+				driver.findElement(By.id("imgError")).click();
+
+				driver.findElement(By.xpath("//img[@alt='Operaciones Minoristas']")).click();
+
+				driver.findElement(By.xpath("//span[contains(text(),'Transacciones de Depósito')]")).click();
+				driver.findElement(By.xpath("//span[contains(text(),'Actividades de Contrato (TT)')]")).click();
+				driver.findElement(By.xpath("//a[contains(text(),'AA Pago moneda local ')]")).click();
+				driver.switchTo().parentFrame();
+
+				String MainWindow9=driver.getWindowHandle();
+				Set<String> s9=driver.getWindowHandles();
+				Iterator<String> i9=s9.iterator();
+
+				while(i9.hasNext())
+				{
+					String ChildWindow=i9.next();
+
+					if(!MainWindow9.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:ACCOUNT.1:1"))).sendKeys(cuenta.get(i));
+				driver.findElement(By.id("fieldName:AMOUNT.LOCAL.1:1")).click();
+				Thread.sleep(1000);
+
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg"))).click();
+
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
+
+
 				logger.log(Status.PASS, MarkupHelper.createLabel("Final", ExtentColor.GREEN));
 				logger.log(Status.PASS,"Final", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
 				extent.flush();
-				write(i+1, 4, "PASSED");
+				write(i+1, 5, "PASSED");
 
 				DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				String fecha = dateFormat.format(new Date());
 				System.out.println(fecha);
-				write(i+1, 6, fecha);
+				write(i+1, 7, fecha);
 					driver.quit();
 
 				}
@@ -302,13 +354,13 @@ public class CancelacionAnticipadaDPF {
 				  String screenshotPath = getScreenShot(driver, "Error");
 				  logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
 				  extent.flush();
-				  write(i+1, 4, "FAILED");
-				  write(i+1, 5, "");
+				  write(i+1, 5, "FAILED");
+				  write(i+1, 6, "");
 
 				  DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
 				  String fecha = dateFormat.format(new Date());
 				  System.out.println(fecha);
-				  write(i+1, 6, fecha);
+				  write(i+1, 7, fecha);
 				  System.out.println("Error: " + e);
 				driver.quit();
 
@@ -319,9 +371,9 @@ public class CancelacionAnticipadaDPF {
 
 	public static ArrayList<String> readExcelData(int colNo) throws IOException {
 
-		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable4/CancelacionAnticipadaDPF.xlsx");
+		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable4/CancelacionAnticipadaEfectivo.xlsx");
 		XSSFWorkbook wb=new XSSFWorkbook(fis);
-		XSSFSheet s=wb.getSheet("CancelacionAnticipadaDPF");
+		XSSFSheet s=wb.getSheet("CancelacionAnticipadaEfectivo");
 		Iterator<Row> rowIterator=s.iterator();
 		rowIterator.next();
 		//rowIterator.next();
@@ -334,7 +386,7 @@ public class CancelacionAnticipadaDPF {
 	}
 
 	public void write(int i, int celda, String dato) throws IOException {
-		String path = System.getProperty("user.dir") + "/src/Excel/entregable4/CancelacionAnticipadaDPF.xlsx";
+		String path = System.getProperty("user.dir") + "/src/Excel/entregable4/CancelacionAnticipadaEfectivo.xlsx";
 		FileInputStream fs = new FileInputStream(path);
 		Workbook wb = new XSSFWorkbook(fs);
 		Sheet sheet1 = wb.getSheetAt(0);
@@ -354,7 +406,7 @@ public class CancelacionAnticipadaDPF {
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File source = ts.getScreenshotAs(OutputType.FILE);
 		// after execution, you could see a folder "FailedTestsScreenshots" under src folder
-		String destination = System.getProperty("user.dir") + "/test-output/reports4/CancelacionAnticipadaDPF/Images/" + screenshotName + dateName + ".png";
+		String destination = System.getProperty("user.dir") + "/test-output/reports4/CancelacionAnticipadaEfectivo/Images/" + screenshotName + dateName + ".png";
 		File finalDestination = new File(destination);
 		FileUtils.copyFile(source, finalDestination);
 		return destination;
