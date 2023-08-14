@@ -32,8 +32,8 @@ public class Entregable1 {
 	DepositoEfectivoLocalExtranjero depositoEfectivoLocalExtranjero = new DepositoEfectivoLocalExtranjero();
 	DepositoLocalEfectico depositoLocalEfectico = new DepositoLocalEfectico();
 	InactividadManualCuentaAhorros inactividadManualCuentaAhorros = new InactividadManualCuentaAhorros();
-	RetiroEfectivoExtranjero retiroEfectivoExtranjero = new RetiroEfectivoExtranjero();
-	RetiroEfectivoSinTarjeta retiroEfectivoSinTarjeta = new RetiroEfectivoSinTarjeta();
+	RetiroEfectivoFCY retiroEfectivoFCY = new RetiroEfectivoFCY();
+	RetiroEfectivoLCY retiroEfectivoLCY = new RetiroEfectivoLCY();
 
     WebDriver driver;
 
@@ -101,10 +101,10 @@ public class Entregable1 {
 					depositoLocalEfectico.DepositoLocalEfectico();
 				}else if ((caso.get(i).equals("Retiro Efectivo Extranjero")) && (ejecutar.get(i).equals("Si"))){
 					System.out.println("Retiro Efectivo Extranjero");
-					retiroEfectivoExtranjero.RetiroEfectivoExtranjero();
+					retiroEfectivoFCY.RetiroEfectivoExtranjero();
 				}else if ((caso.get(i).equals("Retiro Efectivo Sin Tarjeta")) && (ejecutar.get(i).equals("Si"))){
 					System.out.println("Retiro Efectivo Sin Tarjeta");
-					retiroEfectivoSinTarjeta.RetiroEfectivoSinTarjeta();
+					retiroEfectivoLCY.RetiroEfectivoSinTarjeta();
 				}
 
 

@@ -19,7 +19,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -38,10 +37,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.time.Duration;
 
 
-public class RetiroEfectivoSinTarjeta {
+public class RetiroEfectivoFCY {
 
     WebDriver driver;
 	public ExtentSparkReporter spark;
@@ -60,10 +58,10 @@ public class RetiroEfectivoSinTarjeta {
 
 
 	@Test
-	public void RetiroEfectivoSinTarjeta()throws IOException, InterruptedException, AWTException {
+	public void RetiroEfectivoExtranjero()throws IOException, InterruptedException, AWTException {
 
 		extent = new ExtentReports();
-		spark = new ExtentSparkReporter(System.getProperty("user.dir") + "/test-output/reports/RetiroEfectivoSinTarjeta/Report.html");
+		spark = new ExtentSparkReporter(System.getProperty("user.dir") + "/test-output/reports/RetiroEfectivoFCY/Report.html");
 		extent.attachReporter(spark);
 		extent.setSystemInfo("Host Name", "SoftwareTestingMaterial");
 		extent.setSystemInfo("Environment", "Production");
@@ -79,7 +77,6 @@ public class RetiroEfectivoSinTarjeta {
 		ArrayList<String> cuenta =readExcelData(2);
 		ArrayList<String> monto =readExcelData(3);
 		ArrayList<String> usuario2=readExcelData(4);
-
 
 		int filas=usuario.size();
   		for(int i=0;i<usuario.size();i++) {
@@ -100,10 +97,7 @@ public class RetiroEfectivoSinTarjeta {
 
 				Thread.sleep(1000);
 				driver.findElement(By.id("details-button")).click();
-				driver.findElement(By.id("proceed-link")).click();
-
-
-				WebDriverWait wait = new WebDriverWait(driver, 60);
+				driver.findElement(By.id("proceed-link")).click();   WebDriverWait wait = new WebDriverWait(driver, 60);
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
 
 				driver.findElement(By.id("signOnName")).sendKeys(usuario.get(i));
@@ -137,29 +131,27 @@ public class RetiroEfectivoSinTarjeta {
 
 				driver.findElement(By.xpath("//img[@alt='Operaciones de Cajero']")).click();
 
-				driver.findElement(By.xpath("//span[contains(text(),'Efectivo de Cajero')]")).click();
+				driver.findElement(By.xpath("//span[contains(text(),'Transferencia de Cuentas II')]")).click();
 
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Retiro Local en Efectivo Cuenta Interna ')]"))).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Retiro de efectivo de Fcy (sin Tarjeta) ')]"))).click();
 
-				String MainWindow=driver.getWindowHandle();
-				Set<String> s1=driver.getWindowHandles();
-				Iterator<String> i1=s1.iterator();
+				String MainWindow0=driver.getWindowHandle();
+				Set<String> s0=driver.getWindowHandles();
+				Iterator<String> i0=s0.iterator();
 
-				while(i1.hasNext())
+				while(i0.hasNext())
 				{
-					String ChildWindow=i1.next();
+					String ChildWindow=i0.next();
 
-					if(!MainWindow.equalsIgnoreCase(ChildWindow))
+					if(!MainWindow0.equalsIgnoreCase(ChildWindow))
 					{
 						driver.switchTo().window(ChildWindow);
 					}
 				}
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@title='New Deal']"))).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div[2]/form[1]/div[4]/table/tbody/tr[1]/td/table/tbody/tr[4]/td[8]/a[2]/img"))).click();
 
-				Thread.sleep(5000);
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='mainTab']/tbody/tr[4]/td[3]/a[2]/img")));
-				driver.findElement(By.xpath("//*[@id='mainTab']/tbody/tr[4]/td[3]/a[2]/img")).click();
 				String MainWindow2=driver.getWindowHandle();
 				Set<String> s2=driver.getWindowHandles();
 				Iterator<String> i2=s2.iterator();
@@ -173,41 +165,41 @@ public class RetiroEfectivoSinTarjeta {
 						driver.switchTo().window(ChildWindow2);
 					}
 				}
-				String attr = driver.findElement(By.xpath("//label[contains(text(),'Nombre')]")).getAttribute("for");
-				driver.findElement(By.id(attr)).clear();
+
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("value:1:1:1")));
+				driver.findElement(By.id("value:1:1:1")).clear();
+				Thread.sleep(200);
+				driver.findElement(By.id("value:2:1:1")).clear();
+				Thread.sleep(200);
+				String attr = driver.findElement(By.xpath("//label[contains(text(),'Numero de Cuenta')]")).getAttribute("for");
 				driver.findElement(By.id(attr)).sendKeys(cuenta.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
-				Thread.sleep(1000);
-				driver.findElement(By.xpath("/html/body/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[1]/td[1]/a")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//b[contains(text(),'"+cuenta.get(i)+"')]"))).click();
+
 				driver.switchTo().window(MainWindow2);
+				Thread.sleep(1000);
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:AMOUNT.FCY.1:1")));
+				driver.findElement(By.id("fieldName:AMOUNT.FCY.1:1")).click();
+				Thread.sleep(1000);
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:AMOUNT.FCY.1:1"))).sendKeys(monto.get(i));
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
+				Thread.sleep(3000);
+				Boolean isPresent = driver.findElements(By.id("errorImg")).size() > 0;
+				if (isPresent){
+					driver.findElement(By.id("errorImg")).click();
+				}else{
+					System.out.println("no hay");
+				}
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
 
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:AMOUNT.LOCAL.1:1"))).clear();
 
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:AMOUNT.LOCAL.1:1"))).sendKeys(monto.get(i));
-
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
-				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
-				Thread.sleep(5000);
-				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
-
-				//String cod = driver.findElement(By.id("transactionId")).getCssValue("value");
-				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
-				String sSubCadena = cod.substring(22,39);
-				System.out.println(sSubCadena);
-				System.out.println("ess");
-				write(i+1, 6, sSubCadena);
-				Thread.sleep(5000);
-				driver.switchTo().window(MainWindow);
-
-
-				////// APROBACION ******************
-
+				// APROBACION
 
 				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 				driver.get("https://10.167.21.100:8480/BrowserWebSAD/servlet/BrowserServlet?");
+				Thread.sleep(1000);
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("signOnName")));
 
@@ -221,7 +213,7 @@ public class RetiroEfectivoSinTarjeta {
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Sign Off')]")));
 				String exp_message1 = "Sign Off";
 				String actual1 = driver.findElement(By.xpath("//a[contains(text(),'Sign Off')]")).getText();
-				Assert.assertEquals(exp_message, actual1);
+				Assert.assertEquals(exp_message1, actual1);
 				System.out.println("assert complete");
 				driver.switchTo().parentFrame();
 
@@ -233,68 +225,51 @@ public class RetiroEfectivoSinTarjeta {
 
 				driver.findElement(By.xpath("//img[@alt='Operaciones Minoristas']")).click();
 
-				driver.findElement(By.xpath("//a[contains(text(),'Buscar Cuenta ')]")).click();
+				driver.findElement(By.xpath("//span[contains(text(),'Transacciones de Cuenta')]")).click();
+
+				driver.findElement(By.xpath("//span[contains(text(),'Cajero')]")).click();
+
+				driver.findElement(By.xpath("//img[@alt='Operaciones de Cajero']")).click();
+
+				driver.findElement(By.xpath("//span[contains(text(),'Efectivo de Cajero')]")).click();
+				driver.findElement(By.xpath("//a[contains(text(),'Autorizar/Eliminar Transacciones en Efectivo ')]")).click();
+
 				driver.switchTo().parentFrame();
 
-				String MainWindow4=driver.getWindowHandle();
-				Set<String> s4=driver.getWindowHandles();
-				Iterator<String> i4=s4.iterator();
+				String MainWindow3=driver.getWindowHandle();
+				Set<String> s3=driver.getWindowHandles();
+				Iterator<String> i3=s3.iterator();
 
-				while(i4.hasNext())
+				while(i3.hasNext())
 				{
-					String ChildWindow=i4.next();
+					String ChildWindow2=i3.next();
 
-					if(!MainWindow4.equalsIgnoreCase(ChildWindow))
+					if(!MainWindow3.equalsIgnoreCase(ChildWindow2))
 					{
-						driver.switchTo().window(ChildWindow);
+						driver.switchTo().window(ChildWindow2);
 					}
 				}
+				Thread.sleep(1000);
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//label[contains(text(),'Número de cuenta')]")));
-				String attr1 = driver.findElement(By.xpath("//label[contains(text(),'Número de cuenta')]")).getAttribute("for");
-				driver.findElement(By.id(attr1)).clear();
-				driver.findElement(By.id(attr1)).sendKeys(cuenta.get(i));
-				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
+				WebElement iframe31 = driver.findElement(By.xpath("/html/frameset/frame[1]"));
+				driver.switchTo().frame(iframe31);
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Authorise']"))).click();
+				driver.switchTo().parentFrame();
+				Thread.sleep(5000);
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Overview']"))).click();
-
-				String MainWindow5=driver.getWindowHandle();
-				Set<String> s5=driver.getWindowHandles();
-				Iterator<String> i5=s5.iterator();
-
-				while(i5.hasNext())
-				{
-					String ChildWindow=i5.next();
-
-					if(!MainWindow5.equalsIgnoreCase(ChildWindow))
-					{
-						driver.switchTo().window(ChildWindow);
-					}
-				}
-
-				driver.manage().window().maximize();
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Select Drilldown']"))).click();
-
-				String screenshotPath3 = getScreenShot(driver, "");
-
-				String MainWindow6=driver.getWindowHandle();
-				Set<String> s6=driver.getWindowHandles();
-				Iterator<String> i6=s6.iterator();
-
-				while(i6.hasNext())
-				{
-					String ChildWindow=i6.next();
-
-					if(!MainWindow6.equalsIgnoreCase(ChildWindow))
-					{
-						driver.switchTo().window(ChildWindow);
-					}
-				}
-
+				WebElement iframe32 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
+				driver.switchTo().frame(iframe32);
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Authorises a deal']"))).click();
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
+				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
+				driver.switchTo().parentFrame();
+
+				Thread.sleep(5000);
 
 
+				String sSubCadena = cod.substring(22,39);
+				System.out.println(sSubCadena);
+				write(i+1, 6, sSubCadena);
 
 
 				String screenshotPath = getScreenShot(driver, "Fin del Caso");
@@ -333,9 +308,9 @@ public class RetiroEfectivoSinTarjeta {
 
 	public static ArrayList<String> readExcelData(int colNo) throws IOException {
 
-		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable1/RetiroEfectivoSinTarjeta.xlsx");
+		FileInputStream fis=new FileInputStream(System.getProperty("user.dir") + "/src/Excel/entregable1/RetiroEfectivoFCY.xlsx");
 		XSSFWorkbook wb=new XSSFWorkbook(fis);
-		XSSFSheet s=wb.getSheet("RetiroEfectivoSinTarjeta");
+		XSSFSheet s=wb.getSheet("RetiroEfectivoFCY");
 		Iterator<Row> rowIterator=s.iterator();
 		rowIterator.next();
 		//rowIterator.next();
@@ -348,7 +323,7 @@ public class RetiroEfectivoSinTarjeta {
 	}
 
 	public void write(int i, int celda, String dato) throws IOException {
-		String path = System.getProperty("user.dir") + "/src/Excel/entregable1/RetiroEfectivoSinTarjeta.xlsx";
+		String path = System.getProperty("user.dir") + "/src/Excel/entregable1/RetiroEfectivoFCY.xlsx";
 		FileInputStream fs = new FileInputStream(path);
 		Workbook wb = new XSSFWorkbook(fs);
 		Sheet sheet1 = wb.getSheetAt(0);
@@ -368,7 +343,7 @@ public class RetiroEfectivoSinTarjeta {
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File source = ts.getScreenshotAs(OutputType.FILE);
 		// after execution, you could see a folder "FailedTestsScreenshots" under src folder
-		String destination = System.getProperty("user.dir") + "/test-output/reports/RetiroEfectivoSinTarjeta/Images/" + screenshotName + dateName + ".png";
+		String destination = System.getProperty("user.dir") + "/test-output/reports/RetiroEfectivoFCY/Images/" + screenshotName + dateName + ".png";
 		File finalDestination = new File(destination);
 		FileUtils.copyFile(source, finalDestination);
 		return destination;
