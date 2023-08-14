@@ -75,6 +75,8 @@ public class CuentaPagarSoles {
 
         ArrayList<String> usuario= readExcelData(0);
         ArrayList<String> contraseña =readExcelData(1);
+        ArrayList<String> cuenta =readExcelData(2);
+        ArrayList<String> monto =readExcelData(3);
 
 
         int filas=usuario.size();
@@ -164,19 +166,64 @@ public class CuentaPagarSoles {
                         }
                     }
 
-                   driver.findElement(By.id("dealtitle")).isDisplayed();
-                    Thread.sleep(1000);
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@title='New Deal']"))).click();
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div[2]/form[1]/div[4]/table/tbody/tr[1]/td/table/tbody/tr[4]/td[3]/a[2]/img"))).click();
 
+                    String MainWindow2=driver.getWindowHandle();
+                    Set<String> s2=driver.getWindowHandles();
+                    Iterator<String> i2=s2.iterator();
+
+                    while(i2.hasNext())
+                    {
+                        String ChildWindow2=i2.next();
+
+                        if(!MainWindow2.equalsIgnoreCase(ChildWindow2))
+                        {
+                            driver.switchTo().window(ChildWindow2);
+                        }
+                    }
+
+                    wait.until(ExpectedConditions.elementToBeClickable(By.id("value:1:1:1")));
+                    driver.findElement(By.id("value:1:1:1")).clear();
+                    Thread.sleep(200);
+                    driver.findElement(By.id("value:2:1:1")).clear();
+                    Thread.sleep(200);
+                    String attr = driver.findElement(By.xpath("//label[contains(text(),'Numero de Cuenta')]")).getAttribute("for");
+                    driver.findElement(By.id(attr)).sendKeys(cuenta.get(i));
+                    driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//b[contains(text(),'"+cuenta.get(i)+"')]"))).click();
+
+                    driver.switchTo().window(MainWindow2);
+                    Thread.sleep(1000);
+                    wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:AMOUNT.LOCAL.1:1")));
+                    driver.findElement(By.id("fieldName:AMOUNT.LOCAL.1:1")).click();
+                    Thread.sleep(1000);
+                    wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:AMOUNT.LOCAL.1:1"))).sendKeys(monto.get(i));
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']"))).click();
+                    Thread.sleep(3000);
+                    Boolean isPresent = driver.findElements(By.id("errorImg")).size() > 0;
+                    if (isPresent){
+                        driver.findElement(By.id("errorImg")).click();
+                    }else{
+                        System.out.println("no hay");
+                    }
+                    wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
+
+                    String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
+                    String sSubCadena = cod.substring(22,35);
+                    System.out.println(sSubCadena);
+                    write(i+1, 5, sSubCadena);
 
                     String screenshotPath = getScreenShot(driver, "Fin del Caso");
                     logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
                     extent.flush();
-                    write(i+1, 2, "PASSED");
+                    write(i+1, 4, "PASSED");
 
                     DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
                     String fecha = dateFormat.format(new Date());
                     System.out.println(fecha);
-                    write(i+1, 3, fecha);
+                    write(i+1, 6, fecha);
 
                     driver.quit();
                 }
@@ -185,12 +232,13 @@ public class CuentaPagarSoles {
                 String screenshotPath = getScreenShot(driver, "Error");
                 logger.log(Status.FAIL, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Error: "+e, ExtentColor.RED));
                 extent.flush();
-                write(i+1, 2, "FAILED");
+                write(i+1, 4, "FAILED");
+                write(i+1, 5, "");
 
                 DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy, HH:mm:ss");
                 String fecha = dateFormat.format(new Date());
                 System.out.println(fecha);
-                write(i+1, 3, fecha);
+                write(i+1, 6, fecha);
                 System.out.println("Error: " + e);
                 driver.quit();
             }
