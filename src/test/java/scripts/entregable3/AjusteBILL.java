@@ -210,10 +210,10 @@ public class AjusteBILL {
 
 				driver.manage().window().maximize();
 
-				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:NEW.PROP.AMT:1:1")));
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:NEW.PROP.AMT:2:1")));
 				String screenshotPath1 = getScreenShot(driver, "");
 				//driver.findElement(By.id("fieldName:NEW.BAL.AMT.UNC")).sendKeys(monto.get(i));
-				driver.findElement(By.id("fieldName:NEW.PROP.AMT:1:1")).sendKeys(monto.get(i));
+				driver.findElement(By.id("fieldName:NEW.PROP.AMT:2:1")).sendKeys(monto.get(i));
 				String screenshotPath2 = getScreenShot(driver, "");
 
 				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();

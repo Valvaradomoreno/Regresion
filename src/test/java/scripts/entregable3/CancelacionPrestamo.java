@@ -270,6 +270,8 @@ public class CancelacionPrestamo {
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
 				driver.findElement(By.id("errorImg")).click();
 
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
+				Thread.sleep(2000);
 
 				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String sSubCadena = cod.substring(22,39);

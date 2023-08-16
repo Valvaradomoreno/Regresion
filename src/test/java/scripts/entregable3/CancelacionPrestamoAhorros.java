@@ -2,6 +2,7 @@ package scripts.entregable3;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
@@ -128,7 +129,7 @@ public class CancelacionPrestamoAhorros {
 
 				driver.findElement(By.xpath("//img[@alt='Operaciones Minoristas']")).click();
 
-				driver.findElement(By.xpath("//a[contains(text(),'Buscar Cuenta ')]")).click();
+				driver.findElement(By.xpath("//a[contains(text(),'Buscar Préstamo ')]")).click();
 				driver.switchTo().parentFrame();
 
 				String MainWindow=driver.getWindowHandle();
@@ -154,6 +155,8 @@ public class CancelacionPrestamoAhorros {
 				String attr = driver.findElement(By.xpath("//label[contains(text(),'ID de Arreglo')]")).getAttribute("for");
 				driver.findElement(By.id(attr)).sendKeys(arreglo.get(i));
 				driver.findElement(By.xpath("//a[@alt='Run Selection']")).click();
+				Thread.sleep(1000);
+				String cuenta = driver.findElement(By.xpath("/html/body/table/tbody/tr/td/table/tbody/tr[2]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr/td[2]")).getText();
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Overview']"))).click();
 
@@ -172,7 +175,9 @@ public class CancelacionPrestamoAhorros {
 				}
 				Thread.sleep(2500);
 
-				driver.findElement(By.xpath("//a[contains(text(),'Nueva Actividad')]")).click();
+				//driver.findElement(By.xpath("//a[contains(text(),'Nueva Actividad')]")).click();
+				String screenshotPath1 = getScreenShot(driver, "");
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Run']"))).click();
 
 				String MainWindow3=driver.getWindowHandle();
 				Set<String> s3=driver.getWindowHandles();
@@ -188,10 +193,10 @@ public class CancelacionPrestamoAhorros {
 					}
 				}
 
-				String attr2 = driver.findElement(By.xpath("//td[contains(text(),'Cierre de contato')]")).getAttribute("id");
-
-				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='"+attr2+"']//img[@alt='Do Activity Today']")));
-				driver.findElement(By.xpath("//tr[@id='"+attr2+"']//img[@alt='Do Activity Today']")).click();
+//				String attr2 = driver.findElement(By.xpath("//td[contains(text(),'Cierre de contato')]")).getAttribute("id");
+//
+//				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='"+attr2+"']//img[@alt='Do Activity Today']")));
+//				driver.findElement(By.xpath("//tr[@id='"+attr2+"']//img[@alt='Do Activity Today']")).click();
 
 //				String MainWindow4=driver.getWindowHandle();
 //				Set<String> s4=driver.getWindowHandles();
@@ -208,6 +213,7 @@ public class CancelacionPrestamoAhorros {
 //				}
 
 				driver.manage().window().maximize();
+				String screenshotPath2 = getScreenShot(driver, "");
 
 				Select selectProducto2 = new Select(driver.findElement(By.id("fieldName:CLOSURE.REASON")));
 				selectProducto2.selectByVisibleText(razon.get(i));
@@ -220,24 +226,83 @@ public class CancelacionPrestamoAhorros {
 
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
-
 				driver.findElement(By.id("errorImg")).click();
-				Thread.sleep(3000);
+				Thread.sleep(5000);
+
+				String MainWindow4=driver.getWindowHandle();
+				Set<String> s4=driver.getWindowHandles();
+				Iterator<String> i4=s4.iterator();
+
+				while(i4.hasNext())
+				{
+					String ChildWindow=i4.next();
+
+					if(!MainWindow4.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+
+				Thread.sleep(36000);
+
+				driver.findElement(By.xpath("//img[@alt='Details']")).click();
+				Thread.sleep(2000);
+
+				String monto = driver.findElement(By.xpath("/html/body/table/tbody/tr[1]/td/div[3]/div/form/div/table/tbody/tr[2]/td[2]/div[2]/div/table[1]/tbody/tr[2]/td[3]")).getText();
+
+				// PAY OFF *******************************
+
+				driver.switchTo().window(MainWindow);
+				WebElement iframe11 = driver.findElement(By.xpath("/html/frameset/frame[2]"));
+				driver.switchTo().frame(iframe11);
+
+				driver.findElement(By.xpath("//span[contains(text(),'Transacciones de Préstamo')]")).click();
+				Thread.sleep(2000);
+				driver.findElement(By.xpath("//*[@id=\"pane_\"]/ul/li/ul/li[4]/ul/li[7]/ul/li/span")).click();
+				driver.findElement(By.xpath("//a[contains(text(),'AA Pay-off ')]")).click();
+
+				driver.switchTo().parentFrame();
+
+				String MainWindow5=driver.getWindowHandle();
+				Set<String> s5=driver.getWindowHandles();
+				Iterator<String> i5=s5.iterator();
+
+				while(i5.hasNext())
+				{
+					String ChildWindow=i5.next();
+
+					if(!MainWindow5.equalsIgnoreCase(ChildWindow))
+					{
+						driver.switchTo().window(ChildWindow);
+					}
+				}
+
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:ACCOUNT.2"))).sendKeys(cuenta);
+				wait.until(ExpectedConditions.elementToBeClickable(By.id("fieldName:AMOUNT.LOCAL.1:1"))).sendKeys(monto);
+
+				driver.findElement(By.xpath("//img[@alt='Validate a deal']")).click();
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@alt='Commit the deal']")));
+				driver.findElement(By.xpath("//img[@alt='Commit the deal']")).click();
 
 
 				wait.until(ExpectedConditions.elementToBeClickable(By.id("errorImg")));
-
 				driver.findElement(By.id("errorImg")).click();
-				Thread.sleep(3000);
+				wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td"))).click();
+				Thread.sleep(2000);
 
-				//String cod = driver.findElement(By.id("transactionId")).getCssValue("value");
 				String cod = driver.findElement(By.xpath("//*[@id='messages']/tbody/tr[2]/td[2]/table[2]/tbody/tr/td")).getText();
 				String sSubCadena = cod.substring(22,39);
 				System.out.println(sSubCadena);
 				write(i+1, 5, sSubCadena);
 
-				String screenshotPath = getScreenShot(driver, "Fin del Caso");
-				logger.log(Status.PASS, MarkupHelper.createLabel(logger.addScreenCaptureFromPath(screenshotPath) + " Fin del Caso", ExtentColor.GREEN));
+				String screenshotPath3 = getScreenShot(driver, "");
+				logger.log(Status.PASS, MarkupHelper.createLabel("Estado Autorizado", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Estado Autorizado", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath1).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Motivo Cierre", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Motivo Cierre", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath2).build());
+				logger.log(Status.PASS, MarkupHelper.createLabel("Fin del Caso", ExtentColor.GREEN));
+				logger.log(Status.PASS,"Fin del Caso", MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath3).build());
+
 				extent.flush();
 				write(i+1, 4, "PASSED");
 
@@ -245,9 +310,10 @@ public class CancelacionPrestamoAhorros {
 				String fecha = dateFormat.format(new Date());
 				System.out.println(fecha);
 				write(i+1, 6, fecha);
-					driver.quit();
+				driver.quit();
 
-				}
+
+			}
 
 			}catch (Exception e){
 
@@ -262,7 +328,7 @@ public class CancelacionPrestamoAhorros {
 				  System.out.println(fecha);
 				  write(i+1, 6, fecha);
 				  System.out.println("Error: " + e);
-				driver.quit();
+				  driver.quit();
 
 			}
   		}
